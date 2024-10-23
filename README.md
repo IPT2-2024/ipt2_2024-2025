@@ -46,4 +46,15 @@ In a new terminal, run the following to start the React frontend:
 npm run watch
 ```
 
+## 4. Applying Database Schema
+In another Terminal run these commands to migrate 
+
+```bash
+php artisan migrate
+php artisan migrate --seed
+php artisan passport install
+```
+
+Please Start Apache2 and mysql in XAMPP Control Panel. Then go to 127.0.0.1/phpmyadmin.
+
 You're all set! The application should now be running on your local environment.
