@@ -16,7 +16,7 @@ class Course extends Model
      */
     protected $fillable = [
         'department_id', // Add department_id to the fillable attributes
-        'name',
+        'course_name',
     ];
 
     /**

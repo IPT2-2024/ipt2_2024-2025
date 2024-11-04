@@ -18,9 +18,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'role_name',
         'name',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -49,4 +51,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+    
 }

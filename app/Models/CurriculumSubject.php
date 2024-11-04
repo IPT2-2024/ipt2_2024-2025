@@ -9,6 +9,19 @@ class CurriculumSubject extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'curriculum_id',
+        'subject_id',
+        'semester',
+        'year_level',
+        'is_prerequisite',
+    ];
+
     public function curriculums()
     {
         return $this->belongsTo(Curriculum::class);
