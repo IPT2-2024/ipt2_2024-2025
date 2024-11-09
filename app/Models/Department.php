@@ -30,8 +30,9 @@ class Department extends Model
         return $this->hasMany(Curriculum::class);
     }
 
-    public function room_schedules()
+    public function subject_availability()
     {
-        return $this->hasMany(RoomSchedule::class);
+        return $this->hasMany(SubjectAvailability::class);
     }
+    
 }

@@ -17,14 +17,24 @@ class Profile extends Model
     protected $fillable = [
         'user_id',
         'department_id',
-        'room_schedule_id',
-        'last_name',
+        'parent_info_id',
         'first_name',
-        'phone_number',
-        'address',
+        'last_name',
+        'middle_inital',
+        'suffix',
         'date_of_birth',
-        'year_level',
+        'address',
+        'section',
+        'sex',
+        'phone_number',
+        'admission_date',
+        'blood_type',
+        'marital_status',
+        'religion',
         'photo',
+        'emer_full_name',
+        'relationship',
+        'contact_no',
 
     ];
 
@@ -43,9 +53,14 @@ class Profile extends Model
         return $this->belongsTo(Department::class);
     }
 
-    public function room_schedules()
+    public function sections()
     {
-        return $this->belongsTo(RoomSchedule::class);
+        return $this->belongsTo(Section::class);
+    }
+
+    public function parent_info()
+    {
+        return $this->hasOne(ParentInfo::class);
     }
 
 }

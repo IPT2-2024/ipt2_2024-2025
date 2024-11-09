@@ -18,24 +18,14 @@ class SubjectCatalog extends Model
         'subject_code',
         'subject_name',
         'credit_units',
-        'subject_catalogs',
+        'subject_category',
         'subject_description',
-        'status',
+        'is_open',
     ];
 
     public function curriculum_subjects()
     {
         return $this->hasMany(CurriculumSubject::class);
-    }
-
-    public function room_schedules()
-    {
-        return $this->hasMany(RoomSchedule::class);
-    }
-
-    public function enlistments()
-    {
-        return $this->hasMany(Enlistment::class);
     }
 
     public function subject_availability()

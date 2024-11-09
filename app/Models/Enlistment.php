@@ -16,8 +16,10 @@ class Enlistment extends Model
      */
     protected $fillable = [
         'profile_id',
-        'subject_id',
+        'semester',
+        'academic_year',
         'enlistment_status',
+
     ];
 
     public function profile()
@@ -25,8 +27,9 @@ class Enlistment extends Model
         return $this->hasOne(Profile::class);
     }
 
-    public function subject_catalogs()
+    public function room_schedule()
     {
-        return $this->belongsTo(DSubjectCatalog::class);
+        return $this->belongsToMany(RoomSchedule::class, 'enlistment_room_schedule');
     }
+    
 }

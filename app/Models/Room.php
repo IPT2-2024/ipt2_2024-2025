@@ -15,13 +15,14 @@ class Room extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'section_id',
         'room_number',
         'capacity',
         'is_available',
     ];
 
-    public function room_schedules()
+    public function sections()
     {
-        return $this->hasMany(RoomSchedule::class);
+        return $this->belongsTo(Section::class);
     }
 }

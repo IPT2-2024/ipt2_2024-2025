@@ -15,35 +15,18 @@ class RoomSchedule extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'room_id',
-        'department_id',
-        'subject_id',
-        'day_of_week',
-        'start_time',
-        'end_time',
-        'semester',
-        'academic_year',
+        'section_id',
 
     ];
 
-    public function profiles()
+    public function sections()
     {
-        return $this->hasMany(Profile::class);
+        return $this->belongsTo(Section::class);
     }
 
-    public function departments()
+    public function enlistments()
     {
-        return $this->belongsTo(Department::class);
-    }
-
-    public function rooms()
-    {
-        return $this->belongsTo(Room::class);
-    }
-
-    public function subject_catalogs()
-    {
-        return $this->belongsTo(SubjectCatalog::class);
+        return $this->belongsToMany(Enlistment::class, 'enlistment_room_schedule');
     }
 
 }
