@@ -1,42 +1,76 @@
-import createHeaderNav from './headernav';
-import createProfileDropdown from './headerprofiledropdown';
+import React, { useState, useEffect } from "react";
+import HeaderNav from "./headernav";
+import ProfileDropdown from "./headerprofiledropdown";
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Create header element
-    const header = document.createElement("header");
-    header.className = "navbar navbar-expand-lg border-bottom py-2";
+const HeaderBody = () => {
+    const [notifications, setNotifications] = useState([]);
+    const [user, setUser] = useState({});
 
-    // Apply two-tone background color
-    header.style.background = "linear-gradient(to bottom, #f5f7ff, #ffffff)";
+    useEffect(() => {
+        // Fetch header data from an API
+        const fetchHeaderData = async () => {
+            try {
+                const response = await fetch("/api/header-data");
+                if (!response.ok) {
+                    throw new Error("Failed to fetch header data");
+                }
+                const data = await response.json();
 
-    // Navbar container
-    const navbarContent = document.createElement("div");
-    navbarContent.className = "container-fluid d-flex align-items-center justify-content-between flex-wrap";
+                setNotifications(data.notifications || []);
+                setUser(data.user || {});
+            } catch (error) {
+                console.error("Error fetching header data:", error);
 
-    // Example: Dynamic notifications data
-    const notifications = [
-        { title: "New Comment", message: "You have a new comment on your post." },
-        { title: "System Alert", message: "Your password will expire in 3 days." },
-    ];
+                // Fallback data
+                setNotifications([]);
+                setUser({
+                    name: "Default User",
+                    avatar: "https://via.placeholder.com/40",
+                });
+            }
+        };
 
-    // Add the header navigation items (search bar, notification, and message icons)
-    const headerNav = createHeaderNav(notifications);
-    navbarContent.appendChild(headerNav);
+        fetchHeaderData();
+    }, []);
 
-    // Add the profile dropdown
-    const profileDropdown = createProfileDropdown();
-    navbarContent.appendChild(profileDropdown);
+    return (
+        <header className="w-100">
+            {/* Header Content */}
+            <div
+                className="navbar navbar-expand-lg py-2 border-bottom"
+                style={{ background: "linear-gradient(to bottom, #f5f7ff, #ffffff)" }}
+            >
+                <div className="container-fluid d-flex align-items-center justify-content-between">
+                    {/* Search Bar */}
+                    <form className="d-flex flex-grow-1 me-3">
+                        <div className="input-group">
+                            <span className="input-group-text bg-white border-0">
+                                <i className="bi bi-search"></i>
+                            </span>
+                            <input
+                                type="text"
+                                className="form-control border-0 shadow-none"
+                                placeholder="Search"
+                                style={{
+                                    background: "#ffffff",
+                                    borderRadius: "0.5rem",
+                                }}
+                            />
+                        </div>
+                    </form>
 
-    // Append navbar content to the header
-    header.appendChild(navbarContent);
+                    {/* Notification, Message Icons */}
+                    <HeaderNav notifications={notifications} />
 
-    // Add a blue line at the bottom
-    const blueLine = document.createElement("div");
-    blueLine.style.backgroundColor = "#007BFF"; // Bootstrap primary blue color
-    blueLine.style.height = "4px";
-    blueLine.style.width = "100%";
+                    {/* Profile Dropdown */}
+                    <ProfileDropdown user={user} />
+                </div>
+            </div>
 
-    // Append header and blue line to the DOM
-    document.body.prepend(blueLine);
-    document.body.prepend(header);
-});
+            {/* Blue Line */}
+            <div className="bg-primary" style={{ height: "4px" }}></div>
+        </header>
+    );
+};
+
+export default HeaderBody;
