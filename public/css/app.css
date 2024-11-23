@@ -11966,3 +11966,23 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.sidebar-body {
+  width: 250px;
+  height: 100vh;
+  background-color: #131f73; /* Sidebar background color */
+  background-image: url("/path/to/sidebartexture.svg"); /* Texture background */
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+}
+.sidebar-body .nav-section {
+  margin-top: 2rem;
+}
+.sidebar-body .system-settings {
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1882352941); /* Separate system settings visually */
+  padding-top: 1rem;
+}
