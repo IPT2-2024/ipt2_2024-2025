@@ -11,7 +11,6 @@ require('./bootstrap');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+require('./components/public/superadmindashboard/maindashboard/headerbody');
 
-require('./components/Public/Header');
-require('./components/Public/Sidebar');
-require('./components/Public/Footer');
+
