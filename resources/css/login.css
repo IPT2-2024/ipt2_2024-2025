@@ -75,7 +75,7 @@
 }
 
 .remember-forgot a { /*forgot password color*/
-  color: black;
+  color: #0a49f7;
   text-decoration:none;
 }
 
@@ -96,6 +96,10 @@
   color: #fff;
   font-weight: 600;
 }
+.wrapper .btn:hover{
+  color: black;
+  background: #0a49f7;
+}
 
 .wrapper .register-link {
   font-size: 14.5px;
@@ -104,7 +108,7 @@
 }
 
 .register-link p a {
-  color: black;
+  color: rgb(33, 115, 238);
   text-decoration: none;
   font-weight: 600;
 }
@@ -291,7 +295,26 @@
   }
 
   .wrapper{
-    width: 360px;
+    width: 380px;
+  }
+  .dots-sign-in-horizontal {
+    width: 10vw;
+  }
+
+
+  .blob1, .blob2, .blob3 {
+    width: 45vw;
+    height: 45vw;
+  }
+
+}
+@media (max-width: 360px) {
+  .dots-sign-in-left-vertical {
+    width: 5vw;
+  }
+
+  .wrapper{
+    width: 350px;
   }
   .dots-sign-in-horizontal {
     width: 10vw;

@@ -27,7 +27,7 @@ export default function Login() {
                     <a href="#"> Forgot password?</a>
                 </div>
 
-                <button type="submit" className="btn">Sign in</button>
+                <button type="submit" className="btn ">Sign in</button>
 
                 <div className="register-link">
                     <p> Don't have an account? <a href="#">Register</a></p>

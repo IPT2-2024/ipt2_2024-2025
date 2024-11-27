@@ -10351,7 +10351,7 @@ function Login() {
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
               type: "submit",
-              className: "btn",
+              className: "btn ",
               children: "Sign in"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
               className: "register-link",
