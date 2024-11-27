@@ -3,30 +3,40 @@ import React from "react";
 export default function Login() {
   return (
     <div className="login-page">
-      <div className="wrapper">
-        <form action="">
-            <h1>Sign in</h1>
-            <div className="input-box">
-                <input type="text" placeholder="Username" required />
-                <i className='bx bxs-user'></i>
-            </div>
-            <div className="input-box">
-                <input type="password" placeholder="Password" required />
-                <i className='bx bxs-lock-alt'></i>
-            </div>
+      <div className=" vw-100 d-flex align-items-center justify-content-center  m-sm-3 z-2 ">
+        <div className="d-flex flex-column align-items-center justify-content-center align-self-center  ">
+          
+          <div className="container d-flex justify-content-center pb-3">
+            <img src="/assets/fsuuw 3d logo.svg" alt="Fsuuw 3d Logo" className="fsuuw-3d-logo" />
+          </div>
+          <div className="wrapper ">
+              
+            <form action="">
+                <h1>Sign in</h1>
+                <div className="input-box">
+                    <input type="text" placeholder="Username" required />
+                    <i className='bx bxs-user'></i>
+                </div>
+                <div className="input-box">
+                    <input type="password" placeholder="Password" required />
+                    <i className='bx bxs-lock-alt'></i>
+                </div>
 
-            <div className="remember-forgot">
-                <label> <input type="checkbox" /> Remember me</label>
-                <a href="#"> Forgot password?</a>
-            </div>
+                <div className="remember-forgot">
+                    <label> <input type="checkbox" /> Remember me</label>
+                    <a href="#"> Forgot password?</a>
+                </div>
 
-            <button type="submit" className="btn">Sign in</button>
+                <button type="submit" className="btn">Sign in</button>
 
-            <div className="register-link">
-                <p> Don't have an account? <a href="#">Register</a></p>
-            </div>
-        </form>
-      </div>
+                <div className="register-link">
+                    <p> Don't have an account? <a href="#">Register</a></p>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>  
+      
 
       <img src="assets/waves.svg" alt="Waves" className="waves" />
       <img src="assets/Dots sign in horizontal.svg" alt="Dots Sign In Horizontal" className="dots-sign-in-horizontal" />
@@ -52,9 +62,7 @@ export default function Login() {
             <div className="ring"></div>
           </div>
 
-          <div>
-              <img src="/assets/fsuuw 3d logo.svg" alt="Fsuuw 3d Logo" className="fsuuw-3d-logo" />
-          </div>
+          
         </div>
     </div>
   );

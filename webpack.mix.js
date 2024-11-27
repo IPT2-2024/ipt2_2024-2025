@@ -14,7 +14,8 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .react()
     .sass('resources/sass/app.scss', 'public/css')
-    .css('resources/css/loader.css', 'public/css/loader.css')
-    .css('resources/css/login.css', 'public/css/login.css');
+    .styles('resources/css/loader.css', 'public/css/loader.css')
+    .styles('resources/css/login.css', 'public/css/login.css');
     
-    
+
+  
