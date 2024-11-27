@@ -17,12 +17,12 @@
 }
 
 .wrapper {  /* bg white and text color and padding size */
-  width: 420px;
+  width: 400px;
   background: white;
   color: black;
   border-radius: 10px;
-  padding: 30px 40px;
-  z-index: 20;
+  padding: 30px 30px;
+  
 }
 
 .wrapper h1 {   /* upper sign in */
@@ -259,6 +259,7 @@
   .dots-sign-in-horizontal {
     width: 10vw; /* Adjusted for tablet */
   }
+  
 
   .blob1, .blob2, .blob3 {
     width: 35vw; /* Increased for tablet */
@@ -276,7 +277,7 @@
   .dots-sign-in-horizontal{
     width: 10vw;
   }
-
+  
   .blob1, .blob2, .blob3 {
     width: 40vw;
     height: 40vw;
@@ -289,7 +290,9 @@
     width: 5vw;
   }
 
-
+  .wrapper{
+    width: 360px;
+  }
   .dots-sign-in-horizontal {
     width: 10vw;
   }

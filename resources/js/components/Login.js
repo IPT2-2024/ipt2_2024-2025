@@ -3,7 +3,7 @@ import React from "react";
 export default function Login() {
   return (
     <div className="login-page">
-      <div className=" vw-100 d-flex align-items-center justify-content-center  m-sm-3 z-2 ">
+      <div className=" vw-100 d-flex align-items-center justify-content-center   z-2 ">
         <div className="d-flex flex-column align-items-center justify-content-center align-self-center  ">
           
           <div className="container d-flex justify-content-center pb-3">
