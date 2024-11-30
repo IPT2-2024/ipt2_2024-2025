@@ -37,7 +37,7 @@ export default function Register() {
   return (
     <div className="login-page">
       <div className="vw-100 d-flex align-items-center justify-content-center z-2">
-        <div className="d-flex flex-column align-items-center justify-content-center align-self-center">
+        <div className="d-flex my-3 flex-column align-items-center justify-content-center align-self-center">
           <div className="container d-flex justify-content-center pb-3">
             <img src="/assets/fsuuw 3d logo.svg" alt="Fsuuw 3d Logo" className="fsuuw-3d-logo" />
           </div>
