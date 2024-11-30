@@ -1,3 +1,7 @@
+* {
+  overflow: hidden;
+}
+
 .bg-loader {
   background-image: url("/assets/LoadingScreenBG.svg");
   background-size: cover;
