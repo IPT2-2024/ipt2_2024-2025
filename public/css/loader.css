@@ -2,9 +2,8 @@
   background-image: url("/assets/LoadingScreenBG.svg");
   background-size: cover;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-position: center;
-  overflow: hidden;
 }
 
 /* Styling each SVG layer */

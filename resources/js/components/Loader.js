@@ -5,9 +5,9 @@ import '/css/loader.css';
 
 export default function Loader() {
   return (
-    <div className=" d-flex overflow-hidden align-items-center justify-content-center">
+    <div className=" d-flex  align-items-center justify-content-center ">
       
-      <div className=" bg-loader">
+      <div className=" bg-loader ">
         <div className="svg-background">
           <img src="assets/Vector 3 top.svg" alt="SVG 1" className="svg1" />
           <img src="assets/Vector 2 top.svg" alt="SVG 2" className="svg2" />

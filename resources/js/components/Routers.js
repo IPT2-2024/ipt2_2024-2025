@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 
 import Home from "./Home";
-import Loader from "./Loader";
+
 import Login from "./Login";
 
 
@@ -14,7 +14,7 @@ export default function Routers() {
         <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/loader" element={<Loader />} />
+                
                 <Route path="/login" element={<Login />} />
                 
             </Routes>
