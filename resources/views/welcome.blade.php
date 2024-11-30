@@ -7,8 +7,7 @@
 
     <title>Father Saturnino Urios University</title>
 
-    <link rel="stylesheet" href="{{ mix('css/loader.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/login.css') }}">
+    
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
 
