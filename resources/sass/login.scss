@@ -5,7 +5,7 @@
     align-items: center;
     min-height: 100vh;
     background: #11399e;
-    overflow: hidden;
+    
 }
 
 .wrapper {
@@ -59,12 +59,19 @@
     font-size: 20px;
 }
 
-.wrapper .remember-forgot {
-    /*remember me and forgot space between and size */
+
+.show-password-container {
     display: flex;
-    justify-content: space-between;
-    font-size: 14.5px;
-    margin: -15px 0 15px;
+    flex-direction: column;
+    gap: 10px; /* space between the checkboxes */
+    
+    
+}
+
+.show-password-container label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* space between checkbox and label */
 }
 
 .remember-forgot label input {

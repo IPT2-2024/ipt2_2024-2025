@@ -10329,6 +10329,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _css_login_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../css/login.css */ "./public/css/login.css");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -10343,6 +10344,7 @@ function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" !=
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 
+ // Import Link from react-router-dom
 
 
 function Login() {
@@ -10444,14 +10446,20 @@ function Login() {
                 className: "bx bxs-lock-alt"
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: "remember-forgot",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("label", {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-                  type: "checkbox"
-                }), " Remember me"]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-                href: "#",
-                children: "Forgot password?"
+              className: "d-flex colum justify-content-between pb-3 align-items-center",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "show-password-container",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("label", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                    type: "checkbox"
+                  }), " Remember me"]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                className: "remember-forgot",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+                  href: "#",
+                  children: "Forgot password?"
+                })
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
               type: "submit",
@@ -10460,9 +10468,260 @@ function Login() {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "register-link",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
-                children: ["Don't have an account? ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-                  href: "#",
+                children: ["Don't have an account?", " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+                  to: "/register",
+                  className: "btn-link",
                   children: "Register"
+                })]
+              })
+            })]
+          })
+        })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+      src: "assets/waves.svg",
+      alt: "Waves",
+      className: "waves"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+      src: "assets/Dots sign in horizontal.svg",
+      alt: "Dots Sign In Horizontal",
+      className: "dots-sign-in-horizontal"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+      src: "assets/Dots sign in left vertical.svg",
+      alt: "Dots Sign In Left Vertical",
+      className: "dots-sign-in-left-vertical"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "liquid-container",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "blob blob1",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "ring"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "ring"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "ring"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "blob blob2",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "ring"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "ring"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "ring"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "blob blob3",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "ring"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "ring"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "ring"
+        })]
+      })]
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Register.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Register.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Register)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var _css_login_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../css/login.css */ "./public/css/login.css");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+
+
+
+
+
+function Register() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    _useState2 = _slicedToArray(_useState, 2),
+    name = _useState2[0],
+    setName = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    _useState4 = _slicedToArray(_useState3, 2),
+    email = _useState4[0],
+    setEmail = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    _useState6 = _slicedToArray(_useState5, 2),
+    password = _useState6[0],
+    setPassword = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    _useState8 = _slicedToArray(_useState7, 2),
+    confirmPassword = _useState8[0],
+    setConfirmPassword = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    _useState10 = _slicedToArray(_useState9, 2),
+    error = _useState10[0],
+    setError = _useState10[1];
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState12 = _slicedToArray(_useState11, 2),
+    showPassword = _useState12[0],
+    setShowPassword = _useState12[1]; // state to toggle password visibility
+
+  var handleRegister = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
+      var response;
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            e.preventDefault(); // Prevent form reload
+            setError(""); // Reset error message
+            if (!(password !== confirmPassword)) {
+              _context.next = 5;
+              break;
+            }
+            setError("Passwords do not match");
+            return _context.abrupt("return");
+          case 5:
+            _context.prev = 5;
+            _context.next = 8;
+            return axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://localhost:8000/api/register", {
+              name: name,
+              email: email,
+              password: password
+            });
+          case 8:
+            response = _context.sent;
+            // Handle successful registration
+            alert("Registration successful! You can now log in.");
+            _context.next = 15;
+            break;
+          case 12:
+            _context.prev = 12;
+            _context.t0 = _context["catch"](5);
+            setError("An error occurred during registration. Please try again.");
+          case 15:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, null, [[5, 12]]);
+    }));
+    return function handleRegister(_x) {
+      return _ref.apply(this, arguments);
+    };
+  }();
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "login-page",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "vw-100 d-flex align-items-center justify-content-center z-2",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "d-flex flex-column align-items-center justify-content-center align-self-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "container d-flex justify-content-center pb-3",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+            src: "/assets/fsuuw 3d logo.svg",
+            alt: "Fsuuw 3d Logo",
+            className: "fsuuw-3d-logo"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "wrapper",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+            onSubmit: handleRegister,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
+              children: "Register"
+            }), error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+              className: "error",
+              children: error
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "input-box",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                type: "text",
+                placeholder: "Name",
+                value: name,
+                onChange: function onChange(e) {
+                  return setName(e.target.value);
+                },
+                required: true
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                className: "bx bxs-user"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "input-box",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                type: "email",
+                placeholder: "Email",
+                value: email,
+                onChange: function onChange(e) {
+                  return setEmail(e.target.value);
+                },
+                required: true
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                className: "bx bxs-envelope"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "input-box",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                type: showPassword ? "text" : "password",
+                placeholder: "Password",
+                value: password,
+                onChange: function onChange(e) {
+                  return setPassword(e.target.value);
+                },
+                required: true
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                className: "bx bxs-lock-alt"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "input-box",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                type: showPassword ? "text" : "password" // Toggle both password fields
+                ,
+                placeholder: "Confirm Password",
+                value: confirmPassword,
+                onChange: function onChange(e) {
+                  return setConfirmPassword(e.target.value);
+                },
+                required: true
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                className: "bx bxs-lock-alt"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "show-password-container pb-3",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("label", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                  type: "checkbox",
+                  checked: showPassword,
+                  onChange: function onChange() {
+                    return setShowPassword(!showPassword);
+                  }
+                }), "Show Password"]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              type: "submit",
+              className: "btn ",
+              children: "Register"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "register-link",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+                children: ["Already have an account? ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+                  to: "/login",
+                  children: "Sign up"
                 })]
               })
             })]
@@ -10530,11 +10789,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _Home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Home */ "./resources/js/components/Home.js");
 /* harmony import */ var _Login__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Login */ "./resources/js/components/Login.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Register__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Register */ "./resources/js/components/Register.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -10542,20 +10803,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Routers() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.BrowserRouter, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Routes, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.BrowserRouter, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Routes, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
         path: "/",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Home__WEBPACK_IMPORTED_MODULE_2__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Home__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
         path: "/login",
-        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Login__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Login__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+        path: "/register",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Register__WEBPACK_IMPORTED_MODULE_4__["default"], {})
       })]
     })
   });
 }
 if (document.getElementById('root')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Routers, {}), document.getElementById('root'));
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render(/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(Routers, {}), document.getElementById('root'));
 }
 
 /***/ }),
@@ -15052,7 +15316,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  overflow: hidden;\n}\n\n.bg-loader {\n  background-image: url(\"/assets/bg.png\");\n  background-size: cover;\n  width: 100%;\n  height: 100vh;\n  background-position: center;\n}\n\n/* Styling each SVG layer */\n.svg1,\n.svg2,\n.svg3 {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 120%;\n  height: auto;\n  opacity: 1; /* Full opacity for SVG 1 */\n}\n\n/* Adjust the layering order */\n.svg1 {\n  z-index: 3; /* SVG 1 on top */\n}\n\n.svg2 {\n  z-index: 2; /* SVG 2 in the middle */\n  opacity: 0.8; /* Optional: lower opacity for visual effect */\n}\n\n.svg3 {\n  z-index: 1; /* SVG 3 at the back */\n  opacity: 0.8; /* Optional: lower opacity for visual effect */\n}\n\n/* Styling each SVG layer */\n.svg4,\n.svg5,\n.svg6 {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 120%;\n  height: auto;\n  opacity: 1; /* Full opacity for SVG 4 */\n}\n\n/* Adjust the layering order */\n.svg4 {\n  z-index: 3; /* SVG 4 on top */\n}\n\n.svg5 {\n  z-index: 2; /* SVG 5 in the middle */\n  opacity: 0.8; /* Optional: lower opacity for visual effect */\n}\n\n.svg6 {\n  z-index: 1; /* SVG 6 at the back */\n  opacity: 0.8; /* Optional: lower opacity for visual effect */\n}\n\n/* Styling for each SVG layer with wipe animation */\n.svg1,\n.svg2,\n.svg3,\n.svg4,\n.svg5,\n.svg6 {\n  position: absolute;\n  width: 60%;\n  height: auto;\n  opacity: 1;\n}\n\n/* Top Layer SVGs - Left to Right Wipe */\n.svg1,\n.svg2,\n.svg3 {\n  clip-path: inset(0 0 0 100%); /* Start fully hidden from the left */\n  animation: wipeInPauseLeftToRight 1s ease forwards; /* Run once, no loop */\n}\n\n/* Bottom Layer SVGs - Right to Left Wipe */\n.svg4,\n.svg5,\n.svg6 {\n  clip-path: inset(0 100% 0 0); /* Start fully hidden from the right */\n  animation: wipeInPauseRightToLeft 1s ease forwards; /* Run once, no loop */\n}\n\n/* Assign delays for synchronized animation */\n.svg1 {\n  animation-delay: 0.3s;\n  top: 0;\n  left: 0;\n  z-index: 3;\n}\n\n.svg2 {\n  animation-delay: 0.5s;\n  top: 0;\n  left: 0;\n  z-index: 2;\n}\n\n.svg3 {\n  animation-delay: 0.7s;\n  top: 0;\n  left: 0;\n  z-index: 1;\n}\n\n.svg4 {\n  animation-delay: 0.3s;\n  bottom: 0;\n  right: 0;\n  z-index: 3;\n}\n\n.svg5 {\n  animation-delay: 0.5s;\n  bottom: 0;\n  right: 0;\n  z-index: 2;\n}\n\n.svg6 {\n  animation-delay: 0.7s;\n  bottom: 0;\n  right: 0;\n  z-index: 1;\n}\n\n/* Keyframes for Left to Right Wipe In and Pause */\n@keyframes wipeInPauseLeftToRight {\n  0% {\n    clip-path: inset(100% 0 0 0); /* Fully hidden from the left */\n  }\n  100% {\n    clip-path: inset(0 0 0 0); /* Fully visible */\n  }\n}\n/* Keyframes for Right to Left Wipe In and Pause */\n@keyframes wipeInPauseRightToLeft {\n  0% {\n    clip-path: inset(0 0 100% 0); /* Fully hidden from the right */\n  }\n  100% {\n    clip-path: inset(0 0 0 0); /* Fully visible */\n  }\n}\n/* Overlay Container for Loader and Logo */\n.overlay-container {\n  position: absolute; /* Allow overlapping with SVGs */\n  top: 50%; /* Center vertically */\n  left: 50%; /* Center horizontally */\n  transform: translate(-50%, -50%); /* Offset for true center alignment */\n}\n\n/* Loader Spinner */\n.loader {\n  width: 300px; /* Use viewport width for responsiveness */\n  height: 300px; /* Use viewport width for responsiveness */\n  border-radius: 50rem;\n  border: 10px solid white;\n  background: linear-gradient(#7df8d6, #494cff, #3437f8);\n  animation: animate 2.5s linear infinite; /* Ensure animation is included */\n  z-index: 4; /* Make sure loader is above SVGs */\n}\n\n.loader::before {\n  position: absolute;\n  content: \"\";\n  background: #fff;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  width: 95%;\n  height: 95%;\n  border-radius: 50rem;\n  border: 0px solid white;\n}\n\n/* Dot Circle Animation */\n.dot-circle {\n  position: absolute;\n  width: 25px; /* Adjust the size as needed */\n  height: 25px;\n  background-color: #3437f8; /* Customize the color */\n  border-radius: 50%;\n  top: 46%; /* Center vertically */\n  left: 46%; /* Center horizontally */\n  animation: orbit 1.5s linear infinite; /* Adjust duration for speed */\n  z-index: 6; /* Make sure it's above the loader */\n}\n\n/* Keyframes for Orbit Animation */\n@keyframes orbit {\n  0% {\n    transform: rotate(0deg) translateX(135px) rotate(0deg);\n  }\n  25% {\n    transform: rotate(90deg) translateX(135px) rotate(-90deg);\n  }\n  50% {\n    transform: rotate(180deg) translateX(135px) rotate(-180deg);\n  }\n  75% {\n    transform: rotate(270deg) translateX(135px) rotate(-270deg);\n  }\n  100% {\n    transform: rotate(360deg) translateX(135px) rotate(-360deg);\n  }\n}\n/* Animation for the loader */\n@keyframes animate {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n/* Keyframes for Color Change Animation */\n@keyframes dot-circle {\n  0%, 80% {\n    background-color: #3437f8; /* Original color */\n  }\n  40%, 60% {\n    background-color: #7df8d6; /* Cyan color */\n  }\n  100% {\n    background-color: #3437f8; /* Return to original color */\n  }\n}\n/* Logo Container */\n.logo-container {\n  position: absolute; /* Allow overlapping with loader */\n  top: 53.5%; /* Center vertically */\n  left: 50%; /* Center horizontally */\n  transform: translate(-50%, -50%); /* Offset for true center alignment */\n  z-index: 15; /* Make sure logo is above loader */\n}\n\n/* Updated Logo */\n.threed-logo-fsuub {\n  width: 240px;\n  height: 240px;\n}\n\n/* Default styles for larger screens (desktops)*/\n/* Laptops and larger tablets */\n@media (max-width: 1024px) {\n  /* Styles for laptop screens */\n}\n@media (max-width: 768px) {\n  .svg1,\n  .svg2,\n  .svg3,\n  .svg4,\n  .svg5,\n  .svg6 {\n    width: 100%; /* Ensure full width on smaller screens */\n  }\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".bg-loader {\n  background-image: url(\"/assets/bg.png\");\n  background-size: cover;\n  width: 100%;\n  height: 100vh;\n  background-position: center;\n}\n\n/* Styling each SVG layer */\n.svg1,\n.svg2,\n.svg3 {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 120%;\n  height: auto;\n  opacity: 1; /* Full opacity for SVG 1 */\n}\n\n/* Adjust the layering order */\n.svg1 {\n  z-index: 3; /* SVG 1 on top */\n}\n\n.svg2 {\n  z-index: 2; /* SVG 2 in the middle */\n  opacity: 0.8; /* Optional: lower opacity for visual effect */\n}\n\n.svg3 {\n  z-index: 1; /* SVG 3 at the back */\n  opacity: 0.8; /* Optional: lower opacity for visual effect */\n}\n\n/* Styling each SVG layer */\n.svg4,\n.svg5,\n.svg6 {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  width: 120%;\n  height: auto;\n  opacity: 1; /* Full opacity for SVG 4 */\n}\n\n/* Adjust the layering order */\n.svg4 {\n  z-index: 3; /* SVG 4 on top */\n}\n\n.svg5 {\n  z-index: 2; /* SVG 5 in the middle */\n  opacity: 0.8; /* Optional: lower opacity for visual effect */\n}\n\n.svg6 {\n  z-index: 1; /* SVG 6 at the back */\n  opacity: 0.8; /* Optional: lower opacity for visual effect */\n}\n\n/* Styling for each SVG layer with wipe animation */\n.svg1,\n.svg2,\n.svg3,\n.svg4,\n.svg5,\n.svg6 {\n  position: absolute;\n  width: 60%;\n  height: auto;\n  opacity: 1;\n}\n\n/* Top Layer SVGs - Left to Right Wipe */\n.svg1,\n.svg2,\n.svg3 {\n  clip-path: inset(0 0 0 100%); /* Start fully hidden from the left */\n  animation: wipeInPauseLeftToRight 1s ease forwards; /* Run once, no loop */\n}\n\n/* Bottom Layer SVGs - Right to Left Wipe */\n.svg4,\n.svg5,\n.svg6 {\n  clip-path: inset(0 100% 0 0); /* Start fully hidden from the right */\n  animation: wipeInPauseRightToLeft 1s ease forwards; /* Run once, no loop */\n}\n\n/* Assign delays for synchronized animation */\n.svg1 {\n  animation-delay: 0.3s;\n  top: 0;\n  left: 0;\n  z-index: 3;\n}\n\n.svg2 {\n  animation-delay: 0.5s;\n  top: 0;\n  left: 0;\n  z-index: 2;\n}\n\n.svg3 {\n  animation-delay: 0.7s;\n  top: 0;\n  left: 0;\n  z-index: 1;\n}\n\n.svg4 {\n  animation-delay: 0.3s;\n  bottom: 0;\n  right: 0;\n  z-index: 3;\n}\n\n.svg5 {\n  animation-delay: 0.5s;\n  bottom: 0;\n  right: 0;\n  z-index: 2;\n}\n\n.svg6 {\n  animation-delay: 0.7s;\n  bottom: 0;\n  right: 0;\n  z-index: 1;\n}\n\n/* Keyframes for Left to Right Wipe In and Pause */\n@keyframes wipeInPauseLeftToRight {\n  0% {\n    clip-path: inset(100% 0 0 0); /* Fully hidden from the left */\n  }\n  100% {\n    clip-path: inset(0 0 0 0); /* Fully visible */\n  }\n}\n/* Keyframes for Right to Left Wipe In and Pause */\n@keyframes wipeInPauseRightToLeft {\n  0% {\n    clip-path: inset(0 0 100% 0); /* Fully hidden from the right */\n  }\n  100% {\n    clip-path: inset(0 0 0 0); /* Fully visible */\n  }\n}\n/* Overlay Container for Loader and Logo */\n.overlay-container {\n  position: absolute; /* Allow overlapping with SVGs */\n  top: 50%; /* Center vertically */\n  left: 50%; /* Center horizontally */\n  transform: translate(-50%, -50%); /* Offset for true center alignment */\n}\n\n/* Loader Spinner */\n.loader {\n  width: 300px; /* Use viewport width for responsiveness */\n  height: 300px; /* Use viewport width for responsiveness */\n  border-radius: 50rem;\n  border: 10px solid white;\n  background: linear-gradient(#7df8d6, #494cff, #3437f8);\n  animation: animate 2.5s linear infinite; /* Ensure animation is included */\n  z-index: 4; /* Make sure loader is above SVGs */\n}\n\n.loader::before {\n  position: absolute;\n  content: \"\";\n  background: #fff;\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  width: 95%;\n  height: 95%;\n  border-radius: 50rem;\n  border: 0px solid white;\n}\n\n/* Dot Circle Animation */\n.dot-circle {\n  position: absolute;\n  width: 25px; /* Adjust the size as needed */\n  height: 25px;\n  background-color: #3437f8; /* Customize the color */\n  border-radius: 50%;\n  top: 46%; /* Center vertically */\n  left: 46%; /* Center horizontally */\n  animation: orbit 1.5s linear infinite; /* Adjust duration for speed */\n  z-index: 6; /* Make sure it's above the loader */\n}\n\n/* Keyframes for Orbit Animation */\n@keyframes orbit {\n  0% {\n    transform: rotate(0deg) translateX(135px) rotate(0deg);\n  }\n  25% {\n    transform: rotate(90deg) translateX(135px) rotate(-90deg);\n  }\n  50% {\n    transform: rotate(180deg) translateX(135px) rotate(-180deg);\n  }\n  75% {\n    transform: rotate(270deg) translateX(135px) rotate(-270deg);\n  }\n  100% {\n    transform: rotate(360deg) translateX(135px) rotate(-360deg);\n  }\n}\n/* Animation for the loader */\n@keyframes animate {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n/* Keyframes for Color Change Animation */\n@keyframes dot-circle {\n  0%, 80% {\n    background-color: #3437f8; /* Original color */\n  }\n  40%, 60% {\n    background-color: #7df8d6; /* Cyan color */\n  }\n  100% {\n    background-color: #3437f8; /* Return to original color */\n  }\n}\n/* Logo Container */\n.logo-container {\n  position: absolute; /* Allow overlapping with loader */\n  top: 53.5%; /* Center vertically */\n  left: 50%; /* Center horizontally */\n  transform: translate(-50%, -50%); /* Offset for true center alignment */\n  z-index: 15; /* Make sure logo is above loader */\n}\n\n/* Updated Logo */\n.threed-logo-fsuub {\n  width: 240px;\n  height: 240px;\n}\n\n/* Default styles for larger screens (desktops)*/\n/* Laptops and larger tablets */\n@media (max-width: 1024px) {\n  /* Styles for laptop screens */\n}\n@media (max-width: 768px) {\n  .svg1,\n  .svg2,\n  .svg3,\n  .svg4,\n  .svg5,\n  .svg6 {\n    width: 100%; /* Ensure full width on smaller screens */\n  }\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15076,7 +15340,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".login-page {\n  /* all sign in */\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  min-height: 100vh;\n  background: #11399e;\n  overflow: hidden;\n}\n\n.wrapper {\n  /* bg white and text color and padding size */\n  width: 400px;\n  background: white;\n  color: black;\n  border-radius: 10px;\n  padding: 30px 30px;\n}\n\n.wrapper h1 {\n  /* upper sign in */\n  font-size: 36px;\n  text-align: center;\n}\n\n.wrapper .input-box {\n  /* margin of username box and password and icons */\n  position: relative;\n  width: 100%;\n  height: 50px;\n  margin: 30px 0;\n}\n\n.input-box input {\n  /* box border and username/password type*/\n  width: 100%;\n  height: 100%;\n  background: transparent;\n  border: none;\n  outline: none;\n  border: 2px solid rgba(0, 0, 0, 0.2);\n  border-radius: 40px;\n  font-size: 16px;\n  color: black;\n  padding: 20px 45px 20px 20px;\n}\n\n.input-box input::-moz-placeholder {\n  /* color of username and password */\n  color: black;\n}\n\n.input-box input::placeholder {\n  /* color of username and password */\n  color: black;\n}\n\n.input-box i {\n  /* icons arrange position */\n  position: absolute;\n  right: 20px;\n  top: 50%;\n  transform: translateY(-50%);\n  font-size: 20px;\n}\n\n.wrapper .remember-forgot {\n  /*remember me and forgot space between and size */\n  display: flex;\n  justify-content: space-between;\n  font-size: 14.5px;\n  margin: -15px 0 15px;\n}\n\n.remember-forgot label input {\n  /* checkbox color */\n  accent-color: black;\n  margin-right: 3px;\n}\n\n.remember-forgot a {\n  /*forgot password color*/\n  color: #0a49f7;\n  text-decoration: none;\n}\n\n.remember-forgot a:hover {\n  /*forgot password line*/\n  text-decoration: underline;\n}\n\n.wrapper .btn {\n  width: 100%;\n  height: 45px;\n  background: #0b3dc7;\n  border: none;\n  outline: none;\n  border-radius: 40px;\n  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n  font-size: 16px;\n  color: #fff;\n  font-weight: 600;\n}\n\n.wrapper .btn:hover {\n  color: #fff;\n  background: #0934aa;\n}\n\n.wrapper .register-link {\n  font-size: 14.5px;\n  text-align: center;\n  margin: 20px 0 15px;\n}\n\n.register-link p a {\n  color: rgb(33, 115, 238);\n  text-decoration: none;\n  font-weight: 600;\n}\n\n.register-link p a:hover {\n  text-decoration: underline;\n}\n\n.waves {\n  position: fixed;\n  bottom: 0;\n  left: 50%;\n  transform: translateX(-50%);\n  width: 100%;\n  z-index: 1;\n}\n\n.dots-sign-in-horizontal,\n.dots-sign-in-left-vertical {\n  position: absolute;\n  z-index: 15;\n}\n\n.dots-sign-in-horizontal {\n  top: 25px;\n  right: 25px;\n}\n\n.dots-sign-in-left-vertical {\n  top: 25px;\n  left: 25px;\n}\n\n.liquid-container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n}\n\n.blob {\n  position: absolute;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  animation: pulse 8s infinite ease-in-out, move 15s infinite alternate ease-in-out;\n  opacity: 0.5;\n}\n\n.blob1 {\n  width: 22vw;\n  height: 22vw;\n  top: -15vh;\n  left: 7vw;\n  animation-delay: 0s;\n}\n\n.blob2 {\n  width: 30vw;\n  height: 30vw;\n  bottom: 30vh;\n  right: -7vw;\n  animation-delay: 2s;\n}\n\n.blob3 {\n  width: 40vw;\n  height: 40vw;\n  bottom: -20vh;\n  left: 15vw;\n  animation-duration: 10s;\n  animation-delay: 1s;\n}\n\n/* Ring styling */\n.ring {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n  background: linear-gradient(135deg, #11399e, #1953e6);\n  animation: rotate 10s infinite linear;\n}\n\n.ring:nth-child(2) {\n  width: 75%;\n  height: 75%;\n  background: linear-gradient(135deg, #11399e, #174dd4);\n  animation-duration: 8s;\n  animation-direction: reverse;\n}\n\n.ring:nth-child(3) {\n  width: 50%;\n  height: 50%;\n  background: linear-gradient(135deg, #11399e, #1a55eb);\n  animation-duration: 6s;\n}\n\n/* Blob animations */\n@keyframes pulse {\n  0%, 100% {\n    transform: scale(1);\n    opacity: 0.8;\n  }\n  50% {\n    transform: scale(1.2);\n    opacity: 1;\n  }\n}\n@keyframes rotate {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes move {\n  0% {\n    transform: translate(0, 0);\n  }\n  25% {\n    transform: translate(15px, -20px);\n  }\n  50% {\n    transform: translate(-10px, 30px);\n  }\n  75% {\n    transform: translate(20px, -10px);\n  }\n  100% {\n    transform: translate(-15px, 15px);\n  }\n}\n.fsuuw-3d-logo {\n  width: 150px;\n  height: 150px;\n}\n\n@media (max-width: 1024px) {\n  .dots-sign-in-left-vertical {\n    width: 6vw; /* Adjusted for tablet */\n  }\n  .dots-sign-in-horizontal {\n    width: 10vw; /* Adjusted for tablet */\n  }\n  .blob1,\n  .blob2,\n  .blob3 {\n    width: 35vw; /* Increased for tablet */\n    height: 35vw;\n  }\n}\n/* Media Queries for Responsiveness */\n@media (max-width: 768px) {\n  .dots-sign-in-left-vertical {\n    width: 5w;\n  }\n  .dots-sign-in-horizontal {\n    width: 10vw;\n  }\n  .blob1,\n  .blob2,\n  .blob3 {\n    width: 40vw;\n    height: 40vw;\n  }\n}\n@media (max-width: 480px) {\n  .dots-sign-in-left-vertical {\n    width: 5vw;\n  }\n  .wrapper {\n    width: 380px;\n  }\n  .dots-sign-in-horizontal {\n    width: 10vw;\n  }\n  .blob1,\n  .blob2,\n  .blob3 {\n    width: 45vw;\n    height: 45vw;\n  }\n}\n@media (max-width: 360px) {\n  .dots-sign-in-left-vertical {\n    width: 5vw;\n  }\n  .wrapper {\n    width: 350px;\n  }\n  .dots-sign-in-horizontal {\n    width: 10vw;\n  }\n  .blob1,\n  .blob2,\n  .blob3 {\n    width: 45vw;\n    height: 45vw;\n  }\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".login-page {\n  /* all sign in */\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  min-height: 100vh;\n  background: #11399e;\n}\n\n.wrapper {\n  /* bg white and text color and padding size */\n  width: 400px;\n  background: white;\n  color: black;\n  border-radius: 10px;\n  padding: 30px 30px;\n}\n\n.wrapper h1 {\n  /* upper sign in */\n  font-size: 36px;\n  text-align: center;\n}\n\n.wrapper .input-box {\n  /* margin of username box and password and icons */\n  position: relative;\n  width: 100%;\n  height: 50px;\n  margin: 30px 0;\n}\n\n.input-box input {\n  /* box border and username/password type*/\n  width: 100%;\n  height: 100%;\n  background: transparent;\n  border: none;\n  outline: none;\n  border: 2px solid rgba(0, 0, 0, 0.2);\n  border-radius: 40px;\n  font-size: 16px;\n  color: black;\n  padding: 20px 45px 20px 20px;\n}\n\n.input-box input::-moz-placeholder {\n  /* color of username and password */\n  color: black;\n}\n\n.input-box input::placeholder {\n  /* color of username and password */\n  color: black;\n}\n\n.input-box i {\n  /* icons arrange position */\n  position: absolute;\n  right: 20px;\n  top: 50%;\n  transform: translateY(-50%);\n  font-size: 20px;\n}\n\n.show-password-container {\n  display: flex;\n  flex-direction: column;\n  gap: 10px; /* space between the checkboxes */\n}\n\n.show-password-container label {\n  display: flex;\n  align-items: center;\n  gap: 5px; /* space between checkbox and label */\n}\n\n.remember-forgot label input {\n  /* checkbox color */\n  accent-color: black;\n  margin-right: 3px;\n}\n\n.remember-forgot a {\n  /*forgot password color*/\n  color: #0a49f7;\n  text-decoration: none;\n}\n\n.remember-forgot a:hover {\n  /*forgot password line*/\n  text-decoration: underline;\n}\n\n.wrapper .btn {\n  width: 100%;\n  height: 45px;\n  background: #0b3dc7;\n  border: none;\n  outline: none;\n  border-radius: 40px;\n  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n  font-size: 16px;\n  color: #fff;\n  font-weight: 600;\n}\n\n.wrapper .btn:hover {\n  color: #fff;\n  background: #0934aa;\n}\n\n.wrapper .register-link {\n  font-size: 14.5px;\n  text-align: center;\n  margin: 20px 0 15px;\n}\n\n.register-link p a {\n  color: rgb(33, 115, 238);\n  text-decoration: none;\n  font-weight: 600;\n}\n\n.register-link p a:hover {\n  text-decoration: underline;\n}\n\n.waves {\n  position: fixed;\n  bottom: 0;\n  left: 50%;\n  transform: translateX(-50%);\n  width: 100%;\n  z-index: 1;\n}\n\n.dots-sign-in-horizontal,\n.dots-sign-in-left-vertical {\n  position: absolute;\n  z-index: 15;\n}\n\n.dots-sign-in-horizontal {\n  top: 25px;\n  right: 25px;\n}\n\n.dots-sign-in-left-vertical {\n  top: 25px;\n  left: 25px;\n}\n\n.liquid-container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n}\n\n.blob {\n  position: absolute;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  animation: pulse 8s infinite ease-in-out, move 15s infinite alternate ease-in-out;\n  opacity: 0.5;\n}\n\n.blob1 {\n  width: 22vw;\n  height: 22vw;\n  top: -15vh;\n  left: 7vw;\n  animation-delay: 0s;\n}\n\n.blob2 {\n  width: 30vw;\n  height: 30vw;\n  bottom: 30vh;\n  right: -7vw;\n  animation-delay: 2s;\n}\n\n.blob3 {\n  width: 40vw;\n  height: 40vw;\n  bottom: -20vh;\n  left: 15vw;\n  animation-duration: 10s;\n  animation-delay: 1s;\n}\n\n/* Ring styling */\n.ring {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n  background: linear-gradient(135deg, #11399e, #1953e6);\n  animation: rotate 10s infinite linear;\n}\n\n.ring:nth-child(2) {\n  width: 75%;\n  height: 75%;\n  background: linear-gradient(135deg, #11399e, #174dd4);\n  animation-duration: 8s;\n  animation-direction: reverse;\n}\n\n.ring:nth-child(3) {\n  width: 50%;\n  height: 50%;\n  background: linear-gradient(135deg, #11399e, #1a55eb);\n  animation-duration: 6s;\n}\n\n/* Blob animations */\n@keyframes pulse {\n  0%, 100% {\n    transform: scale(1);\n    opacity: 0.8;\n  }\n  50% {\n    transform: scale(1.2);\n    opacity: 1;\n  }\n}\n@keyframes rotate {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes move {\n  0% {\n    transform: translate(0, 0);\n  }\n  25% {\n    transform: translate(15px, -20px);\n  }\n  50% {\n    transform: translate(-10px, 30px);\n  }\n  75% {\n    transform: translate(20px, -10px);\n  }\n  100% {\n    transform: translate(-15px, 15px);\n  }\n}\n.fsuuw-3d-logo {\n  width: 150px;\n  height: 150px;\n}\n\n@media (max-width: 1024px) {\n  .dots-sign-in-left-vertical {\n    width: 6vw; /* Adjusted for tablet */\n  }\n  .dots-sign-in-horizontal {\n    width: 10vw; /* Adjusted for tablet */\n  }\n  .blob1,\n  .blob2,\n  .blob3 {\n    width: 35vw; /* Increased for tablet */\n    height: 35vw;\n  }\n}\n/* Media Queries for Responsiveness */\n@media (max-width: 768px) {\n  .dots-sign-in-left-vertical {\n    width: 5w;\n  }\n  .dots-sign-in-horizontal {\n    width: 10vw;\n  }\n  .blob1,\n  .blob2,\n  .blob3 {\n    width: 40vw;\n    height: 40vw;\n  }\n}\n@media (max-width: 480px) {\n  .dots-sign-in-left-vertical {\n    width: 5vw;\n  }\n  .wrapper {\n    width: 380px;\n  }\n  .dots-sign-in-horizontal {\n    width: 10vw;\n  }\n  .blob1,\n  .blob2,\n  .blob3 {\n    width: 45vw;\n    height: 45vw;\n  }\n}\n@media (max-width: 360px) {\n  .dots-sign-in-left-vertical {\n    width: 5vw;\n  }\n  .wrapper {\n    width: 350px;\n  }\n  .dots-sign-in-horizontal {\n    width: 10vw;\n  }\n  .blob1,\n  .blob2,\n  .blob3 {\n    width: 45vw;\n    height: 45vw;\n  }\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

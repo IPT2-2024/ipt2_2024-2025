@@ -1,30 +1,36 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import '/css/login.css';
 
-export default function Login() {
-  const [username, setUsername] = useState("");
+export default function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // state to toggle password visibility
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault(); // Prevent form reload
     setError(""); // Reset error message
 
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     try {
-      const response = await axios.post("http://localhost:8000/api/login", {
-        username,
+      const response = await axios.post("http://localhost:8000/api/register", {
+        name,
+        email,
         password,
       });
 
-      // Store token in localStorage or cookies
-      localStorage.setItem("authToken", response.data.token);
-
-      // Redirect or handle successful login
-      alert("Login successful!");
+      // Handle successful registration
+      alert("Registration successful! You can now log in.");
     } catch (err) {
-      setError("Invalid username or password");
+      setError("An error occurred during registration. Please try again.");
     }
   };
 
@@ -36,22 +42,35 @@ export default function Login() {
             <img src="/assets/fsuuw 3d logo.svg" alt="Fsuuw 3d Logo" className="fsuuw-3d-logo" />
           </div>
           <div className="wrapper">
-            <form onSubmit={handleLogin}>
-              <h1>Sign in</h1>
+            <form onSubmit={handleRegister}>
+              <h1>Register</h1>
               {error && <p className="error">{error}</p>}
+
               <div className="input-box">
                 <input
                   type="text"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
                 />
                 <i className="bx bxs-user"></i>
               </div>
+
               <div className="input-box">
                 <input
-                  type="password"
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <i className="bx bxs-envelope"></i>
+              </div>
+
+              <div className="input-box">
+                <input
+                  type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -59,26 +78,34 @@ export default function Login() {
                 />
                 <i className="bx bxs-lock-alt"></i>
               </div>
-              <div className="d-flex colum justify-content-between pb-3 align-items-center">
-                <div className="show-password-container">
-                  <label>
-                    <input type="checkbox" /> Remember me
-                  </label>
-                
-                </div>
-                <div className="remember-forgot">
-                  <a href="#">Forgot password?</a>
-                </div>  
-              </div>
-              
 
-              <button type="submit" className="btn">Sign in</button>
+              <div className="input-box">
+                <input
+                  type={showPassword ? "text" : "password"} // Toggle both password fields
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+                <i className="bx bxs-lock-alt"></i>
+              </div>
+
+              {/* Show password checkbox */}
+              <div className="show-password-container pb-3">
+                <label>
+                  <input 
+                    type="checkbox" 
+                    checked={showPassword} 
+                    onChange={() => setShowPassword(!showPassword)} 
+                  />
+                  Show Password
+                </label>
+              </div>
+
+              <button type="submit" className="btn ">Register</button>
 
               <div className="register-link">
-                <p>
-                  Don't have an account?{" "}
-                  <Link to="/register" className="btn-link">Register</Link>
-                </p>
+                <p>Already have an account? <Link to="/login">Sign up</Link></p>
               </div>
             </form>
           </div>
