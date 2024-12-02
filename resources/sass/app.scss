@@ -6,3 +6,10 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+@import 'dashboard/SideBar';
+@import 'dashboard/Header';
+@import 'dashboard/MainDashboard';
+@import 'dashboard/SideBarNavList';
+
+@import 'loginportal/UserLogin';

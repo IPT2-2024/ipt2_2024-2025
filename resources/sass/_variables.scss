@@ -5,3 +5,17 @@ $body-bg: #f8fafc;
 $font-family-sans-serif: 'Nunito', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
+
+// Define Global Variables
+$primary-color: #000;       // Primary color
+$secondary-color: #fff;     // Secondary color
+$accent-color: #f00;        // Accent color
+$text-color: #666;          // Default text color
+$font-family: 'Arial', sans-serif; // Global font
+$max-width: 1200px;         // Global max-width
+$padding: 20px;             // Global padding
+$border-color: #ccc;        // Default border color
+$border-radius: 4px;        // Border radius for buttons, cards, etc.
+$transition: 0.3s ease;     // Default transition duration
+
+

@@ -104,9 +104,9 @@
   --bs-highlight-bg: rgb(255, 242.6, 205.4);
   --bs-border-width: 1px;
   --bs-border-style: solid;
-  --bs-border-color: #dee2e6;
+  --bs-border-color: #ccc;
   --bs-border-color-translucent: rgba(0, 0, 0, 0.175);
-  --bs-border-radius: 0.375rem;
+  --bs-border-radius: 4px;
   --bs-border-radius-sm: 0.25rem;
   --bs-border-radius-lg: 0.5rem;
   --bs-border-radius-xl: 1rem;
@@ -5328,7 +5328,7 @@ textarea.form-control-lg {
   color: var(--bs-btn-close-color);
   background: transparent var(--bs-btn-close-bg) center/1em auto no-repeat;
   border: 0;
-  border-radius: 0.375rem;
+  border-radius: 4px;
   opacity: var(--bs-btn-close-opacity);
 }
 .btn-close:hover {
@@ -11965,4 +11965,394 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+/* Sidebar styles */
+.sidebar-container {
+  height: 100%;
+  width: 250px; /* Adjust sidebar width as needed */
+  background-color: #131f73; /* Sidebar background color */
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+/* Ensure the Menu takes full height */
+.ant-menu {
+  flex-grow: 1; /* Make the menu fill the remaining space */
+  width: 100%;
+}
+
+/* Separator styling */
+.separator {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-top: 2px solid #fff;
+  margin-left: 40px; /* Adds spacing from the left edge */
+  margin-right: 40px; /* Adds spacing from the right edge */
+}
+
+.header {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 0 20px;
+  position: relative;
+}
+.header .header-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #3f7afc;
+  overflow: hidden;
+}
+.header::after::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+  animation: reflectLight 3s infinite linear;
+}
+@keyframes reflectLight {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+.header .menu-icon {
+  display: none; /* Hide by default */
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000; /* Ensure it's on top of other content */
+  cursor: pointer;
+}
+@media (max-width: 991px) {
+  .header .menu-icon {
+    display: block; /* Show the button on mobile */
+  }
+}
+.header .search-wrapper {
+  display: flex;
+  align-items: center;
+}
+.header .search-wrapper .search-icon {
+  display: block;
+  cursor: pointer;
+  font-size: 20px;
+  color: #3f7afc;
+}
+.header .search-wrapper .search-input {
+  display: none;
+  transition: all 0.3s ease-in-out;
+  max-width: 300px;
+  margin-left: 10px;
+}
+.header .search-wrapper.search-active .search-input {
+  display: block;
+}
+@media (max-width: 991px) {
+  .header .search-wrapper .search-icon {
+    display: block;
+  }
+  .header .search-wrapper .search-input {
+    display: none;
+  }
+}
+
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  /* Mobile - Hide hamburger button on desktop */
+  /* Media Queries for Mobile */
+}
+.dashboard-container .sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #131f73;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  transition: transform 0.3s ease-in-out;
+}
+.dashboard-container .dashboard-main {
+  flex: 1;
+  margin-left: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.dashboard-container .header {
+  height: 60px;
+  background-color: white;
+  border-bottom: 1px solid #3f7afc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+}
+.dashboard-container .dashboard-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f1f1f1;
+  overflow-y: auto;
+}
+.dashboard-container .menu-icon {
+  display: none; /* Hide by default */
+}
+@media (max-width: 991px) {
+  .dashboard-container .menu-icon {
+    display: block; /* Show the button on mobile */
+    position: absolute;
+    top: 20px; /* Position it at the top */
+    left: 20px; /* Position it at the left */
+    z-index: 1000; /* Ensure it's on top of other content */
+    cursor: pointer;
+  }
+}
+.dashboard-container .ant-layout-content {
+  padding: 24px 16px; /* Top and bottom padding = 24px, Left and right padding = 16px */
+}
+@media only screen and (max-width: 991px) {
+  .dashboard-container {
+    /* When the sidebar is visible */
+  }
+  .dashboard-container .sidebar {
+    transform: translateX(-250px); /* Initially hide the sidebar */
+  }
+  .dashboard-container .dashboard-main {
+    margin-left: 0;
+  }
+  .dashboard-container .dashboard-content {
+    margin-left: 0;
+  }
+  .dashboard-container .sidebar-active {
+    transform: translateX(0);
+  }
+}
+
+/* SideBarNavList styles */
+/* Custom styles for the navigation items */
+.nav-item {
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Add space between menu items */
+  color: #fff !important;
+  /* Hover effect for nav items */
+}
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Slight white background on hover */
+  border-left: 4px solid #1890ff; /* Blue left border on hover */
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Style for the links within nav items */
+.nav-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* Style for selected item to keep consistency */
+.ant-menu-item-selected {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+  color: #fff;
+  border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+  /* Ensure that the link color stays consistent for selected item */
+  /* Prevent hover effect on selected item */
+}
+.ant-menu-item-selected .nav-link {
+  color: #fff !important;
+}
+.ant-menu-item-selected:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* White background for selected item on hover */
+  border-left: 4px solid #1890ff;
+}
+
+/* Ensure that the background on hover is transparent for the non-selected items */
+.ant-menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Slight white background on hover */
+  border-left: 4px solid #1890ff; /* Blue left border on hover */
+  font-weight: bold;
+}
+
+/* Separator between menu items */
+.separator {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-top: 2px solid #fff;
+  width: calc(100% - 20px); /* Keeps the separator from touching edges */
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Icon styles: Ensure icons are sized correctly */
+.ant-menu-item .anticon {
+  font-size: 20px;
+  color: #fff !important;
+  margin-right: 10px;
+}
+
+/* Ensure spacing between menu items */
+.ant-menu {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* Adjust spacing on mobile if necessary */
+@media (max-width: 768px) {
+  .nav-item {
+    margin-bottom: 8px; /* Slightly smaller gap on mobile */
+  }
+  .ant-menu-item {
+    padding-left: 16px;
+    color: #fff !important;
+  }
+  .ant-menu-item .anticon {
+    font-size: 16px;
+  }
+}
+/* SubMenu styles: Ensure submenus have the same color and hover effects as main items */
+.ant-menu-submenu {
+  background-color: transparent !important; /* Make submenu background transparent */
+  padding-left: 16px; /* Adjust padding for submenu items */
+  padding-right: 16px; /* Adjust padding for submenu items */
+  border-radius: 8px; /* Add border radius for submenu items */
+  border: none; /* Remove any borders */
+  /* Ensure the submenu title color is white */
+  /* Remove the background on hover */
+  /* Style for submenu item when selected */
+  /* Ensure submenu item text is white and styled correctly */
+}
+.ant-menu-submenu .ant-menu-submenu-title {
+  color: #fff !important;
+  padding-left: 8px !important;
+}
+.ant-menu-submenu:hover {
+  background-color: transparent !important;
+  border-left: 4px solid #1890ff !important; /* Blue left border on hover */
+  background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+  color: #fff;
+  border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+}
+.ant-menu-submenu.ant-menu-submenu-open, .ant-menu-submenu.ant-menu-submenu-selected {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+  color: #fff; /* White color for selected and open submenu items */
+  border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+}
+.ant-menu-submenu .ant-menu-item {
+  color: #fff !important; /* Ensure submenu item text is white */
+  font-size: 14px; /* Slightly smaller font size for submenu items */
+  background-color: transparent !important; /* Ensure submenu items have transparent background */
+}
+
+/* Remove background for the specific ant-menu-submenu */
+.ant-menu-dark.ant-menu-inline .ant-menu-sub.ant-menu-inline {
+  background-color: transparent !important; /* Remove background color */
+}
+
+/* Add hover effect and selected indicator for all menu items including "System Settings" */
+.ant-menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* Slight white background on hover */
+  border-left: 4px solid #1890ff !important; /* Blue left border on hover */
+  font-weight: bold;
+}
+
+/* Apply the selected indicator with hover effect for System Settings */
+.ant-menu-item.selected {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+  color: #fff;
+  border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+}
+
+.ant-menu-item.selected:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* Keep same background on hover when selected */
+  border-left: 4px solid #1890ff !important; /* Maintain blue left border */
+}
+
+.layout-container {
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.logo-container img {
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+}
+
+.card-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.account-portal-label {
+  margin-bottom: 16px;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+
+.row-full-width {
+  width: 100%;
+}
+
+.card-style {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.input-radius {
+  border-radius: 8px;
+}
+
+.button-full-width {
+  width: 100%;
+  border-radius: 8px;
+  background-color: #1e90ff;
+  border-color: #1e90ff;
+}
+
+.form-item-center {
+  text-align: center;
 }

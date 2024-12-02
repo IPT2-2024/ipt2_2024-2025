@@ -1,0 +1,99 @@
+.header {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 0 20px;
+  position: relative;
+
+  .header-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  // Create the blue line with the animation
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #3f7afc; // Blue line below the header
+    overflow: hidden;
+
+    // Add the reflection effect as a white gradient animation
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%; // Start from outside of the blue line
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+      animation: reflectLight 3s infinite linear; // Infinite animation with a 3s duration
+    }
+  }
+
+  @keyframes reflectLight {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+
+  // Hamburger menu icon for mobile
+  .menu-icon {
+    display: none;  /* Hide by default */
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;  /* Ensure it's on top of other content */
+    cursor: pointer;
+
+    @media (max-width: 991px) {
+      display: block;  /* Show the button on mobile */
+    }
+  }
+
+  // Styles for search bar visibility
+  .search-wrapper {
+    display: flex;
+    align-items: center;
+
+    // Default state: search bar is hidden on mobile
+    .search-icon {
+      display: block;
+      cursor: pointer;
+      font-size: 20px;
+      color: #3f7afc;
+    }
+
+    .search-input {
+      display: none;
+      transition: all 0.3s ease-in-out;
+      max-width: 300px;
+      margin-left: 10px;
+    }
+
+    &.search-active .search-input {
+      display: block;
+    }
+
+    @media (max-width: 991px) {
+      .search-icon {
+        display: block;
+      }
+
+      .search-input {
+        display: none;
+      }
+    }
+  }
+}

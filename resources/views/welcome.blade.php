@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Father Saturnino Urios University</title>
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <link rel="icon" type="image/svg+xml" href="/../images/fsuu-icon-01.svg">
+    <link rel="icon" type="image/svg+xml" href="/../images/webfsuulogo.svg">
 </head>
 <body>
     <div id="root"></div>

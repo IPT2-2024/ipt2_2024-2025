@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Catch all other routes and direct them to the welcome view
+Route::get('/{any}', function () {
+    return view('welcome');
+})->where('any', '.*');

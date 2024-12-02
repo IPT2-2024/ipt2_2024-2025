@@ -1,0 +1,75 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+
+  .sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #131f73;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .dashboard-main {
+    flex: 1;
+    margin-left: 250px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    height: 60px;
+    background-color: white;
+    border-bottom: 1px solid #3f7afc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 5;
+  }
+
+  .dashboard-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f1f1f1;
+    overflow-y: auto;
+  }
+
+  /* Mobile - Hide hamburger button on desktop */
+  .menu-icon {
+    display: none;  /* Hide by default */
+  
+    @media (max-width: 991px) {
+      display: block;  /* Show the button on mobile */
+      position: absolute;
+      top: 20px;  /* Position it at the top */
+      left: 20px;  /* Position it at the left */
+      z-index: 1000;  /* Ensure it's on top of other content */
+      cursor: pointer;
+    }
+  }
+  
+  .ant-layout-content {
+    padding: 24px 16px; /* Top and bottom padding = 24px, Left and right padding = 16px */
+  }
+
+  /* Media Queries for Mobile */
+  @media only screen and (max-width: 991px) {
+    .sidebar {
+      transform: translateX(-250px); /* Initially hide the sidebar */
+    }
+
+    .dashboard-main {
+      margin-left: 0;
+    }
+
+    .dashboard-content {
+      margin-left: 0;
+    }
+
+    /* When the sidebar is visible */
+    .sidebar-active {
+      transform: translateX(0);
+    }
+  }
+}

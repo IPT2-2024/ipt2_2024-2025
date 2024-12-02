@@ -1,0 +1,22 @@
+php artisan make:model CollegeProgramDepartment -c --api
+
+php artisan make:model CollegeProgramDepartment -mc --api
+
+php artisan make:seeder CollegeProgramDepartmentSeeder
+
+php artisan make:model CollegeProgramDepartment
+
+php artisan make:controller \Graph\GraphTrendIllnessController
+
+
+php artisan make:migration create_assignment_tracking_table
+
+php artisan migrate
+
+php artisan migrate --seed (if you have a seeder)
+
+
+php artisan passport:install
+
+
+

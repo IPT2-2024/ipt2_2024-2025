@@ -1,0 +1,169 @@
+/* SideBarNavList styles */
+
+/* Custom styles for the navigation items */
+.nav-item {
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Add space between menu items */
+  color: #fff !important;
+  
+
+  /* Hover effect for nav items */
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Slight white background on hover */
+    border-left: 4px solid #1890ff; /* Blue left border on hover */
+    font-weight: bold;
+    color: #fff;
+  }
+}
+
+/* Style for the links within nav items */
+.nav-link {
+  
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  
+}
+
+/* Style for selected item to keep consistency */
+.ant-menu-item-selected {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+  color: #fff;
+  border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+
+  /* Ensure that the link color stays consistent for selected item */
+  .nav-link {
+    color: #fff !important;
+  }
+
+  /* Prevent hover effect on selected item */
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* White background for selected item on hover */
+    border-left: 4px solid #1890ff;
+  }
+}
+
+/* Ensure that the background on hover is transparent for the non-selected items */
+.ant-menu-item {
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Slight white background on hover */
+    border-left: 4px solid #1890ff; /* Blue left border on hover */
+    font-weight: bold;
+  
+  }
+}
+
+/* Separator between menu items */
+.separator {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-top: 2px solid #fff;
+  width: calc(100% - 20px); /* Keeps the separator from touching edges */
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+/* Icon styles: Ensure icons are sized correctly */
+.ant-menu-item .anticon {
+  font-size: 20px;
+  color: #fff !important;
+  margin-right: 10px;
+}
+
+/* Ensure spacing between menu items */
+.ant-menu {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* Adjust spacing on mobile if necessary */
+@media (max-width: 768px) {
+  .nav-item {
+    margin-bottom: 8px; /* Slightly smaller gap on mobile */
+  }
+
+  .ant-menu-item {
+    padding-left: 16px;
+    color: #fff !important;
+  }
+
+  .ant-menu-item .anticon {
+    font-size: 16px;
+  }
+}
+
+
+/* SubMenu styles: Ensure submenus have the same color and hover effects as main items */
+.ant-menu-submenu {
+  background-color: transparent !important; /* Make submenu background transparent */
+  padding-left: 16px; /* Adjust padding for submenu items */
+  padding-right: 16px; /* Adjust padding for submenu items */
+  border-radius: 8px; /* Add border radius for submenu items */
+  border: none; /* Remove any borders */
+
+  /* Ensure the submenu title color is white */
+  .ant-menu-submenu-title {
+    color: #fff !important;
+    padding-left: 8px !important;
+
+    
+  }
+
+ 
+  /* Remove the background on hover */
+  &:hover {
+    background-color: transparent !important;
+    border-left: 4px solid #1890ff !important; /* Blue left border on hover */  
+    background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+    color: #fff;
+    border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+    
+  }
+
+  /* Style for submenu item when selected */
+  &.ant-menu-submenu-open,
+  &.ant-menu-submenu-selected {
+    background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+    //background-color: transparent !important; /* Transparent background */
+    color: #fff; /* White color for selected and open submenu items */
+    border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+  }
+
+  /* Ensure submenu item text is white and styled correctly */
+  .ant-menu-item {
+    color: #fff !important; /* Ensure submenu item text is white */
+    font-size: 14px; /* Slightly smaller font size for submenu items */
+    background-color: transparent !important; /* Ensure submenu items have transparent background */
+  }
+}
+
+/* Remove background for the specific ant-menu-submenu */
+.ant-menu-dark.ant-menu-inline .ant-menu-sub.ant-menu-inline {
+  background-color: transparent !important; /* Remove background color */
+}
+
+/* Add hover effect and selected indicator for all menu items including "System Settings" */
+.ant-menu-item {
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important; /* Slight white background on hover */
+    border-left: 4px solid #1890ff !important; /* Blue left border on hover */
+    font-weight: bold;
+  }
+}
+
+/* Apply the selected indicator with hover effect for System Settings */
+.ant-menu-item.selected {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+  color: #fff;
+  border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+}
+
+.ant-menu-item.selected:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important; /* Keep same background on hover when selected */
+  border-left: 4px solid #1890ff !important; /* Maintain blue left border */
+}
