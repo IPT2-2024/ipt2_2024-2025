@@ -193,7 +193,7 @@
   border-radius: 50%;
   top: 46%; /* Center vertically */
   left: 46%; /* Center horizontally */
-  animation: orbit 1.5s linear infinite; /* Adjust duration for speed */
+  animation: orbit 0.5s linear infinite; /* Adjust duration for speed */
   z-index: 6; /* Make sure it's above the loader */
 }
 
@@ -12574,5 +12574,615 @@ textarea.form-control-lg {
   }
   .d-print-none {
     display: none !important;
+  }
+}
+.bg-loader {
+  background-image: url("/assets/bg.png");
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  background-position: center;
+}
+
+/* Styling each SVG layer */
+.svg1,
+.svg2,
+.svg3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120%;
+  height: auto;
+  opacity: 1; /* Full opacity for SVG 1 */
+}
+
+/* Adjust the layering order */
+.svg1 {
+  z-index: 3; /* SVG 1 on top */
+}
+
+.svg2 {
+  z-index: 2; /* SVG 2 in the middle */
+  opacity: 0.8; /* Optional: lower opacity for visual effect */
+}
+
+.svg3 {
+  z-index: 1; /* SVG 3 at the back */
+  opacity: 0.8; /* Optional: lower opacity for visual effect */
+}
+
+/* Styling each SVG layer */
+.svg4,
+.svg5,
+.svg6 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 120%;
+  height: auto;
+  opacity: 1; /* Full opacity for SVG 4 */
+}
+
+/* Adjust the layering order */
+.svg4 {
+  z-index: 3; /* SVG 4 on top */
+}
+
+.svg5 {
+  z-index: 2; /* SVG 5 in the middle */
+  opacity: 0.8; /* Optional: lower opacity for visual effect */
+}
+
+.svg6 {
+  z-index: 1; /* SVG 6 at the back */
+  opacity: 0.8; /* Optional: lower opacity for visual effect */
+}
+
+/* Styling for each SVG layer with wipe animation */
+.svg1,
+.svg2,
+.svg3,
+.svg4,
+.svg5,
+.svg6 {
+  position: absolute;
+  width: 60%;
+  height: auto;
+  opacity: 1;
+}
+
+/* Top Layer SVGs - Left to Right Wipe */
+.svg1,
+.svg2,
+.svg3 {
+  clip-path: inset(0 0 0 100%); /* Start fully hidden from the left */
+  animation: wipeInPauseLeftToRight 1s ease forwards; /* Run once, no loop */
+}
+
+/* Bottom Layer SVGs - Right to Left Wipe */
+.svg4,
+.svg5,
+.svg6 {
+  clip-path: inset(0 100% 0 0); /* Start fully hidden from the right */
+  animation: wipeInPauseRightToLeft 1s ease forwards; /* Run once, no loop */
+}
+
+/* Assign delays for synchronized animation */
+.svg1 {
+  animation-delay: 0.3s;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+
+.svg2 {
+  animation-delay: 0.5s;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.svg3 {
+  animation-delay: 0.7s;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.svg4 {
+  animation-delay: 0.3s;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+}
+
+.svg5 {
+  animation-delay: 0.5s;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.svg6 {
+  animation-delay: 0.7s;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+
+/* Keyframes for Left to Right Wipe In and Pause */
+@keyframes wipeInPauseLeftToRight {
+  0% {
+    clip-path: inset(100% 0 0 0); /* Fully hidden from the left */
+  }
+  100% {
+    clip-path: inset(0 0 0 0); /* Fully visible */
+  }
+}
+/* Keyframes for Right to Left Wipe In and Pause */
+@keyframes wipeInPauseRightToLeft {
+  0% {
+    clip-path: inset(0 0 100% 0); /* Fully hidden from the right */
+  }
+  100% {
+    clip-path: inset(0 0 0 0); /* Fully visible */
+  }
+}
+/* Overlay Container for Loader and Logo */
+.overlay-container {
+  position: absolute; /* Allow overlapping with SVGs */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset for true center alignment */
+}
+
+/* Loader Spinner */
+.loader {
+  width: 300px; /* Use viewport width for responsiveness */
+  height: 300px; /* Use viewport width for responsiveness */
+  border-radius: 50rem;
+  border: 10px solid white;
+  background: linear-gradient(#7df8d6, #494cff, #3437f8);
+  animation: animate 2.5s linear infinite; /* Ensure animation is included */
+  z-index: 4; /* Make sure loader is above SVGs */
+}
+
+.loader::before {
+  position: absolute;
+  content: "";
+  background: #fff;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  height: 95%;
+  border-radius: 50rem;
+  border: 0px solid white;
+}
+
+/* Dot Circle Animation */
+.dot-circle {
+  position: absolute;
+  width: 25px; /* Adjust the size as needed */
+  height: 25px;
+  background-color: #3437f8; /* Customize the color */
+  border-radius: 50%;
+  top: 46%; /* Center vertically */
+  left: 46%; /* Center horizontally */
+  animation: orbit 1.5s linear infinite; /* Adjust duration for speed */
+  z-index: 6; /* Make sure it's above the loader */
+}
+
+/* Keyframes for Orbit Animation */
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(135px) rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg) translateX(135px) rotate(-90deg);
+  }
+  50% {
+    transform: rotate(180deg) translateX(135px) rotate(-180deg);
+  }
+  75% {
+    transform: rotate(270deg) translateX(135px) rotate(-270deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(135px) rotate(-360deg);
+  }
+}
+/* Animation for the loader */
+@keyframes animate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Keyframes for Color Change Animation */
+@keyframes dot-circle {
+  0%, 80% {
+    background-color: #3437f8; /* Original color */
+  }
+  40%, 60% {
+    background-color: #7df8d6; /* Cyan color */
+  }
+  100% {
+    background-color: #3437f8; /* Return to original color */
+  }
+}
+/* Logo Container */
+.logo-container {
+  position: absolute; /* Allow overlapping with loader */
+  top: 53.5%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset for true center alignment */
+  z-index: 15; /* Make sure logo is above loader */
+}
+
+/* Updated Logo */
+.threed-logo-fsuub {
+  width: 240px;
+  height: 240px;
+}
+
+/* Default styles for larger screens (desktops)*/
+/* Laptops and larger tablets */
+@media (max-width: 1024px) {
+  /* Styles for laptop screens */
+}
+@media (max-width: 768px) {
+  .svg1,
+  .svg2,
+  .svg3,
+  .svg4,
+  .svg5,
+  .svg6 {
+    width: 100%; /* Ensure full width on smaller screens */
+  }
+}
+.login-page {
+  /* all sign in */
+  background-color: #0934aa;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  overflow: hidden;
+}
+
+.login-form {
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.liquid-container {
+  position: absolute;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.login-bg {
+  position: fixed;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-content: center;
+}
+
+.wrapper {
+  /* bg white and text color and padding size */
+  width: 400px;
+  background: white;
+  color: black;
+  border-radius: 10px;
+  padding: 30px 30px;
+}
+
+.wrapper h1, .wrapper .h1 {
+  /* upper sign in */
+  font-size: 36px;
+  text-align: center;
+}
+
+.wrapper .input-box {
+  /* margin of username box and password and icons */
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
+}
+
+.input-box input {
+  /* box border and username/password type*/
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
+  font-size: 16px;
+  color: black;
+  padding: 20px 45px 20px 20px;
+}
+
+.input-box input::-moz-placeholder {
+  /* color of username and password */
+  color: black;
+}
+
+.input-box input::placeholder {
+  /* color of username and password */
+  color: black;
+}
+
+.input-box i {
+  /* icons arrange position */
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+}
+
+.show-password-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* space between the checkboxes */
+}
+
+.show-password-container label {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* space between checkbox and label */
+}
+
+.remember-forgot label input {
+  /* checkbox color */
+  accent-color: black;
+  margin-right: 3px;
+}
+
+.remember-forgot a {
+  /*forgot password color*/
+  color: #0a49f7;
+  text-decoration: none;
+}
+
+.remember-forgot a:hover {
+  /*forgot password line*/
+  text-decoration: underline;
+}
+
+.wrapper .btn {
+  width: 100%;
+  height: 45px;
+  background: #0b3dc7;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.wrapper .btn:hover {
+  color: #fff;
+  background: #0934aa;
+}
+
+.wrapper .register-link {
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0 15px;
+}
+
+.register-link p a {
+  color: rgb(33, 115, 238);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link p a:hover {
+  text-decoration: underline;
+}
+
+.waves {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 1;
+}
+
+.dots-sign-in-horizontal,
+.dots-sign-in-left-vertical {
+  position: fixed;
+  z-index: 15;
+}
+
+.dots-sign-in-horizontal {
+  top: 25px;
+  right: 25px;
+}
+
+.dots-sign-in-left-vertical {
+  top: 25px;
+  left: 25px;
+}
+
+.blob {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: pulse 8s infinite ease-in-out, move 15s infinite alternate ease-in-out;
+  opacity: 0.5;
+}
+
+.blob1 {
+  width: 22vw;
+  height: 22vw;
+  top: -15vh;
+  left: 7vw;
+  animation-delay: 0s;
+}
+
+.blob2 {
+  width: 30vw;
+  height: 30vw;
+  bottom: 30vh;
+  right: -7vw;
+  animation-delay: 2s;
+}
+
+.blob3 {
+  width: 40vw;
+  height: 40vw;
+  bottom: -20vh;
+  left: 15vw;
+  animation-duration: 10s;
+  animation-delay: 1s;
+}
+
+/* Ring styling */
+.ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #11399e, #1953e6);
+  animation: rotate 10s infinite linear;
+}
+
+.ring:nth-child(2) {
+  width: 75%;
+  height: 75%;
+  background: linear-gradient(135deg, #11399e, #174dd4);
+  animation-duration: 8s;
+  animation-direction: reverse;
+}
+
+.ring:nth-child(3) {
+  width: 50%;
+  height: 50%;
+  background: linear-gradient(135deg, #11399e, #1a55eb);
+  animation-duration: 6s;
+}
+
+/* Blob animations */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(15px, -20px);
+  }
+  50% {
+    transform: translate(-10px, 30px);
+  }
+  75% {
+    transform: translate(20px, -10px);
+  }
+  100% {
+    transform: translate(-15px, 15px);
+  }
+}
+.fsuuw-3d-logo {
+  width: 150px;
+  height: 150px;
+}
+
+@media (max-width: 1024px) {
+  .dots-sign-in-left-vertical {
+    width: 6vw; /* Adjusted for tablet */
+  }
+  .dots-sign-in-horizontal {
+    width: 10vw; /* Adjusted for tablet */
+  }
+  .blob1,
+  .blob2,
+  .blob3 {
+    width: 35vw; /* Increased for tablet */
+    height: 35vw;
+  }
+}
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .dots-sign-in-left-vertical {
+    width: 5w;
+  }
+  .dots-sign-in-horizontal {
+    width: 10vw;
+  }
+  .blob1,
+  .blob2,
+  .blob3 {
+    width: 40vw;
+    height: 40vw;
+  }
+}
+@media (max-width: 480px) {
+  .dots-sign-in-left-vertical {
+    width: 5vw;
+  }
+  .wrapper {
+    width: 380px;
+  }
+  .dots-sign-in-horizontal {
+    width: 10vw;
+  }
+  .blob1,
+  .blob2,
+  .blob3 {
+    width: 45vw;
+    height: 45vw;
+  }
+}
+@media (max-width: 375px) {
+  .dots-sign-in-left-vertical {
+    width: 5vw;
+  }
+  .wrapper {
+    width: 345px;
+  }
+  .dots-sign-in-horizontal {
+    width: 10vw;
+  }
+  .blob1,
+  .blob2,
+  .blob3 {
+    width: 45vw;
+    height: 45vw;
   }
 }

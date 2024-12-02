@@ -4,10 +4,7 @@
 // Variables
 @import 'variables';
 
-@import 'loader';
-
-@import 'login';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
-
+@import 'loader';
+@import 'login';

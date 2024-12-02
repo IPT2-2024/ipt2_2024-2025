@@ -10203,18 +10203,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 var GraphicSVG = {
-  Vector3Top: '/assets/Vector 3 top.svg',
-  Vector2Top: '/assets/Vector 2 top.svg',
-  Vector1Top: '/assets/Vector 1 top.svg',
-  Vector3Bottom: '/assets/Vector 3 bottom.svg',
-  Vector2Bottom: '/assets/Vector 2 bottom.svg',
-  Vector1Bottom: '/assets/Vector 1 bottom.svg',
-  DotCircle: '/assets/dot circle.svg',
-  ThreedLogo: '/assets/threed logo fsuub.svg',
-  Waves: '/assets/waves.svg',
-  DotsHorizontal: '/assets/Dots sign in horizontal.svg',
-  DotsVertical: '/assets/Dots sign in left vertical.svg',
-  Fsuuw3DLogo: '/assets/fsuuw 3d logo.svg'
+  LoaderGraphicsTop3: '/assets/loadergraphicsTOP3.svg',
+  LoaderGraphicsTop2: '/assets/loadergraphicsTOP2.svg',
+  LoaderGraphicsTop1: '/assets/loadergraphicsTOP1.svg',
+  LoaderGraphicsBottom3: '/assets/loadergraphicsBOTTOM3.svg',
+  LoaderGraphicsBottom2: '/assets/loadergraphicsBOTTOM2.svg',
+  LoaderGraphicsBottom1: '/assets/loadergraphicsBOTTOM1.svg',
+  LoaderGraphicsCircleDot: '/assets/loadergraphicsCIRCLEDOT.svg',
+  LoaderFsuuLogo: '/assets/loaderfsuulogo.svg',
+  LoginGraphicsWaves: '/assets/logingraphicsWAVES.svg',
+  LoginGraghicsDots: '/assets/logingraphicsDOTS.svg',
+  LoginGraphicsDots2: '/assets/logingraphicsDOTS2.svg',
+  LoginFsuuLogo: '/assets/loginfsuulogo.svg'
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GraphicSVG);
 
@@ -10245,30 +10245,30 @@ function Loader() {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "svg-background",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].Vector3Top,
+          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoaderGraphicsTop3,
           alt: "SVG 1",
           className: "svg1"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].Vector2Top,
+          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoaderGraphicsTop2,
           alt: "SVG 2",
           className: "svg2"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].Vector1Top,
+          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoaderGraphicsTop1,
           alt: "SVG 3",
           className: "svg3"
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "svg-background2",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].Vector3Bottom,
+          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoaderGraphicsBottom3,
           alt: "SVG 4",
           className: "svg4"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].Vector2Bottom,
+          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoaderGraphicsBottom2,
           alt: "SVG 5",
           className: "svg5"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].Vector1Bottom,
+          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoaderGraphicsBottom1,
           alt: "SVG 6",
           className: "svg6"
         })]
@@ -10278,13 +10278,13 @@ function Loader() {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "loader"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-        src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].DotCircle,
+        src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoaderGraphicsCircleDot,
         alt: "Dot Circle",
         className: "dot-circle"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "logo-container",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].ThreedLogo,
+          src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoaderFsuuLogo,
           alt: "Threed Logo Fsuub",
           className: "threed-logo-fsuub"
         })
@@ -32299,32 +32299,6 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
   \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./resources/sass/login.scss":
-/*!***********************************!*\
-  !*** ./resources/sass/login.scss ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./resources/sass/loader.scss":
-/*!************************************!*\
-  !*** ./resources/sass/loader.scss ***!
-  \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -66899,9 +66873,7 @@ module.exports = /*#__PURE__*/JSON.parse('{"name":"axios","version":"0.21.4","de
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
-/******/ 			"css/app": 0,
-/******/ 			"css/loader": 0,
-/******/ 			"css/login": 0
+/******/ 			"css/app": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -66951,10 +66923,8 @@ module.exports = /*#__PURE__*/JSON.parse('{"name":"axios","version":"0.21.4","de
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/loader","css/login"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/loader","css/login"], () => (__webpack_require__("./resources/sass/app.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/loader","css/login"], () => (__webpack_require__("./resources/sass/login.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/loader","css/login"], () => (__webpack_require__("./resources/sass/loader.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
