@@ -5,9 +5,9 @@ function LoginBackground() {
     return (
         <div className="login-bg">
             <div className="z-2">
-                <img src={GraphicSVG.Waves} alt="Waves" className="waves" />
-                <img src={GraphicSVG.DotsHorizontal} alt="Dots Sign In Horizontal" className="dots-sign-in-horizontal" />
-                <img src={GraphicSVG.DotsVertical} alt="Dots Sign In Left Vertical" className="dots-sign-in-left-vertical" />
+                <img src={GraphicSVG.logingraphicsWAVES} alt="Waves" className="waves" />
+                <img src={GraphicSVG.logingraphicsDOTS} alt="Dots Sign In Horizontal" className="dots-sign-in-horizontal" />
+                <img src={GraphicSVG.logingraphicsDOTS2} alt="Dots Sign In Left Vertical" className="dots-sign-in-left-vertical" />
             </div>
 
             <div className="liquid-container">
