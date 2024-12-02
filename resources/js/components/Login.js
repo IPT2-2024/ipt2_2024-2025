@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import '/css/login.css';
+import LoginBackground from "./LoginBackground";
+
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -66,48 +66,21 @@ export default function Login() {
                   </label>
                 
                 </div>
-                <div className="remember-forgot">
-                  <a href="#">Forgot password?</a>
-                </div>  
+                  
               </div>
               
 
               <button type="submit" className="btn">Sign in</button>
 
-              <div className="register-link">
-                <p>
-                  Don't have an account?{" "}
-                  <Link to="/register" className="btn-link">Register</Link>
-                </p>
-              </div>
+              
             </form>
           </div>
         </div>
       </div>
-
-      <img src="assets/waves.svg" alt="Waves" className="waves" />
-      <img src="assets/Dots sign in horizontal.svg" alt="Dots Sign In Horizontal" className="dots-sign-in-horizontal" />
-      <img src="assets/Dots sign in left vertical.svg" alt="Dots Sign In Left Vertical" className="dots-sign-in-left-vertical" />
-
-      <div className="liquid-container">
-        <div className="blob blob1">
-          <div className="ring"></div>
-          <div className="ring"></div>
-          <div className="ring"></div>
-        </div>
-
-        <div className="blob blob2">
-          <div className="ring"></div>
-          <div className="ring"></div>
-          <div className="ring"></div>
-        </div>
-
-        <div className="blob blob3">
-          <div className="ring"></div>
-          <div className="ring"></div>
-          <div className="ring"></div>
-        </div>
-      </div>
+      
+      <LoginBackground />
+      
+      
     </div>
   );
 }
