@@ -37,7 +37,7 @@ export default function LoginForm() {
                 <div className="d-flex flex-column align-items-center justify-content-center align-self-center">
                     <div className="container d-flex justify-content-center pb-3">
                         <img
-                            src={GraphicSVG.Fsuuw3DLogo}
+                            src={GraphicSVG.LoginFsuuLogo}
                             alt="Fsuuw 3d Logo"
                             className ="fsuuw-3d-logo"
                         />
