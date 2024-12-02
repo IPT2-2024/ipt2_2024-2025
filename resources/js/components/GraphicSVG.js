@@ -1,16 +1,16 @@
 const GraphicSVG = {
-    Vector3Top: '/assets/Vector 3 top.svg',
-    Vector2Top: '/assets/Vector 2 top.svg',
-    Vector1Top: '/assets/Vector 1 top.svg',
-    Vector3Bottom: '/assets/Vector 3 bottom.svg',
-    Vector2Bottom: '/assets/Vector 2 bottom.svg',
-    Vector1Bottom: '/assets/Vector 1 bottom.svg',
-    DotCircle: '/assets/dot circle.svg',
-    ThreedLogo: '/assets/threed logo fsuub.svg',
-    Waves: '/assets/waves.svg',
-    DotsHorizontal: '/assets/Dots sign in horizontal.svg',
-    DotsVertical: '/assets/Dots sign in left vertical.svg',
-    Fsuuw3DLogo: '/assets/fsuuw 3d logo.svg',
+  LoaderGraphicsTop3: '/assets/loadergraphicsTOP3.svg',
+  LoaderGraphicsTop2: '/assets/loadergraphicsTOP2.svg',
+  LoaderGraphicsTop1: '/assets/loadergraphicsTOP1.svg',
+  LoaderGraphicsBottom3: '/assets/loadergraphicsBOTTOM3.svg',
+  LoaderGraphicsBottom2: '/assets/loadergraphicsBOTTOM2.svg',
+  LoaderGraphicsBottom1: '/assets/loadergraphicsBOTTOM1.svg',
+  LoaderGraphicsCircleDot: '/assets/loadergraphicsCIRCLEDOT.svg',
+  LoaderFsuuLogo: '/assets/loaderfsuulogo.svg',
+  LoginGraphicsWaves: '/assets/logingraphicsWAVES.svg',
+  LoginGraghicsDots: '/assets/logingraphicsDOTS.svg',
+  LoginGraphicsDots2: '/assets/logingraphicsDOTS2.svg',
+  LoginFsuuLogo: '/assets/loginfsuulogo.svg',
   };
   
   export default GraphicSVG;
