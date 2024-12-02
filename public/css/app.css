@@ -268,12 +268,38 @@
 }
 .login-page {
   /* all sign in */
+  background-color: #0934aa;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  overflow: hidden;
+}
+
+.login-form {
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: #11399e;
-  overflow: auto;
+}
+
+.liquid-container {
+  position: absolute;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.login-bg {
+  position: fixed;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-content: center;
 }
 
 .wrapper {
@@ -407,7 +433,7 @@
 
 .dots-sign-in-horizontal,
 .dots-sign-in-left-vertical {
-  position: absolute;
+  position: fixed;
   z-index: 15;
 }
 
@@ -419,13 +445,6 @@
 .dots-sign-in-left-vertical {
   top: 25px;
   left: 25px;
-}
-
-.liquid-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
 }
 
 .blob {
