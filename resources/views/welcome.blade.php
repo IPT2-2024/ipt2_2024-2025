@@ -12,7 +12,7 @@
 
 
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="/../images/fsuu-icon-01.svg">
+    
 
 </head>
 <body>

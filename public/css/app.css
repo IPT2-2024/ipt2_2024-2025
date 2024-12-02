@@ -193,7 +193,7 @@
   border-radius: 50%;
   top: 46%; /* Center vertically */
   left: 46%; /* Center horizontally */
-  animation: orbit 1.5s linear infinite; /* Adjust duration for speed */
+  animation: orbit 0.5s linear infinite; /* Adjust duration for speed */
   z-index: 6; /* Make sure it's above the loader */
 }
 

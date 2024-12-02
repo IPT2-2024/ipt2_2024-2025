@@ -39,13 +39,13 @@ export default function LoginForm() {
                         <img
                             src={GraphicSVG.Fsuuw3DLogo}
                             alt="Fsuuw 3d Logo"
-                            className="fsuuw-3d-logo"
+                            className ="fsuuw-3d-logo"
                         />
                     </div>
                     <div className="wrapper">
                         <form onSubmit={handleLogin}>
                             <h1>Sign in</h1>
-                            {error && <p className="error">{error}</p>}
+                            {error && <p className="error text-center">{error}</p>}
                             <div className="input-box">
                                 <input
                                     type="text"
