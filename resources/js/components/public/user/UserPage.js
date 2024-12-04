@@ -156,7 +156,7 @@ const UserPage = () => {
                     </Space>
                 </div>
                 {selectedRowKeys.length > 0 && (
-                    <Text strong style={{ marginBottom: '10px', display: 'block' }}>
+                    <Text strong style={{ marginBottom: '1px', display: 'block' }}>
                         {selectedRowKeys.length} item(s) selected
                     </Text>
                 )}
@@ -166,7 +166,7 @@ const UserPage = () => {
                     setIsEditModalVisible={setIsEditModalVisible}
                     setIsDeleteModalVisible={setIsDeleteModalVisible}
                     setModalData={setModalData}
-                    handleDelete={handleDelete}
+                    handleDelete={handleDelete} // Use the updated delete handler
                     handleRestore={handleRestore}
                 />
                 <UserModals

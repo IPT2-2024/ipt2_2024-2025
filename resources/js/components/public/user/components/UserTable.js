@@ -4,22 +4,15 @@ import { EditOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons'
 
 const UserTable = ({
     data,
-    rowSelection,
+    rowSelection, // Retain this for bulk actions
     setIsEditModalVisible,
-    setIsDeleteModalVisible,
     setModalData,
-    handleDelete,
-    handleRestore
+    handleDelete, // Single delete logic passed from parent
+    handleRestore,
 }) => {
-
     const handleEdit = (record) => {
-        setModalData(record); // Set data to edit modal
+        setModalData(record);
         setIsEditModalVisible(true);
-    };
-
-    const handleDeleteClick = (record) => {
-        setModalData(record); // Set data to delete modal
-        setIsDeleteModalVisible(true);
     };
 
     const columns = [
@@ -28,23 +21,28 @@ const UserTable = ({
             key: 'actions',
             render: (_, record) => (
                 <Space>
+                    {/* Edit Button */}
                     <Button
                         type="primary"
                         icon={<EditOutlined />}
                         onClick={() => handleEdit(record)}
                     />
+
+                    {/* Delete Button */}
                     {!record.archived && (
                         <Button
                             type="danger"
                             icon={<DeleteOutlined />}
-                            onClick={() => handleDelete(record.id)} // Pass ID for deletion
+                            onClick={() => handleDelete(record.id)} // Directly delete using ID
                         />
                     )}
+
+                    {/* Restore Button */}
                     {record.archived && (
                         <Button
                             type="default"
                             icon={<ReloadOutlined />}
-                            onClick={() => handleRestore(record.id)} // Pass ID for restoring
+                            onClick={() => handleRestore(record.id)}
                         >
                             Restore
                         </Button>
@@ -54,9 +52,14 @@ const UserTable = ({
         },
         {
             title: <span style={{ color: '#1890ff' }}>ID</span>,
-            dataIndex: 'id', // Ensure this is the correct field for ID
-            key: 'id', // This should match the field in your data
-            render: (id) => <span>{id}</span> // Display the ID value
+            dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: <span style={{ color: '#1890ff' }}>Status</span>,
+            dataIndex: 'status',
+            key: 'status',
+            render: (status) => (status ? 'Active' : 'Archived'), // Display status as "Active" or "Archived"
         },
         {
             title: <span style={{ color: '#1890ff' }}>Username</span>,
@@ -67,7 +70,7 @@ const UserTable = ({
             title: <span style={{ color: '#1890ff' }}>Password</span>,
             dataIndex: 'password',
             key: 'password',
-            render: (password) => '******', // Mask the password as hashed/hidden
+            render: () => '******', // Mask the password
         },
         {
             title: <span style={{ color: '#1890ff' }}>Role</span>,
@@ -78,7 +81,7 @@ const UserTable = ({
             title: <span style={{ color: '#1890ff' }}>Email</span>,
             dataIndex: 'email',
             key: 'email',
-            render: () => <span></span> // Render blank content for the Email column
+            render: () => <span></span>, // Render blank content for now
         },
         {
             title: <span style={{ color: '#1890ff' }}>Created</span>,
@@ -94,14 +97,24 @@ const UserTable = ({
 
     return (
         <Table
-            rowSelection={rowSelection} // This should correctly select individual rows
+            rowSelection={rowSelection} // Still supports bulk operations
             columns={columns}
-            dataSource={data} // Make sure data has unique 'id' for each row
+            dataSource={data}
             bordered
-            pagination={{ pageSize: 5 }}
-            scroll={{ x: 'max-content' }}
+            pagination={{
+                pageSize: 5,
+                position: ['topRight'], // Pagination only at the top-right
+            }}
+            showTotal={(total, range) => `Page ${Math.ceil(range[0] / 5)} out of ${Math.ceil(total / 5)}`} // Display page info
             style={{ color: '#000' }}
-            rowKey="id" // Ensure this is the unique identifier for each row
+            rowKey="id" // Use 'id' as a unique key
+            scroll={{ x: 'max-content' }}
+            footer={() => (
+                <div style={{ textAlign: 'left' }}>
+                    {/* Page Info at Bottom Left */}
+                    Page {Math.ceil((data.length) / 5)} of {Math.ceil(data.length / 5)}
+                </div>
+            )}
         />
     );
 };
