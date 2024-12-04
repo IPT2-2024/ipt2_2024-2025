@@ -1,41 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Table, Space, Button } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import axios from 'axios';
+import { EditOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons';
 
 const UserTable = ({
+    data,
     rowSelection,
     setIsEditModalVisible,
     setIsDeleteModalVisible,
     setModalData,
-    setIsCreateModalVisible,
+    handleDelete,
+    handleRestore
 }) => {
-    const [dataSource, setDataSource] = useState([]);
-
-    // Fetch users data on component mount
-    useEffect(() => {
-        axios.get('/api/users')
-            .then(response => {
-                setDataSource(response.data);
-            })
-            .catch(error => {
-                console.error("Error fetching users:", error);
-            });
-    }, []); // Empty dependency array ensures it runs once when component mounts
 
     const handleEdit = (record) => {
         setModalData(record); // Set data to edit modal
         setIsEditModalVisible(true);
     };
 
-    const handleDelete = (record) => {
+    const handleDeleteClick = (record) => {
         setModalData(record); // Set data to delete modal
         setIsDeleteModalVisible(true);
     };
 
     const columns = [
         {
-            title: 'Actions',
+            title: <span style={{ color: '#1890ff' }}>Actions</span>,
             key: 'actions',
             render: (_, record) => (
                 <Space>
@@ -44,76 +33,75 @@ const UserTable = ({
                         icon={<EditOutlined />}
                         onClick={() => handleEdit(record)}
                     />
-                    <Button
-                        type="danger"
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(record)}
-                    />
+                    {!record.archived && (
+                        <Button
+                            type="danger"
+                            icon={<DeleteOutlined />}
+                            onClick={() => handleDelete(record.id)} // Pass ID for deletion
+                        />
+                    )}
+                    {record.archived && (
+                        <Button
+                            type="default"
+                            icon={<ReloadOutlined />}
+                            onClick={() => handleRestore(record.id)} // Pass ID for restoring
+                        >
+                            Restore
+                        </Button>
+                    )}
                 </Space>
             ),
         },
         {
-            title: 'ID',
-            dataIndex: 'id',
-            key: 'id',
+            title: <span style={{ color: '#1890ff' }}>ID</span>,
+            dataIndex: 'id', // Ensure this is the correct field for ID
+            key: 'id', // This should match the field in your data
+            render: (id) => <span>{id}</span> // Display the ID value
         },
         {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-            render: (status) => <span>{status || 'N/A'}</span>,
-        },
-        {
-            title: 'Username',
+            title: <span style={{ color: '#1890ff' }}>Username</span>,
             dataIndex: 'username',
             key: 'username',
         },
         {
-            title: 'Role',
+            title: <span style={{ color: '#1890ff' }}>Password</span>,
+            dataIndex: 'password',
+            key: 'password',
+            render: (password) => '******', // Mask the password as hashed/hidden
+        },
+        {
+            title: <span style={{ color: '#1890ff' }}>Role</span>,
             dataIndex: 'role',
             key: 'role',
         },
         {
-            title: 'Email',
+            title: <span style={{ color: '#1890ff' }}>Email</span>,
             dataIndex: 'email',
             key: 'email',
-            render: (email) => <span>{email || 'N/A'}</span>,
+            render: () => <span></span> // Render blank content for the Email column
         },
         {
-            title: 'Created',
+            title: <span style={{ color: '#1890ff' }}>Created</span>,
             dataIndex: 'created',
             key: 'created',
-            sorter: (a, b) => new Date(a.created) - new Date(b.created),
         },
         {
-            title: 'Updated',
+            title: <span style={{ color: '#1890ff' }}>Updated</span>,
             dataIndex: 'updated',
             key: 'updated',
-            sorter: (a, b) => new Date(a.updated) - new Date(b.updated),
         },
     ];
 
     return (
         <Table
-            rowSelection={rowSelection}
+            rowSelection={rowSelection} // This should correctly select individual rows
             columns={columns}
-            dataSource={dataSource}
+            dataSource={data} // Make sure data has unique 'id' for each row
             bordered
             pagination={{ pageSize: 5 }}
             scroll={{ x: 'max-content' }}
             style={{ color: '#000' }}
-            components={{
-                header: {
-                    cell: (props) => (
-                        <th
-                            {...props}
-                            style={{
-                                color: '#4d90fe',
-                            }}
-                        />
-                    ),
-                },
-            }}
+            rowKey="id" // Ensure this is the unique identifier for each row
         />
     );
 };

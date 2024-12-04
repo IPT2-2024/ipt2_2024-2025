@@ -27,7 +27,7 @@
         "@ant-design/charts": "^2.2.3",
         "@ant-design/icons": "^5.5.2",
         "ant": "^0.0.0",
-        "antd": "^5.22.2",
+        "antd": "^5.22.3",
         "dom": "^0.0.3",
         "less": "^4.2.1",
         "less-loader": "^12.2.0",
