@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Space, Button } from 'antd';
 import { EditOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons';
 
@@ -10,9 +10,16 @@ const UserTable = ({
     handleDelete, // Single delete logic passed from parent
     handleRestore,
 }) => {
+    const [currentPage, setCurrentPage] = useState(1); // State to track the current page
+    const pageSize = 5; // Define the page size
+
     const handleEdit = (record) => {
         setModalData(record);
         setIsEditModalVisible(true);
+    };
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page); // Update the current page when the page is changed
     };
 
     const columns = [
@@ -102,17 +109,19 @@ const UserTable = ({
             dataSource={data}
             bordered
             pagination={{
-                pageSize: 5,
+                current: currentPage, // Current page number
+                pageSize: pageSize, // Page size
+                total: data.length, // Total number of items
+                onChange: handlePageChange, // Update the page when changed
                 position: ['topRight'], // Pagination only at the top-right
             }}
-            showTotal={(total, range) => `Page ${Math.ceil(range[0] / 5)} out of ${Math.ceil(total / 5)}`} // Display page info
             style={{ color: '#000' }}
             rowKey="id" // Use 'id' as a unique key
             scroll={{ x: 'max-content' }}
             footer={() => (
                 <div style={{ textAlign: 'left' }}>
                     {/* Page Info at Bottom Left */}
-                    Page {Math.ceil((data.length) / 5)} of {Math.ceil(data.length / 5)}
+                    Page {currentPage} of {Math.ceil(data.length / pageSize)}
                 </div>
             )}
         />
