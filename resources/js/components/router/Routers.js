@@ -17,7 +17,7 @@ import AcademicPrograms from '../public/academicprograms/AcademicProgramsPage';
 import SubjectEnlistments from '../public/subjectenlistment/SubjectEnlistmentPage';
 import EnlistmentManagers from '../public/enlistmentmanager/EnlistmentManagerPage';
 import ClassroomManagers from '../public/classroommanager/ClassroomManagerPage';
-import FacilitiesManagerManagement from '../public/systemsettings/FacilitiesManagerManagementPage';
+import FacilitiesManagerManagement from '../public/systemsettings/FacilitiesManagerManagementPage/FacilitiesManagerManagementPage';
 import PostingManagement from '../public/systemsettings/PostingManagementPage';
 import ProgramsManagement from '../public/systemsettings/ProgramsManagerManagementPage';
 import TermsManagementPage from '../public/systemsettings/TermsManagementPage';
