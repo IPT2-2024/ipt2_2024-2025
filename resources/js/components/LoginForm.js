@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import LoginBackground from "./LoginBackground";
-import GraphicSVG from "./GraphicSVG"; // Update the path as needed
+import GraphicSVG from "./GraphicSVG"; 
+import LoginLogo from "./LoginLogo";
 
 export default function LoginForm() {
     const [username, setUsername] = useState("");
@@ -35,13 +36,7 @@ export default function LoginForm() {
         <div className="login-page">
             <div className="login-form">
                 <div className="d-flex flex-column align-items-center justify-content-center align-self-center">
-                    <div className="container d-flex justify-content-center pb-3">
-                        <img
-                            src={GraphicSVG.Fsuuw3DLogo}
-                            alt="Fsuuw 3d Logo"
-                            className ="fsuuw-3d-logo"
-                        />
-                    </div>
+                    <LoginLogo />
                     <div className="wrapper">
                         <form onSubmit={handleLogin}>
                             <h1>Sign in</h1>
