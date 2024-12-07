@@ -11967,7 +11967,7 @@ textarea.form-control-lg {
   }
 }
 .bg-loader {
-  background-image: url("/assets/bg.png");
+  background-image: url("/assets/loadergraphicsBG.png");
   background-size: cover;
   width: 100%;
   height: 100vh;

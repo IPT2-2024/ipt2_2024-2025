@@ -10367,15 +10367,15 @@ function LoginBackground() {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "z-2",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-        src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].Waves,
+        src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoginGraphicsWaves,
         alt: "Waves",
         className: "waves"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-        src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].DotsHorizontal,
+        src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoginGraphicsDots2,
         alt: "Dots Sign In Horizontal",
         className: "dots-sign-in-horizontal"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-        src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].DotsVertical,
+        src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoginGraphicsDots2,
         alt: "Dots Sign In Left Vertical",
         className: "dots-sign-in-left-vertical"
       })]
@@ -10587,7 +10587,7 @@ function login() {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "container d-flex justify-content-center pb-3",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-        src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].Fsuuw3DLogo,
+        src: _GraphicSVG__WEBPACK_IMPORTED_MODULE_1__["default"].LoginFsuuLogo,
         alt: "Fsuuw 3d Logo",
         className: "fsuuw-3d-logo"
       })
