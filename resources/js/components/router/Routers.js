@@ -17,10 +17,10 @@ import AcademicPrograms from '../public/academicprograms/AcademicProgramsPage';
 import SubjectEnlistments from '../public/subjectenlistment/SubjectEnlistmentPage';
 import EnlistmentManagers from '../public/enlistmentmanager/EnlistmentManagerPage';
 import ClassroomManagers from '../public/classroommanager/ClassroomManagerPage';
-import FacilitiesManagerManagement from '../public/systemsettings/FacilitiesManagerManagementPage/FacilitiesManagerManagementPage';
-import PostingManagement from '../public/systemsettings/PostingManagementPage';
-import ProgramsManagement from '../public/systemsettings/ProgramsManagerManagementPage';
-import TermsManagementPage from '../public/systemsettings/TermsManagementPage';
+import FacilitiesManagerManagement from '../public/systemsettings/facilitiesmanagermanagement/FacilitiesManagerManagementPage';
+import PostingManagement from '../public/systemsettings/postingmanagement/PostingManagementPage';
+import ProgramsManagement from '../public/systemsettings/programsmanager/ProgramsManagerManagementPage';
+import TermsManagementPage from '../public/systemsettings/termsmanagement/TermsManagementPage';
 
 const isAuthenticated = () => {
   return !!localStorage.getItem('auth_token'); // Check if the token exists
