@@ -11966,31 +11966,29 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-/* Sidebar styles */
 .sidebar-container {
   height: 100%;
-  width: 250px; /* Adjust sidebar width as needed */
-  background-color: #131f73; /* Sidebar background color */
+  width: 250px;
+  background-color: #3f7afc;
   display: flex;
   flex-direction: column;
   padding: 10px;
 }
 
-/* Ensure the Menu takes full height */
 .ant-menu {
-  flex-grow: 1; /* Make the menu fill the remaining space */
+  flex-grow: 1;
   width: 100%;
 }
 
-/* Separator styling */
 .separator {
   margin-top: 20px;
   margin-bottom: 20px;
   border-top: 2px solid #fff;
-  margin-left: 40px; /* Adds spacing from the left edge */
-  margin-right: 40px; /* Adds spacing from the right edge */
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
+/* Add this CSS in your styles (e.g., App.css or a separate CSS file) */
 .header {
   height: 80px;
   width: 100%;
@@ -12036,16 +12034,16 @@ textarea.form-control-lg {
   }
 }
 .header .menu-icon {
-  display: none; /* Hide by default */
+  display: none;
   position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 1000; /* Ensure it's on top of other content */
+  top: 10px;
+  left: 15px;
+  z-index: 1000;
   cursor: pointer;
 }
 @media (max-width: 991px) {
   .header .menu-icon {
-    display: block; /* Show the button on mobile */
+    display: block;
   }
 }
 .header .search-wrapper {
@@ -12079,13 +12077,11 @@ textarea.form-control-lg {
 .dashboard-container {
   display: flex;
   height: 100vh;
-  /* Mobile - Hide hamburger button on desktop */
-  /* Media Queries for Mobile */
 }
 .dashboard-container .sidebar {
   width: 250px;
   height: 100vh;
-  background-color: #131f73;
+  background-color: #3f7afc;
   position: fixed;
   top: 0;
   left: 0;
@@ -12112,27 +12108,24 @@ textarea.form-control-lg {
   overflow-y: auto;
 }
 .dashboard-container .menu-icon {
-  display: none; /* Hide by default */
+  display: none;
 }
 @media (max-width: 991px) {
   .dashboard-container .menu-icon {
-    display: block; /* Show the button on mobile */
+    display: block;
     position: absolute;
-    top: 20px; /* Position it at the top */
-    left: 20px; /* Position it at the left */
-    z-index: 1000; /* Ensure it's on top of other content */
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
     cursor: pointer;
   }
 }
 .dashboard-container .ant-layout-content {
-  padding: 24px 16px; /* Top and bottom padding = 24px, Left and right padding = 16px */
+  padding: 24px 16px;
 }
 @media only screen and (max-width: 991px) {
-  .dashboard-container {
-    /* When the sidebar is visible */
-  }
   .dashboard-container .sidebar {
-    transform: translateX(-250px); /* Initially hide the sidebar */
+    transform: translateX(-250px);
   }
   .dashboard-container .dashboard-main {
     margin-left: 0;
@@ -12145,8 +12138,6 @@ textarea.form-control-lg {
   }
 }
 
-/* SideBarNavList styles */
-/* Custom styles for the navigation items */
 .nav-item {
   padding: 12px 16px;
   font-size: 16px;
@@ -12154,94 +12145,67 @@ textarea.form-control-lg {
   transition: background-color 0.3s ease, border 0.3s ease;
   display: flex;
   align-items: center;
-  margin-bottom: 10px; /* Add space between menu items */
+  margin-bottom: 10px;
   color: #fff !important;
-  /* Hover effect for nav items */
 }
 .nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Slight white background on hover */
-  border-left: 4px solid #1890ff; /* Blue left border on hover */
+  background-color: rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #3f7afc;
   font-weight: bold;
   color: #fff;
 }
 
-/* Style for the links within nav items */
 .nav-link {
   display: flex;
   align-items: center;
   text-decoration: none;
 }
 
-/* Style for selected item to keep consistency */
 .ant-menu-item-selected {
-  background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+  background-color: rgba(255, 255, 255, 0.1) !important;
   color: #fff;
-  border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
-  /* Ensure that the link color stays consistent for selected item */
-  /* Prevent hover effect on selected item */
+  border-left: 4px solid #1890ff !important;
 }
 .ant-menu-item-selected .nav-link {
   color: #fff !important;
 }
 .ant-menu-item-selected:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* White background for selected item on hover */
+  background-color: rgba(255, 255, 255, 0.1);
   border-left: 4px solid #1890ff;
 }
 
-/* Ensure that the background on hover is transparent for the non-selected items */
 .ant-menu-item:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Slight white background on hover */
-  border-left: 4px solid #1890ff; /* Blue left border on hover */
+  background-color: rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #1890ff;
   font-weight: bold;
 }
 
-/* Separator between menu items */
 .separator {
   margin-top: 20px;
   margin-bottom: 20px;
   border-top: 2px solid #fff;
-  width: calc(100% - 20px); /* Keeps the separator from touching edges */
+  width: calc(100% - 20px);
   margin-left: 10px;
   margin-right: 10px;
 }
 
-/* Icon styles: Ensure icons are sized correctly */
 .ant-menu-item .anticon {
   font-size: 20px;
   color: #fff !important;
   margin-right: 10px;
 }
 
-/* Ensure spacing between menu items */
 .ant-menu {
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-/* Adjust spacing on mobile if necessary */
-@media (max-width: 768px) {
-  .nav-item {
-    margin-bottom: 8px; /* Slightly smaller gap on mobile */
-  }
-  .ant-menu-item {
-    padding-left: 16px;
-    color: #fff !important;
-  }
-  .ant-menu-item .anticon {
-    font-size: 16px;
-  }
-}
-/* SubMenu styles: Ensure submenus have the same color and hover effects as main items */
 .ant-menu-submenu {
-  background-color: transparent !important; /* Make submenu background transparent */
-  padding-left: 16px; /* Adjust padding for submenu items */
-  padding-right: 16px; /* Adjust padding for submenu items */
-  border-radius: 8px; /* Add border radius for submenu items */
-  border: none; /* Remove any borders */
-  /* Ensure the submenu title color is white */
-  /* Remove the background on hover */
-  /* Style for submenu item when selected */
-  /* Ensure submenu item text is white and styled correctly */
+  background-color: transparent !important;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 8px;
+  border: none;
 }
 .ant-menu-submenu .ant-menu-submenu-title {
   color: #fff !important;
@@ -12249,44 +12213,41 @@ textarea.form-control-lg {
 }
 .ant-menu-submenu:hover {
   background-color: transparent !important;
-  border-left: 4px solid #1890ff !important; /* Blue left border on hover */
-  background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+  border-left: 4px solid #1890ff !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
   color: #fff;
-  border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+  border-left: 4px solid #1890ff !important;
 }
 .ant-menu-submenu.ant-menu-submenu-open, .ant-menu-submenu.ant-menu-submenu-selected {
-  background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
-  color: #fff; /* White color for selected and open submenu items */
-  border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-left: 4px solid #1890ff !important;
 }
 .ant-menu-submenu .ant-menu-item {
-  color: #fff !important; /* Ensure submenu item text is white */
-  font-size: 14px; /* Slightly smaller font size for submenu items */
-  background-color: transparent !important; /* Ensure submenu items have transparent background */
+  color: #fff !important;
+  font-size: 14px;
+  background-color: transparent !important;
 }
 
-/* Remove background for the specific ant-menu-submenu */
 .ant-menu-dark.ant-menu-inline .ant-menu-sub.ant-menu-inline {
-  background-color: transparent !important; /* Remove background color */
+  background-color: transparent !important;
 }
 
-/* Add hover effect and selected indicator for all menu items including "System Settings" */
 .ant-menu-item:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important; /* Slight white background on hover */
-  border-left: 4px solid #1890ff !important; /* Blue left border on hover */
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-left: 4px solid #1890ff !important;
   font-weight: bold;
 }
 
-/* Apply the selected indicator with hover effect for System Settings */
 .ant-menu-item.selected {
-  background-color: rgba(255, 255, 255, 0.1) !important; /* White background for selected item */
+  background-color: rgba(255, 255, 255, 0.1) !important;
   color: #fff;
-  border-left: 4px solid #1890ff !important; /* Blue left border for selected item */
+  border-left: 4px solid #1890ff !important;
 }
 
 .ant-menu-item.selected:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important; /* Keep same background on hover when selected */
-  border-left: 4px solid #1890ff !important; /* Maintain blue left border */
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-left: 4px solid #1890ff !important;
 }
 
 .layout-container {
@@ -12355,4 +12316,10 @@ textarea.form-control-lg {
 
 .form-item-center {
   text-align: center;
+}
+
+@media (max-width: 480px) {
+  .card-container {
+    max-width: 320px;
+  }
 }

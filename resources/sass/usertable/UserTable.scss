@@ -1,0 +1,153 @@
+
+
+
+.user-page {
+    padding: 16px;
+    overflow-x: auto;
+
+    
+    .ant-space {
+        width: 100%;
+
+        
+        &:first-child {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+
+            
+            .ant-space-item:first-child {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+
+                
+                .ant-input-search {
+                    width: 300px;
+                    @media (max-width: 767px) {
+                        width: 100%;
+                        margin-bottom: 8px;
+                    }
+                }
+
+                
+                .ant-dropdown-trigger {
+                    margin-left: 8px;
+                }
+
+                
+                .ant-btn:not(:first-child) {
+                    margin-left: 8px;
+                }
+            }
+
+            
+            .ant-space-item:last-child {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: flex-end;
+
+                
+                .ant-btn-primary {
+                    margin-left: 8px;
+                }
+
+               
+                .ant-btn:not(:first-child) {
+                    margin-left: 8px;
+                }
+
+                
+                .ant-btn-default {
+                    margin-left: 8px;
+                }
+            }
+        }
+    }
+
+    
+    .ant-typography-strong {
+        margin-bottom: 1px;
+        display: block;
+        font-size: 16px;
+    }
+
+    
+    @media (max-width: 767px) {
+        
+        .ant-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        
+        .ant-input-search {
+            width: 100% !important;
+            margin-bottom: 8px;
+        }
+
+        
+        .ant-space:first-child {
+            flex-direction: column;
+            align-items: flex-start;
+
+            .ant-space-item:first-child,
+            .ant-space-item:last-child {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .ant-space-item:last-child {
+                margin-top: 8px;
+            }
+        }
+
+        
+        .ant-typography-strong {
+            font-size: 14px;
+        }
+    }
+
+    
+    @media (min-width: 768px) {
+        
+        .ant-space:first-child .ant-space-item:last-child {
+            justify-content: flex-end;
+        }
+
+        
+        .ant-typography-strong {
+            font-size: 16px;
+        }
+    }
+
+    
+}
+
+
+
+
+
+.ant-btn:hover {
+    opacity: 0.8;
+}
+
+
+.ant-table-row-selected {
+    background-color: #e6f7ff !important;
+}
+
+
+@media (max-width: 767px) {
+    .ant-typography {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 768px) {
+    .ant-typography {
+        font-size: 16px;
+    }
+}

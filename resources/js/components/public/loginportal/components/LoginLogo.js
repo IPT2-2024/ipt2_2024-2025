@@ -1,5 +1,3 @@
-// LoginLogo.js
-
 import React from 'react';
 import loginLogo from '../../../../../../public/images/loginlogo.svg';
 

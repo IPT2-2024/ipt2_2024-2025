@@ -39,9 +39,12 @@ class SemesterController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        // Create the semester with the provided semester_period
         $semester = Semester::create($request->all());
+
         return response()->json(['message' => 'Semester created successfully', 'semester' => $semester], 201);
     }
+
 
     // Display the specified semester
     public function show($id)
@@ -56,11 +59,6 @@ class SemesterController extends Controller
     // Update the specified semester in storage
     public function update(Request $request, $id)
     {
-        $semester = Semester::withTrashed()->find($id);
-        if (!$semester) {
-            return response()->json(['message' => 'Semester not found'], 404);
-        }
-
         $validator = Validator::make($request->all(), [
             'semester_period' => 'required|string|max:20',
         ]);
@@ -69,9 +67,21 @@ class SemesterController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        // Find the semester by ID
+        $semester = Semester::find($id);
+
+        if (!$semester) {
+            return response()->json(['message' => 'Semester not found'], 404);
+        }
+
+        // Update the semester
         $semester->update($request->all());
-        return response()->json(['message' => 'Semester updated successfully', 'semester' => $semester]);
+
+        // Return a success message with the updated semester data
+        return response()->json(['message' => 'Semester updated successfully', 'semester' => $semester], 200);
     }
+
+
 
     // Remove the specified semester from storage
     public function destroy($id)

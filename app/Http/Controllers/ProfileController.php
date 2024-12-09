@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage; 
 
 class ProfileController extends Controller
 {
@@ -44,33 +45,32 @@ class ProfileController extends Controller
             'admission_date' => 'nullable|date',
             'marital_status' => 'nullable|in:single,married,divorced,widowed',
             'religion' => 'nullable|in:catholic,muslim,protestant,hindu',
-            'photo_path' => 'nullable|string',
-            'emer_full_name' => 'nullable|string|max:100',
-            'relationship' => 'nullable|string|max:50',
-            'emer_contact_no' => 'nullable|string|max:20',
-            'date_of_birth' => 'nullable|date',
-            'user_id' => 'nullable|exists:users,id',
-            'program_department_id' => 'nullable|exists:college_program_departments,id',
-            'yearlevel_id' => 'nullable|exists:year_levels,id',
-            'parent_info_id' => 'nullable|exists:parent_infos,id',
-            'department_id' => 'nullable|exists:departments,id',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate photo upload
+            'photo_path' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048', // Add validation for the image
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
-        // Handle file upload
-        $photoPath = null;
-        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
-            $photoPath = $request->file('photo')->store('profile_photos', 'public'); // Store the file in 'storage/app/public/photos'
+    
+        // Handle file upload if exists
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $path = $photo->store('profile_photos', 'public'); // Store photo in the "profile_photos" directory
+    
+            // Save the file path in the profile
+            $profile = Profile::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                // Other fields here
+                'photo_path' => $path, // Save the photo path in the database
+            ]);
+        } else {
+            $profile = Profile::create($request->all());
         }
-
-        $profile = Profile::create($request->all());
-        return response()->json($profile, 201);
+    
+        return response()->json(['message' => 'Profile created successfully', 'profile' => $profile], 201);
     }
-
+    
     // Update an existing profile in storage
     public function update(Request $request, $id)
     {
@@ -125,36 +125,39 @@ class ProfileController extends Controller
         return response()->json($profile, 200);
     }
 
-    public function uploadPhoto(Request $request, $id)
-{
-    // Validate the incoming request to ensure 'photo' is an image
-    $validator = Validator::make($request->all(), [
-        'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB max
-    ]);
+    public function uploadPhoto(Request $request)
+    {
+        // Validate the file upload and profile_id
+        $request->validate([
+            'photo' => 'required|file|image|max:2048', // File validation
+            'profile_id' => 'required|exists:profiles,id', // Ensure profile_id exists in the database
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json([
-            'message' => 'Validation error',
-            'errors' => $validator->errors()
-        ], 422);
+        $profileId = $request->input('profile_id');  // Get the profile ID from the request
+
+        // Retrieve the profile using the profile_id
+        $profile = Profile::find($profileId);
+
+        // Check if the profile exists
+        if (!$profile) {
+            return response()->json(['message' => 'Profile not found.'], 404);
+        }
+
+        // Handle file upload logic
+        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
+            $path = $request->file('photo')->store('photos', 'public');  // Store photo in the "photos" directory
+
+            // Save the file path in the profile's photo_path field
+            $profile->photo_path = $path;
+            $profile->save();  // Save the profile with the updated photo_path
+
+            return response()->json(['message' => 'Photo uploaded successfully!', 'path' => $path]);
+        }
+
+        return response()->json(['message' => 'Failed to upload photo.'], 400);
     }
 
-    // Handle the file upload and store it in public/profile_photos directory
-    $photo = $request->file('photo');
-    $photoPath = $photo->getClientOriginalName(); // Get the original filename
-    $photo->move(public_path('profile_photos'), $photoPath); // Save it directly in the public/profile_photos folder
-
-    // Store the file path in the database (assuming you have a Profile model)
-    $profile = Profile::find($id);
-    $profile->photo_path = 'profile_photos/' . $photoPath; // Store relative path
-    $profile->save();
-
-    return response()->json([
-        'message' => 'Profile photo uploaded successfully',
-        'photo_path' => 'profile_photos/' . $photoPath
-    ], 200);
-}
-
+    
 
     // Display the specified profile
     public function show($id)
@@ -213,6 +216,50 @@ class ProfileController extends Controller
         } else {
             return response()->json(['message' => 'Profile not found.'], 404);
         }
+    }
+
+    public function getTotalInstructors()
+    {
+        // Count instructors excluding soft-deleted users and profiles
+        $totalInstructors = Profile::join('users', 'profiles.user_id', '=', 'users.id')
+            ->join('roles', 'users.role_id', '=', 'roles.id')
+            ->where('roles.role_name', 'teacher')
+            ->whereNull('users.deleted_at')
+            ->whereNull('profiles.deleted_at')
+            ->count();
+
+        return response()->json(['totalInstructors' => $totalInstructors]);
+    }
+
+    public function getTotalStudents()
+    {
+
+        $studentRoleId = 4;
+        // Count students excluding soft-deleted users and profiles
+        $totalStudents = Profile::join('users', 'profiles.user_id', '=', 'users.id')
+            ->where('users.role_id', $studentRoleId)
+            ->whereNull('users.deleted_at') // Exclude soft-deleted users
+            ->whereNull('profiles.deleted_at') // Exclude soft-deleted profiles
+            ->count();
+
+        return response()->json(['totalStudents' => $totalStudents]);
+    }
+
+    public function deletePhoto($profileId)
+    {
+        $profile = Profile::find($profileId);
+        if (!$profile) {
+            return response()->json(['message' => 'Profile not found'], 404);
+        }
+
+        if ($profile->photo_path && Storage::exists('public/' . $profile->photo_path)) {
+            Storage::delete('public/' . $profile->photo_path);
+        }
+
+        $profile->photo_path = null;  // Remove the photo path from the profile
+        $profile->save();
+
+        return response()->json(['message' => 'Old photo deleted successfully']);
     }
 
 }

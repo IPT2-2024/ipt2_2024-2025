@@ -1,26 +1,26 @@
 import React from 'react';
 import { Drawer, Button } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
-import SideBar from './SideBar';  // Import the Sidebar component
+import SideBar from './SideBar'; 
 
 const MobileSidebarToggle = ({ userRole, mobileSidebarVisible, toggleMobileSidebar }) => {
   return (
     <>
-      {/* Hamburger Menu Button for mobile */}
+      {}
       <Button
         className="menu-icon"
         icon={<MenuOutlined />}
         onClick={toggleMobileSidebar}
         style={{
-          display: 'none',  // Hide by default
-          position: 'absolute', // Position the button on the top-left
-          top: '20px', // Set top margin for the button
-          left: '20px', // Set left margin for the button
-          zIndex: 1000, // Ensure the button is on top
+          display: 'none',  
+          position: 'absolute', 
+          top: '20px', 
+          left: '20px', 
+          zIndex: 1000, 
         }}
       />
 
-      {/* Drawer for mobile sidebar */}
+      {}
       <Drawer
         placement="left"
         closable={false}
@@ -28,14 +28,14 @@ const MobileSidebarToggle = ({ userRole, mobileSidebarVisible, toggleMobileSideb
         visible={mobileSidebarVisible}
         width={250}
         style={{
-          zIndex: 1000, // Ensure it's on top of other content
+          zIndex: 1000, 
         }}
         bodyStyle={{
-          padding: 0, // Remove any padding inside the body
-          height: '100vh', // Make the drawer fill the entire height of the screen
+          padding: 0, 
+          height: '100vh', 
         }}
         wrapperStyle={{
-          height: '100vh', // Make the drawer wrapper take full height
+          height: '100vh', 
         }}
       >
         <SideBar userRole={userRole} />

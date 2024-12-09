@@ -17,8 +17,10 @@ class EventSeeder extends Seeder
         DB::table('events')->insert([
             [
                 'event_name' => ' General Assembly',
-                'date' => '2024-01-17',        // Example event date
-                'time' => '07:00:00',          // Example event time in 24-hour format
+                'date_start' => '2024-01-17',    
+                'date_end' => '2024-01-17',      // Example event date
+                'time_start' => '07:00:00',
+                'time_end' => '08:00:00',          // Example event time in 24-hour format
                 'created_at' => now(),         // Current timestamp
                 'updated_at' => now(),         // Current timestamp
                 'deleted_at' => null,          // NULL if not deleted

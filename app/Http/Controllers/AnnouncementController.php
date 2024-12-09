@@ -39,19 +39,32 @@ class AnnouncementController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $announcement = Announcement::create($request->all());
-        return response()->json(['message' => 'Announcement created successfully', 'announcement' => $announcement], 201);
+        // Sanitize the 'announcement' to ensure it's a string
+        $announcement = Announcement::create([
+            'announcement' => (string)$request->announcement, // Ensure it's a string
+        ]);
+
+        return response()->json([
+            'message' => 'Announcement created successfully',
+            'announcement' => $announcement,
+        ], 201);
     }
 
     // Display the specified announcement
     public function show($id)
     {
-        $announcement = Announcement::withTrashed()->find($id);
+        $announcement = Announcement::find($id);
+
         if (!$announcement) {
             return response()->json(['message' => 'Announcement not found'], 404);
         }
+
+        // Log the announcement text to ensure it's a string
+        \Log::info('Announcement text:', ['announcement' => $announcement->announcement]);
+
         return response()->json($announcement);
     }
+
 
     // Update the specified announcement in storage
     public function update(Request $request, $id)
@@ -69,8 +82,15 @@ class AnnouncementController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $announcement->update($request->all());
-        return response()->json(['message' => 'Announcement updated successfully', 'announcement' => $announcement]);
+        // Ensure the 'announcement' field is a string before saving it
+        $announcement->update([
+            'announcement' => (string)$request->announcement,
+        ]);
+
+        return response()->json([
+            'message' => 'Announcement updated successfully',
+            'announcement' => $announcement,
+        ]);
     }
 
     // Remove the specified announcement from storage

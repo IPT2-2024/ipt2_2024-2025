@@ -1,7 +1,7 @@
 import React from 'react';
-import { Spin } from 'antd'; // Ant Design spinner
-import loaderlogo from '../../../../../../public/images/loaderlogo.svg'; // Your logo
-import { LoadingOutlined } from '@ant-design/icons'; // Alternative spinner from Ant Design
+import { Spin } from 'antd'; 
+import loaderlogo from '../../../../../../public/images/loaderlogo.svg'; 
+import { LoadingOutlined } from '@ant-design/icons'; 
 
 const LoginLoader = () => {
   return (
@@ -15,31 +15,31 @@ const LoginLoader = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'column', // Stack the logo and spinner vertically
-        backgroundColor: 'rgba(255, 255, 255, 0.9)', // Slight overlay for loader
-        zIndex: 10, // Ensure it's on top of the background
+        flexDirection: 'column', 
+        backgroundColor: 'rgba(255, 255, 255, 0.9)', 
+        zIndex: 10, 
       }}
     >
       <img 
         src={loaderlogo} 
         alt="Loading..." 
         style={{
-          width: '100px', // You can adjust the size of the logo here
+          width: '100px', 
           height: '100px',
-          animation: 'beat 1.5s ease-in-out infinite', // Apply the beating animation
+          animation: 'beat 1.5s ease-in-out infinite', 
         }} 
       />
       
-      {/* Using Ant Design's default loading spinner with a custom indicator */}
+      {}
       <Spin 
-        indicator={<LoadingOutlined style={{ fontSize: 40 }} />} // Custom spinner
+        indicator={<LoadingOutlined style={{ fontSize: 40 }} />} 
         spinning={true}
         style={{
-          marginTop: '20px', // Add space between the logo and the spinner
+          marginTop: '20px', 
         }}
       />
 
-      {/* CSS for the beating effect */}
+      {}
       <style>
         {`
           @keyframes beat {

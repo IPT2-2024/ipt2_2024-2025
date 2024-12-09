@@ -1,22 +1,16 @@
 import React from 'react';
-import { Layout } from "antd";
-import MainDashboard from '../dashboard/components/MainDashboard';  // Import MainDashboard
-import { Calendar } from 'antd'; // Import Calendar from antd
+import MainDashboard from '../dashboard/components/MainDashboard'; 
+import FacultyPageDashboard from './components/FacultyPageDashboard';
+import { Layout, Tabs } from 'antd';
 
-const { Content } = Layout; // Destructure Content from Layout
+const { Content } = Layout;
+const { TabPane } = Tabs;
 
-
-const FacultyPageDashboard = () => {
-    return (
-        <Content>
-            <h1>This is a Faculty Page</h1>
-        </Content>
-    );
-};
 const FacultyPage = () => {
     return (
         <MainDashboard>
             <FacultyPageDashboard />
+           
         </MainDashboard>
     );
 };

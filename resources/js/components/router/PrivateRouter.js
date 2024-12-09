@@ -1,27 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import Unauthorized from './Unauthorized';
 
 const PrivateRoute = ({ children, roleRequired }) => {
-  const { role } = useParams();  // Get the 'role' from the URL parameter
-  const userRole = localStorage.getItem('user_role');
-  const authToken = localStorage.getItem('auth_token');  // Check if user is authenticated
+  const { role } = useParams();
+  const [authToken, setAuthToken] = useState(localStorage.getItem('auth_token'));
+  const [userRole, setUserRole] = useState(localStorage.getItem('user_role'));
 
-  // Check if the user is authenticated and the role matches
+  useEffect(() => {
+    
+    const token = localStorage.getItem('auth_token');
+    const role = localStorage.getItem('user_role');
+    setAuthToken(token);
+    setUserRole(role);
+  }, []); 
+
+ 
+  if (!authToken || !userRole) {
+    return <Navigate to="/login" replace />;
+  }
+
+  
   const isRoleValid = Array.isArray(roleRequired)
     ? roleRequired.includes(userRole)
     : userRole === roleRequired;
 
-  if (!authToken) {
-    // If the user is not authenticated, redirect to the login page
-    return <Navigate to="/login" />;
+  
+  if (role && role !== userRole) {
+    return <Unauthorized />; 
   }
 
   if (!isRoleValid) {
-    // If the role doesn't match the required role, redirect to an error page or homepage
-    return <Navigate to="/unauthorized" />;
+    return <Unauthorized />; 
   }
 
-  // If authenticated and role is valid, allow access
+  
   return children;
 };
 

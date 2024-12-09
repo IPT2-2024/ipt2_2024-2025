@@ -1,8 +1,8 @@
 import React from 'react';
 import { Layout } from "antd";
-import MainDashboard from '../dashboard/components/MainDashboard';  // Import MainDashboard
+import MainDashboard from '../dashboard/components/MainDashboard';  
 
-const { Content } = Layout; // Destructure Content from Layout
+const { Content } = Layout; 
 
 
 const EnlistmentManagerPageDashboard = () => {

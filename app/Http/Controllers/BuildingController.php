@@ -10,23 +10,26 @@ class BuildingController extends Controller
 {
     // Display a listing of buildings
     public function index(Request $request)
-    {
+{
+    try {
         $deleted = $request->query('deleted', 'false');
 
         if ($deleted === 'only') {
-            $buildings = Building::onlyTrashed()->get();
+            $buildings = Building::onlyTrashed()->with('floor')->get(); // Eager load 'floor' relationship
         } elseif ($deleted === 'true') {
-            $buildings = Building::withTrashed()->get();
+            $buildings = Building::withTrashed()->with('floor')->get(); // Eager load 'floor' relationship
         } else {
-            $buildings = Building::all();
+            $buildings = Building::with('floor')->get(); // Eager load 'floor' relationship
         }
 
-        if ($buildings->isEmpty()) {
-            return response()->json(['message' => 'No buildings found'], 404);
-        }
-
+        // Return the buildings, including floor level
         return response()->json($buildings);
+    } catch (\Exception $e) {
+        return response()->json([], 200); // Empty response when there's an error
     }
+}
+
+
 
     // Store a newly created building in storage
     public function store(Request $request)
@@ -89,13 +92,16 @@ class BuildingController extends Controller
 
     // Restore the specified soft-deleted building
     public function restore($id)
-    {
-        $building = Building::withTrashed()->find($id);
-        if (!$building) {
-            return response()->json(['message' => 'Building not found'], 404);
-        }
+{
+    $building = Building::withTrashed()->find($id); // Include soft-deleted buildings
 
-        $building->restore();
-        return response()->json(['message' => 'Building restored successfully']);
+    if (!$building) {
+        return response()->json(['message' => 'Building not found'], 404);
     }
+
+    $building->deleted_at = null; // Restore the building (set deleted_at to null)
+    $building->save();
+
+    return response()->json(['message' => 'Building restored successfully'], 200);
+}
 }

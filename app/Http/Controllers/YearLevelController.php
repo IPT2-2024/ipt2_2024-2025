@@ -56,11 +56,6 @@ class YearLevelController extends Controller
     // Update the specified year level in storage
     public function update(Request $request, $id)
     {
-        $yearLevel = YearLevel::withTrashed()->find($id);
-        if (!$yearLevel) {
-            return response()->json(['message' => 'Year Level not found'], 404);
-        }
-
         $validator = Validator::make($request->all(), [
             'year_level' => 'required|string|max:20',
         ]);
@@ -69,9 +64,17 @@ class YearLevelController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $yearLevel->update($request->all());
+        $yearLevel = YearLevel::find($id);
+        if (!$yearLevel) {
+            return response()->json(['message' => 'Year Level not found'], 404);
+        }
+
+        $yearLevel->year_level = $request->year_level;
+        $yearLevel->save();
+
         return response()->json(['message' => 'Year Level updated successfully', 'yearLevel' => $yearLevel]);
     }
+
 
     // Remove the specified year level from storage
     public function destroy($id)

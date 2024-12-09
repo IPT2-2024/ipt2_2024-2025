@@ -98,4 +98,12 @@ class CollegeProgramController extends Controller
         $collegeProgram->restore();
         return response()->json(['message' => 'College Program restored successfully']);
     }
+
+    public function getTotalCourses()
+    {
+        // Count only courses that are not soft-deleted
+        $totalCourses = CollegeProgram::whereNull('deleted_at')->count();
+
+        return response()->json(['totalCourses' => $totalCourses]);
+    }
 }

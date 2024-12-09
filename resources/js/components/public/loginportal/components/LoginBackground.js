@@ -1,11 +1,13 @@
-// LoginBackground.js
-import React from 'react';
-import loginBackground from '../../../../../../public/images/loginbackground.svg';
+import React, { Suspense, lazy } from 'react';
+
+const LazyLoginBackground = lazy(() => import('../../../../../../public/images/loginbackground.svg'));
 
 const LoginBackground = () => {
   return (
     <div style={{ textAlign: 'center', marginBottom: '18px' }}>
-      <img src={loginBackground} alt="Login Background" style={{ maxWidth: '100%', height: 'auto' }} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyLoginBackground />
+      </Suspense>
     </div>
   );
 };

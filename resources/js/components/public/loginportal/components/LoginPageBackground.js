@@ -1,5 +1,3 @@
-// LoginPageBackground.js
-
 import React from 'react';
 import loginPageBackground from '../../../../../../public/images/loginpagebackground.svg';
 
@@ -8,7 +6,7 @@ const LoginPageBackground = ({ children }) => {
     <div
       style={{
         minHeight: '100vh',
-        backgroundImage: `url(${loginPageBackground})`,
+        backgroundImage: `url(${loginPageBackground})`, 
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',

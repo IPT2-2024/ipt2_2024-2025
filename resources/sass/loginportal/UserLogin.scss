@@ -67,3 +67,8 @@
     text-align: center;
   }
   
+  @media (max-width: 480px) {
+    .card-container {
+        max-width: 320px;
+    }
+}

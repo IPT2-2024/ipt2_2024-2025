@@ -33,8 +33,11 @@ class EventController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'event_name' => 'required|string|max:255',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'date_start' => 'required|date',
+            'date_end' => 'nullable|date',
+            'date_end' => 'required|date',
+            'time_start' => 'nullable|date_format:H:i',
+            'time_end' => 'nullable|date_format:H:i',
         ]);
 
         if ($validator->fails()) {
@@ -65,8 +68,11 @@ class EventController extends Controller
 
         $validator = Validator::make($request->all(), [
             'event_name' => 'required|string|max:255',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'date_start' => 'required|date',
+            'date_end' => 'nullable|date',
+            'time_start' => 'nullable|date_format:H:i',
+            'time_end' => 'nullable|date_format:H:i',
+             
         ]);
 
         if ($validator->fails()) {

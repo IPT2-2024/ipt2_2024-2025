@@ -5,7 +5,7 @@
   .sidebar {
     width: 250px;
     height: 100vh;
-    background-color: #131f73;
+    background-color: #3f7afc;
     position: fixed;
     top: 0;
     left: 0;
@@ -35,28 +35,28 @@
     overflow-y: auto;
   }
 
-  /* Mobile - Hide hamburger button on desktop */
+  
   .menu-icon {
-    display: none;  /* Hide by default */
+    display: none;  
   
     @media (max-width: 991px) {
-      display: block;  /* Show the button on mobile */
+      display: block;  
       position: absolute;
-      top: 20px;  /* Position it at the top */
-      left: 20px;  /* Position it at the left */
-      z-index: 1000;  /* Ensure it's on top of other content */
+      top: 20px;  
+      left: 20px;  
+      z-index: 1000;  
       cursor: pointer;
     }
   }
   
   .ant-layout-content {
-    padding: 24px 16px; /* Top and bottom padding = 24px, Left and right padding = 16px */
+    padding: 24px 16px; 
   }
 
-  /* Media Queries for Mobile */
+  
   @media only screen and (max-width: 991px) {
     .sidebar {
-      transform: translateX(-250px); /* Initially hide the sidebar */
+      transform: translateX(-250px); 
     }
 
     .dashboard-main {
@@ -67,7 +67,7 @@
       margin-left: 0;
     }
 
-    /* When the sidebar is visible */
+    
     .sidebar-active {
       transform: translateX(0);
     }

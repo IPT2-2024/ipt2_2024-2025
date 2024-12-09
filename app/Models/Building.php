@@ -11,8 +11,12 @@ class Building extends Model
     use HasFactory, SoftDeletes;
 
 
-    protected $guarded = [];
     protected $table = 'buildings';
+
+    protected $fillable = [
+        'building_name',
+        'floor_id',
+    ];
 
     public function floor()
     {

@@ -18,9 +18,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ant-design/icons */ "./node_modules/@ant-design/icons/es/icons/LoadingOutlined.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
- // Ant Design spinner
- // Your logo
- // Alternative spinner from Ant Design
+
+
+
 
 var LoginLoader = function LoginLoader() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -34,30 +34,26 @@ var LoginLoader = function LoginLoader() {
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
-      // Stack the logo and spinner vertically
       backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      // Slight overlay for loader
-      zIndex: 10 // Ensure it's on top of the background
+      zIndex: 10
     },
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
       src: _public_images_loaderlogo_svg__WEBPACK_IMPORTED_MODULE_1__["default"],
       alt: "Loading...",
       style: {
         width: '100px',
-        // You can adjust the size of the logo here
         height: '100px',
-        animation: 'beat 1.5s ease-in-out infinite' // Apply the beating animation
+        animation: 'beat 1.5s ease-in-out infinite'
       }
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(antd__WEBPACK_IMPORTED_MODULE_3__["default"], {
       indicator: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_ant_design_icons__WEBPACK_IMPORTED_MODULE_4__["default"], {
         style: {
           fontSize: 40
         }
-      }) // Custom spinner
-      ,
+      }),
       spinning: true,
       style: {
-        marginTop: '20px' // Add space between the logo and the spinner
+        marginTop: '20px'
       }
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("style", {
       children: "\n          @keyframes beat {\n            0% {\n              transform: scale(1);\n            }\n            50% {\n              transform: scale(1.1); /* The size of the logo increases */\n            }\n            100% {\n              transform: scale(1);\n            }\n          }\n        "

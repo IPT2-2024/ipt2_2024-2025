@@ -24,7 +24,7 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
-        "@ant-design/charts": "^1.4.3",
+        "@ant-design/charts": "^2.2.3",
         "@ant-design/icons": "^5.5.2",
         "ant": "^0.0.0",
         "antd": "^5.22.2",
@@ -33,6 +33,8 @@
         "less-loader": "^12.2.0",
         "react-responsive": "^10.0.0",
         "react-router": "^6.27.0",
-        "react-router-dom": "^6.28.0"
+        "react-router-dom": "^6.28.0",
+        "react-to-print": "^3.0.2",
+        "recharts": "^2.14.1"
     }
 }

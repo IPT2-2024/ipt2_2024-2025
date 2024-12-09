@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
-// Import all controllers
+
 use App\Http\Controllers\AcademicProgramController;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\AnnouncementController;
@@ -35,11 +35,12 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SubjectCurriculumController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\YearLevelController;
+use App\Http\Controllers\UserWithProfileController;
 
-// Define the login route outside of the auth middleware
-Route::post('login', [AuthController::class, 'login']); // Login route
+//Login Route
+Route::post('login', [AuthController::class, 'login']); 
 
-// Wrap all other routes inside an authentication middleware group
+// Routes inside an authentication middleware group
 Route::middleware('auth:sanctum')->group(function () {
     // Roles
     Route::apiResource('roles', RoleController::class);
@@ -47,14 +48,25 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Users
     Route::apiResource('users', UserController::class);
-    Route::post('users/{id}/restore', [UserController::class, 'restore']);
+    Route::post('/users/{id}/restore', [UserController::class, 'restore']);
+    Route::get('users/active/count', [UserController::class, 'getActiveUserCount']);
+
+    //USERS X PROFILES TRANSACTIONS
+    Route::post('/user-with-profile', [UserWithProfileController::class, 'store']);
+    Route::get('/user-with-profile/{id}', [UserWithProfileController::class, 'show']);
+    Route::put('/user-with-profile/{id}', [UserWithProfileController::class, 'update']);
+    
 
     // Profiles
     Route::apiResource('profiles', ProfileController::class)->except(['index', 'show']);
     Route::post('profiles/{id}/restore', [ProfileController::class, 'restore']);
     Route::get('profiles/{id}', [ProfileController::class, 'showByProfileId']);
-    Route::put('/profiles/{id}/upload-photo', [ProfileController::class, 'uploadPhoto']);
+    Route::get('profiles/instructors/totalcount', [ProfileController::class, 'getTotalInstructors']);
+    Route::get('profiles/students/totalcount', [ProfileController::class, 'getTotalStudents']);
 
+    Route::post('/upload-photo', [ProfileController::class, 'uploadPhoto']);
+    Route::delete('/delete-photo/{profileId}', [ProfileController::class, 'deletePhoto']);
+    
     // Parent Info
     Route::apiResource('parentinfo', ParentInfoController::class);
     Route::post('parentinfo/{id}/restore', [ParentInfoController::class, 'restore']);
@@ -86,6 +98,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // College Programs
     Route::apiResource('collegeprogram', CollegeProgramController::class);
     Route::post('collegeprogram/{id}/restore', [CollegeProgramController::class, 'restore']);
+    Route::get('collegeprogram/total/count', [CollegeProgramController::class, 'getTotalCourses']);
 
     // College Program Departments
     Route::apiResource('collegeprogramdepartment', CollegeProgramDepartmentController::class);

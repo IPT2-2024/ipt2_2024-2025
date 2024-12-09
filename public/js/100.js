@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[100],{2100:(e,a,s)=>{s.r(a),s.d(a,{default:()=>i});s(6540);var t=s(4848);const i=function(){return(0,t.jsx)("div",{className:"logo-container",children:(0,t.jsx)("img",{src:"/images/loginlogo.svg?63a7bdb2b710aa91dba59c51897beee2",alt:"Login Logo",style:{maxWidth:"200px",width:"100%",height:"auto"}})})}}}]);
