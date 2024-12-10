@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import LoginBackground from "./LoginBackground";
-import GraphicSVG from "./GraphicSVG"; 
 import LoginLogo from "./LoginLogo";
 
 export default function LoginForm() {
@@ -40,7 +39,9 @@ export default function LoginForm() {
                     <div className="wrapper">
                         <form onSubmit={handleLogin}>
                             <h1>Sign in</h1>
-                            {error && <p className="error text-center">{error}</p>}
+                            {error && (
+                                <p className="error text-center">{error}</p>
+                            )}
                             <div className="input-box">
                                 <input
                                     type="text"
@@ -64,13 +65,6 @@ export default function LoginForm() {
                                     required
                                 />
                                 <i className="bx bxs-lock-alt"></i>
-                            </div>
-                            <div className="d-flex colum justify-content-between pb-3 align-items-center">
-                                <div className="show-password-container">
-                                    <label>
-                                        <input type="checkbox" /> Remember me
-                                    </label>
-                                </div>
                             </div>
 
                             <button type="submit" className="btn">
