@@ -10,7 +10,7 @@ function LoginBackground() {
                 <img src={GraphicSVG.LoginGraphicsDots2} alt="Dots Sign In Left Vertical" className="dots-sign-in-left-vertical" />
             </div>
 
-            <div className="liquid-container">
+            <div className="liquid-container ">
                 <div className="blob blob1">
                     <div className="ring"></div>
                     <div className="ring"></div>

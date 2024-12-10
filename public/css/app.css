@@ -11967,7 +11967,7 @@ textarea.form-control-lg {
   }
 }
 .bg-loader {
-  background-image: url("/assets/loadergraphicsBG.png");
+  background-image: url("/assets/loadergraphicsBG.svg");
   background-size: cover;
   width: 100%;
   height: 100vh;
@@ -12243,13 +12243,6 @@ textarea.form-control-lg {
   overflow: hidden;
 }
 
-.login-form {
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .liquid-container {
   position: absolute;
   z-index: 1;
@@ -12266,126 +12259,6 @@ textarea.form-control-lg {
   height: 100vh;
   justify-content: center;
   align-content: center;
-}
-
-.wrapper {
-  /* bg white and text color and padding size */
-  width: 400px;
-  background: white;
-  color: black;
-  border-radius: 10px;
-  padding: 30px 30px;
-}
-
-.wrapper h1, .wrapper .h1 {
-  /* upper sign in */
-  font-size: 36px;
-  text-align: center;
-}
-
-.wrapper .input-box {
-  /* margin of username box and password and icons */
-  position: relative;
-  width: 100%;
-  height: 50px;
-  margin: 30px 0;
-}
-
-.input-box input {
-  /* box border and username/password type*/
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  border-radius: 40px;
-  font-size: 16px;
-  color: black;
-  padding: 20px 45px 20px 20px;
-}
-
-.input-box input::-moz-placeholder {
-  /* color of username and password */
-  color: black;
-}
-
-.input-box input::placeholder {
-  /* color of username and password */
-  color: black;
-}
-
-.input-box i {
-  /* icons arrange position */
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-}
-
-.show-password-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* space between the checkboxes */
-}
-
-.show-password-container label {
-  display: flex;
-  align-items: center;
-  gap: 5px; /* space between checkbox and label */
-}
-
-.remember-forgot label input {
-  /* checkbox color */
-  accent-color: black;
-  margin-right: 3px;
-}
-
-.remember-forgot a {
-  /*forgot password color*/
-  color: #0a49f7;
-  text-decoration: none;
-}
-
-.remember-forgot a:hover {
-  /*forgot password line*/
-  text-decoration: underline;
-}
-
-.wrapper .btn {
-  width: 100%;
-  height: 45px;
-  background: #0b3dc7;
-  border: none;
-  outline: none;
-  border-radius: 40px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  font-size: 16px;
-  color: #fff;
-  font-weight: 600;
-}
-
-.wrapper .btn:hover {
-  color: #fff;
-  background: #0934aa;
-}
-
-.wrapper .register-link {
-  font-size: 14.5px;
-  text-align: center;
-  margin: 20px 0 15px;
-}
-
-.register-link p a {
-  color: rgb(33, 115, 238);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.register-link p a:hover {
-  text-decoration: underline;
 }
 
 .waves {
@@ -12546,9 +12419,6 @@ textarea.form-control-lg {
   .dots-sign-in-left-vertical {
     width: 5vw;
   }
-  .wrapper {
-    width: 380px;
-  }
   .dots-sign-in-horizontal {
     width: 10vw;
   }
@@ -12562,9 +12432,6 @@ textarea.form-control-lg {
 @media (max-width: 375px) {
   .dots-sign-in-left-vertical {
     width: 5vw;
-  }
-  .wrapper {
-    width: 345px;
   }
   .dots-sign-in-horizontal {
     width: 10vw;

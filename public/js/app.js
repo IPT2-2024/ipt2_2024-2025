@@ -10380,7 +10380,7 @@ function LoginBackground() {
         className: "dots-sign-in-left-vertical"
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "liquid-container",
+      className: "liquid-container ",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "blob blob1",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -10457,18 +10457,22 @@ function LoginForm() {
     _useState4 = _slicedToArray(_useState3, 2),
     password = _useState4[0],
     setPassword = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
     _useState6 = _slicedToArray(_useState5, 2),
-    error = _useState6[0],
-    setError = _useState6[1];
+    showPassword = _useState6[0],
+    setShowPassword = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+    _useState8 = _slicedToArray(_useState7, 2),
+    error = _useState8[0],
+    setError = _useState8[1];
   var handleLogin = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(e) {
       var response;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            e.preventDefault(); // Prevent form reload
-            setError(""); // Reset error message
+            e.preventDefault();
+            setError("");
             _context.prev = 2;
             _context.next = 5;
             return axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://localhost:8000/api/login", {
@@ -10477,10 +10481,8 @@ function LoginForm() {
             });
           case 5:
             response = _context.sent;
-            // Store token in localStorage or cookies
+            // Store token and handle success
             localStorage.setItem("authToken", response.data.token);
-
-            // Redirect or handle successful login
             alert("Login successful!");
             _context.next = 13;
             break;
@@ -10498,54 +10500,89 @@ function LoginForm() {
       return _ref.apply(this, arguments);
     };
   }();
+  var sharedStyle = {
+    height: "55px",
+    // Matches the button height
+    fontSize: "1.1rem"
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: "login-page",
+    className: "login-page d-flex align-items-center justify-content-center vh-100",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "login-form",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-        className: "d-flex flex-column align-items-center justify-content-center align-self-center",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_LoginLogo__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-          className: "wrapper",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
-            onSubmit: handleLogin,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
-              children: "Sign in"
-            }), error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
-              className: "error text-center",
-              children: error
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-              className: "input-box",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
-                type: "text",
-                placeholder: "Username",
-                value: username,
-                onChange: function onChange(e) {
-                  return setUsername(e.target.value);
-                },
-                required: true
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
-                className: "bx bxs-user"
+      className: "container z-2",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "row justify-content-center",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "col-12 col-sm-8 col-md-6 col-lg-4",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            className: "login-form",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+              className: "d-flex flex-column align-items-center",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_LoginLogo__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                className: "wrapper w-100 p-3 p-md-4 card border rounded shadow",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("form", {
+                  onSubmit: handleLogin,
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
+                    className: "text-center mb-4",
+                    children: "Sign in"
+                  }), error && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+                    className: "text-center text-danger",
+                    children: error
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                    className: "input-box form-group position-relative mb-3",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                      className: "bx bxs-user position-absolute top-50 translate-middle-y text-muted bx-sm",
+                      style: {
+                        left: "15px"
+                      }
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+                      type: "text",
+                      className: "form-control ps-5 rounded-pill",
+                      style: sharedStyle,
+                      placeholder: "Username",
+                      value: username,
+                      onChange: function onChange(e) {
+                        return setUsername(e.target.value);
+                      },
+                      required: true
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                    className: "input-box form-group position-relative mb-3",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                      className: "bx bxs-lock-alt position-absolute top-50 translate-middle-y text-muted bx-sm",
+                      style: {
+                        left: "15px"
+                      }
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+                      type: showPassword ? "text" : "password",
+                      className: "form-control ps-5 pe-5 rounded-pill",
+                      style: sharedStyle,
+                      placeholder: "Password",
+                      value: password,
+                      onChange: function onChange(e) {
+                        return setPassword(e.target.value);
+                      },
+                      required: true
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+                      className: "bx ".concat(showPassword ? "bxs-show" : "bxs-hide", " position-absolute top-50 translate-middle-y text-muted bx-sm"),
+                      style: {
+                        right: "15px",
+                        cursor: "pointer"
+                      },
+                      onClick: function onClick() {
+                        return setShowPassword(!showPassword);
+                      }
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                    type: "submit",
+                    className: "btn btn-primary w-100 rounded-pill",
+                    style: sharedStyle,
+                    children: "Sign in"
+                  })]
+                })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-              className: "input-box",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
-                type: "password",
-                placeholder: "Password",
-                value: password,
-                onChange: function onChange(e) {
-                  return setPassword(e.target.value);
-                },
-                required: true
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
-                className: "bx bxs-lock-alt"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
-              type: "submit",
-              className: "btn",
-              children: "Sign in"
-            })]
+            })
           })
-        })]
+        })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_LoginBackground__WEBPACK_IMPORTED_MODULE_2__["default"], {})]
   });
