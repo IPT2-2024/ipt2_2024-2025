@@ -38,7 +38,7 @@ use App\Http\Controllers\YearLevelController;
 use App\Http\Controllers\UserWithProfileController;
 
 //Login Route
-Route::post('login', [AuthController::class, 'login']); 
+Route::post('login', [AuthController::class, 'login']);
 
 // Routes inside an authentication middleware group
 Route::middleware('auth:sanctum')->group(function () {
@@ -50,7 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::post('/users/{id}/restore', [UserController::class, 'restore']);
     Route::get('users/active/count', [UserController::class, 'getActiveUserCount']);
-
+    
     //USERS X PROFILES TRANSACTIONS
     Route::post('/user-with-profile', [UserWithProfileController::class, 'store']);
     Route::get('/user-with-profile/{id}', [UserWithProfileController::class, 'show']);
@@ -63,6 +63,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('profiles/{id}', [ProfileController::class, 'showByProfileId']);
     Route::get('profiles/instructors/totalcount', [ProfileController::class, 'getTotalInstructors']);
     Route::get('profiles/students/totalcount', [ProfileController::class, 'getTotalStudents']);
+    Route::get('profiles/students/only', [ProfileController::class, 'getStudents']);
+    Route::post('profiles/students/add', [ProfileController::class, 'addStudent']);
+
+
 
     Route::post('/upload-photo', [ProfileController::class, 'uploadPhoto']);
     Route::delete('/delete-photo/{profileId}', [ProfileController::class, 'deletePhoto']);
@@ -153,8 +157,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('classschedule/{id}/restore', [ClassScheduleController::class, 'restore']);
 
     // Enlistments
-    Route::apiResource('enlistment', EnlistmentController::class);
-    Route::post('enlistment/{id}/restore', [EnlistmentController::class, 'restore']);
+    Route::apiResource('enlistments', ClassScheduleController::class);
+    Route::post('enl/{id}/restore', [ClassScheduleController::class, 'restore']);
 
     // Enrollment Trackings
     Route::apiResource('enrollmenttracking', EnrollmentTrackingController::class);

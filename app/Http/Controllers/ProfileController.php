@@ -262,4 +262,78 @@ class ProfileController extends Controller
         return response()->json(['message' => 'Old photo deleted successfully']);
     }
 
+    public function getStudents()
+{
+    try {
+        // Join Profiles, Users, and Roles tables
+        $students = Profile::join('users', 'profiles.user_id', '=', 'users.id')  // Join with users table
+            ->join('roles', 'users.role_id', '=', 'roles.id')  // Join with roles table
+            ->where('roles.id', 4)  // Filter by student role (role_id = 4)
+            ->select(
+                'profiles.first_name', 
+                'profiles.last_name', 
+                'profiles.middle_name', 
+                'profiles.suffix', 
+                'profiles.date_of_birth',
+                'profiles.address',
+                'pr.school_email', 
+                'profiles.sex', 
+                'profiles.phone_number',
+                'profiles.admission_date', 
+                'profiles.marital_status',
+                'profiles.religion', 
+                'profiles.created_at', 
+                'profiles.updated_at'
+            )
+            ->get();
+
+        return response()->json($students);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Error fetching students'], 500);
+    }
+}
+public function addStudent(Request $request)
+{
+    // Validate incoming request data
+    $validated = Validator::make($request->all(), [
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'address' => 'required|string|max:255',
+        'sex' => 'required|string|max:6',
+        'phone_number' => 'required|string|max:15',
+        'admission_date' => 'required|date', // Ensure date format for admission_date
+        'date_of_birth' => 'required|date', // Ensure date format for date_of_birth
+        'religion' => 'nullable|string|max:50', // Correct this to nullable
+        'marital_status' => 'required|string|max:255',
+    ]);
+
+    if ($validated->fails()) {
+        return response()->json(['message' => 'Validation failed', 'errors' => $validated->errors()], 422);
+    }
+
+    try {
+        // Create school email based on first name and last name
+        $schoolEmail = strtolower($request->input('first_name')) . '.' . strtolower($request->input('last_name')) . '@urios.edu.ph';
+
+        // Create a new student profile using the validated data
+        $profile = Profile::create([
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'middle_initial' => $request->input('middle_initial'),
+            'suffix' => $request->input('suffix'),
+            'address' => $request->input('address'),
+            'sex' => $request->input('sex'),
+            'phone_number' => $request->input('phone_number'),
+            'admission_date' => $request->input('admission_date'),
+            'marital_status' => $request->input('marital_status'),
+            'religion' => $request->input('religion'),
+            'date_of_birth' => $request->input('date_of_birth'),
+            'school_email' => $schoolEmail, // Add the generated school_email
+        ]);
+
+        return response()->json(['message' => 'Student profile added successfully', 'profile' => $profile], 201);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Error creating student profile', 'error' => $e->getMessage()], 500);
+    }
+}
 }

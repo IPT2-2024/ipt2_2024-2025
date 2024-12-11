@@ -255,20 +255,31 @@ const handleDeleteBuilding = async (buildingId) => {
     const handleCreateBuilding = async (values) => {
         try {
             const token = localStorage.getItem('auth_token');
-            
             if (!token) {
                 message.error('Authorization token is missing');
                 return;
             }
-
+    
             setLoading(true);
-
+    
+            // Check if the building name already exists (case-insensitive check)
+            const buildingName = values.building_name.trim().toLowerCase();
+            const duplicate = [...data, ...archivedData].some(building => 
+                building.building_name.toLowerCase() === buildingName
+            );
+    
+            if (duplicate) {
+                message.error('A building with this name already exists. Please choose a different name.');
+                return;
+            }
+    
+            // Proceed with creating the building
             const response = await axios.post('/api/building', values, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
+    
             setData((prevData) => [...prevData, response.data.building]);
             setIsCreateModalVisible(false);
             message.success('Building created successfully');
@@ -280,6 +291,12 @@ const handleDeleteBuilding = async (buildingId) => {
             setLoading(false);
         }
     };
+    
+    
+    
+    
+    
+    
 
     const handleRestoreBuilding = async (id) => {
         try {
@@ -297,6 +314,7 @@ const handleDeleteBuilding = async (buildingId) => {
             message.error('Failed to restore building: ' + (error.response?.data?.message || error.message));
         }
     };
+    
     
 
     // Print functionality
