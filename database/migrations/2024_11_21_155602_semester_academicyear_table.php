@@ -17,6 +17,7 @@ class SemesterAcademicyearTable extends Migration
             $table->id();
             $table->unsignedBigInteger('semester_id');
             $table->unsignedBigInteger('academicyear_id');
+            $table->boolean('status'); // Add this line
             $table->timestamps();
 
             // Foreign key constraints

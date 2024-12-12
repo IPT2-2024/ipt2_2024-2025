@@ -154,6 +154,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Semester Academic Years
     Route::apiResource('semesteracademicyear', SemesterAcademicYearController::class);
     Route::post('semesteracademicyear/{id}/restore', [SemesterAcademicYearController::class, 'restore']);
+    Route::put('semesteracademicyear/{id}/status', [SemesterAcademicYearController::class, 'updateStatus']);
+    Route::put('semesteracademicyear/all/status', [SemesterAcademicYearController::class, 'updateAllStatuses']);
+
 
     // Class Schedules
     Route::apiResource('classschedule', ClassScheduleController::class);

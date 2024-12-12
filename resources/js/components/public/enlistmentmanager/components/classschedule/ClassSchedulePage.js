@@ -21,7 +21,7 @@ const ClassSchedulePage = () => {
 
     useEffect(() => {
         const filtered = (showArchived ? archivedData : data).filter(schedule =>
-            schedule.name && schedule.name.toLowerCase().includes(searchValue.toLowerCase()) // Added check for schedule.name
+            schedule.start_time && schedule.start_time.toLowerCase().includes(searchValue.toLowerCase()) // Ensure valid fields
         );
         setFilteredData(filtered);
     }, [searchValue, data, archivedData, showArchived]);
@@ -37,8 +37,14 @@ const ClassSchedulePage = () => {
     const handleDeleteClassSchedule = (id) => {
         const scheduleToDelete = data.find(schedule => schedule.id === id);
         if (scheduleToDelete) {
+            // Update deleted_at field to archive the record
+            const updatedSchedule = {
+                ...scheduleToDelete,
+                deleted_at: new Date().toISOString(), // Mark the schedule as deleted
+            };
+            
             setData(data.filter(schedule => schedule.id !== id)); // Remove from active data
-            setArchivedData([...archivedData, { ...scheduleToDelete, isArchived: true }]); // Add to archived data
+            setArchivedData([...archivedData, updatedSchedule]); // Move to archived data
             message.success('Class schedule archived successfully');
         }
     };
@@ -47,8 +53,14 @@ const ClassSchedulePage = () => {
         const selectedSchedules = data.filter(schedule => selectedRowKeys.includes(schedule.id));
         const remainingSchedules = data.filter(schedule => !selectedRowKeys.includes(schedule.id));
 
+        // Archive selected schedules by updating their deleted_at field
+        const updatedSelectedSchedules = selectedSchedules.map(schedule => ({
+            ...schedule,
+            deleted_at: new Date().toISOString(),
+        }));
+
         setData(remainingSchedules); // Remove selected from active data
-        setArchivedData([...archivedData, ...selectedSchedules.map(schedule => ({ ...schedule, isArchived: true }))]); // Archive selected
+        setArchivedData([...archivedData, ...updatedSelectedSchedules]); // Archive selected schedules
         setSelectedRowKeys([]); // Clear selected keys
 
         message.success(`${selectedSchedules.length} schedule(s) archived successfully`);
@@ -58,8 +70,14 @@ const ClassSchedulePage = () => {
         const selectedSchedules = archivedData.filter(schedule => selectedRowKeys.includes(schedule.id));
         const remainingArchivedSchedules = archivedData.filter(schedule => !selectedRowKeys.includes(schedule.id));
 
+        // Restore selected schedules by removing the deleted_at field
+        const updatedSelectedSchedules = selectedSchedules.map(schedule => ({
+            ...schedule,
+            deleted_at: null, // Remove deleted_at when restoring
+        }));
+
         setArchivedData(remainingArchivedSchedules); // Remove selected from archived data
-        setData([...data, ...selectedSchedules.map(schedule => ({ ...schedule, isArchived: false }))]); // Add back to active data
+        setData([...data, ...updatedSelectedSchedules]); // Add back to active data
         setSelectedRowKeys([]); // Clear selected keys
 
         message.success(`${selectedSchedules.length} schedule(s) restored successfully`);
@@ -81,7 +99,7 @@ const ClassSchedulePage = () => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                flexWrap: 'wrap', // Allow wrapping when screen size reduces
+                flexWrap: 'wrap',
             }}>
                 <Space wrap style={{ display: 'flex', gap: '10px' }}>
                     <Input.Search
@@ -128,7 +146,7 @@ const ClassSchedulePage = () => {
             </div>
             <ClassScheduleTable
                 rowSelection={rowSelection}
-                data={filteredData}
+                data={filteredData} // Ensure filtered data is passed to the table
                 setIsEditModalVisible={setIsEditModalVisible}
                 setModalData={setModalData}
                 handleDeleteClassSchedule={handleDeleteClassSchedule}

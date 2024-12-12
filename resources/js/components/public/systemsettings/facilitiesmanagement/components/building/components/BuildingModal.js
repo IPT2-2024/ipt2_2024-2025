@@ -80,6 +80,7 @@ const BuildingModal = ({
     };
 
     const handleCancel = () => {
+        form.resetFields(); // Reset the form fields
         setIsCreateModalVisible(false); 
         setIsEditModalVisible(false); 
     };

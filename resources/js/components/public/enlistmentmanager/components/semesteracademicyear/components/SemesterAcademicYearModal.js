@@ -1,97 +1,137 @@
-import React, { useEffect } from 'react';
-import { Modal, Input, Button, Form, message } from 'antd';
+    import React, { useEffect, useState } from 'react';
+    import { Modal, Input, Button, Form, message, Select } from 'antd';
 
-const SemesterAcademicYearModal = ({
-    isCreateModalVisible,
-    setIsCreateModalVisible,
-    isEditModalVisible,
-    setIsEditModalVisible,
-    data,
-    setData,
-    modalData,
-    setModalData,
-}) => {
-    const [form] = Form.useForm();
+    const SemesterAcademicYearModal = ({
+        isCreateModalVisible,
+        setIsCreateModalVisible,
+        isEditModalVisible,
+        setIsEditModalVisible,
+        data,
+        setData,
+        modalData,
+        setModalData,
+        academicYears,
+        semesters,
+        reloadData,
+    }) => {
+        const [form] = Form.useForm();
 
-    useEffect(() => {
-        if (isEditModalVisible && modalData) {
-            // Pre-fill the form with data when editing
-            form.setFieldsValue({
-                academicyear_id: modalData.academicyear_id,
-                semester_id: modalData.semester_id,
-            });
-        }
-    }, [isEditModalVisible, modalData, form]);
 
-    const handleOk = () => {
-        form.validateFields().then((values) => {
-            const { academicyear_id, semester_id } = values;
-
-            // Validate that all fields have values
-            if (!academicyear_id || !semester_id) {
-                message.error('Please fill in all required fields');
-                return;
+        useEffect(() => {
+            if (isEditModalVisible && modalData) {
+                // Pre-fill the form with data when editing
+                form.setFieldsValue({
+                    academic_year: modalData.academic_year, // Updated field name
+                    semester_id: modalData.semester_period,
+                });
             }
+        }, [isEditModalVisible, modalData, form]);
 
-            if (isEditModalVisible) {
-                // Handle update logic for an existing Semester Academic Year entry
-                const updatedData = data.map((entry) =>
-                    entry.id === modalData.id
-                        ? { ...entry, ...values, updated_at: new Date().toISOString() }
-                        : entry
-                );
-                setData(updatedData);
-                setIsEditModalVisible(false);
-                message.success('Semester Academic Year updated successfully');
-            } else {
-                // Handle create logic for a new Semester Academic Year entry
+        const handleOk = () => {
+            form.validateFields().then((values) => {
+                const { academic_year, semester_id } = values;
+            
+                // Find the selected academic year object
+                const selectedAcademicYear = academicYears.find((year) => year.id === academic_year);
+            
+                // Map academic_year ID to its name (or any descriptive field you need)
+                const academicYearName = selectedAcademicYear ? selectedAcademicYear.academic_year : '';
+            
+                if (!academicYearName || !semester_id) {
+                    message.error('Please fill in all required fields');
+                    return;
+                }
+            
                 const newEntry = {
-                    id: Date.now(), // Auto-generate unique ID using timestamp
-                    ...values,
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString(),
+                    semester_id,
+                    academicyear_id: academic_year, // Use the academic_year ID here
+                    status: false, // Or false based on your requirement, assuming status is a boolean
                 };
-                setData([...data, newEntry]);
-                setIsCreateModalVisible(false);
-                message.success('New Semester Academic Year created successfully');
-            }
-            form.resetFields(); // Reset the form fields
-        });
-    };
+                
+                // Get the auth token from localStorage
+                const authToken = localStorage.getItem('auth_token'); // Replace 'auth_token' with your actual token key in localStorage
+                
+                if (!authToken) {
+                    message.error('Authentication token is missing');
+                    return;
+                }
+        
+                // Sending POST request with axios
+                axios.post('/api/semesteracademicyear', newEntry, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`, // Add Authorization header
+                    },
+                })
+                .then((response) => {
+                    message.success('New Semester Academic Year created successfully');
+                    
+                    reloadData();
 
-    const handleCancel = () => {
-        setIsCreateModalVisible(false);
-        setIsEditModalVisible(false);
-        form.resetFields(); // Clear the form when the modal is canceled
-    };
+                    setIsCreateModalVisible(false); // Close the create modal
+                    form.resetFields(); // Reset form fields
+                })
+                .catch((error) => {
+                    if (error.response && error.response.data) {
+                        message.error(`Error: ${error.response.data.message}`);
+                    } else {
+                        message.error('An unexpected error occurred');
+                    }
+                });
+            });
+        };
+        
+        
+        
+        
+        
+        
 
-    return (
-        <Modal
-            title={isEditModalVisible ? 'Edit Semester Academic Year' : 'Create New Semester Academic Year'}
-            visible={isEditModalVisible || isCreateModalVisible}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            okText={isEditModalVisible ? 'Save Changes' : 'Create Entry'}
-            cancelText="Cancel"
-        >
-            <Form form={form} layout="vertical" name="semesterAcademicYearForm">
+        const handleCancel = () => {
+            setIsCreateModalVisible(false);
+            setIsEditModalVisible(false);
+            form.resetFields(); // Clear the form when the modal is canceled
+        };
+
+        return (
+            <Modal
+                title={isEditModalVisible ? 'Edit Semester Academic Year' : 'Create New Semester Academic Year'}
+                visible={isEditModalVisible || isCreateModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                okText={isEditModalVisible ? 'Save Changes' : 'Create Entry'}
+                cancelText="Cancel"
+            >
+                <Form form={form} layout="vertical" name="semesterAcademicYearForm">
                 <Form.Item
-                    label="Academic Year ID"
-                    name="academicyear_id"
-                    rules={[{ required: true, message: 'Please enter the academic year ID!' }]}
+                    label="Academic Year"
+                    name="academic_year"
+                    rules={[{ required: true, message: 'Please enter the academic year!' }]}
                 >
-                    <Input placeholder="Enter academic year ID" />
+                    <Select>
+                        {academicYears.map(academic_year => (
+                            <Select.Option key={academic_year.id} value={academic_year.id}>
+                                {academic_year.academic_year} {/* Adjust field based on your data */}
+                            </Select.Option>
+                        ))}
+                    </Select>
                 </Form.Item>
+
                 <Form.Item
-                    label="Semester ID"
+                    label="Semester"
                     name="semester_id"
-                    rules={[{ required: true, message: 'Please enter the semester ID!' }]}
+                    rules={[{ required: true, message: 'Please select the semester!' }]}
                 >
-                    <Input placeholder="Enter semester ID" />
+                    <Select>
+                        {semesters.map(semester => (
+                            <Select.Option key={semester.id} value={semester.id}>
+                                {semester.semester_period} {/* Adjust field based on your data */}
+                            </Select.Option>
+                        ))}
+                    </Select>
                 </Form.Item>
-            </Form>
-        </Modal>
-    );
-};
+                </Form>
+            </Modal>
+        );
+    };
 
-export default SemesterAcademicYearModal;
+    export default SemesterAcademicYearModal;

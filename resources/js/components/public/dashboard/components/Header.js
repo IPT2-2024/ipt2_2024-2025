@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Layout, Dropdown, Badge, Input, Row, Col, message, List } from "antd";
+import { Layout, Dropdown, Badge, Row, Col, message, List } from "antd";
 import { BellFilled, DownOutlined, MenuOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom"; 
 import Logoff from '../../../private/dashboard/logoff'; 
@@ -8,14 +8,11 @@ import HeadNavList from './HeaderNavList';
 import DefaultPic from '../../../../../../storage/app/public/default/default.png';
 
 const { Header: AntHeader } = Layout;
-const { Search } = Input; 
 
 const Header = ({ style, toggleSidebar, toggleMobileSidebar }) => {
   const [user, setUser] = useState(null);
   const [notifications, setNotifications] = useState([]); // Changed to array
   const [scrolled, setScrolled] = useState(false); 
-  const [isSearching, setIsSearching] = useState(false); 
-  const [filteredRecommendations, setFilteredRecommendations] = useState([]); 
   const navigate = useNavigate();
   const location = useLocation(); 
 
@@ -82,55 +79,7 @@ const Header = ({ style, toggleSidebar, toggleMobileSidebar }) => {
 
   const currentSection = getCurrentSection(); 
 
-  const filteredRecommendationsForSearch = recommendations.filter(
-    (item) => item.label !== currentSection
-  );
-
-  const debounce = (func, delay) => {
-    let debounceTimer;
-    return function(...args) {
-      const context = this;
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => func.apply(context, args), delay);
-    };
-  };
-
-  const handleSearch = async (value) => {
-    const trimmedValue = value.trim().toLowerCase(); // Ensure no leading/trailing spaces and make it lowercase
-
-    if (!trimmedValue) {
-      message.warning('Please enter a search term.');
-      return;
-    }
-
-    const matchedRecommendation = filteredRecommendationsForSearch.find(
-      (item) => item.label.toLowerCase().includes(trimmedValue) // Match part of the label
-    );
-
-    if (matchedRecommendation) {
-      navigate(matchedRecommendation.route); // Navigate to the matched route
-    } else {
-      message.info('No matching section found.');
-    }
-  };
-
-  const debouncedSearch = useCallback(debounce(handleSearch, 300), [filteredRecommendationsForSearch, user]);
-
-  const onSearch = (value) => {
-    debouncedSearch(value);
-  };
-
-  const handleInputChange = (e) => {
-    const value = e.target.value.trim().toLowerCase();
-    if (value) {
-      const filtered = filteredRecommendationsForSearch.filter((item) =>
-        item.label.toLowerCase().includes(value) // Check if search term is anywhere in the label
-      );
-      setFilteredRecommendations(filtered);
-    } else {
-      setFilteredRecommendations([]);
-    }
-  };
+  // Removed search-related states and functions
 
   // Define the notification dropdown menu with enhanced styles
   const notificationMenu = (
@@ -174,45 +123,7 @@ const Header = ({ style, toggleSidebar, toggleMobileSidebar }) => {
             <MenuOutlined style={{ fontSize: '24px', color: '#3f7afc' }} />
           </div>
 
-          <div className="search-bar" style={{ position: 'relative', flexGrow: 1, marginLeft: '50px', marginTop: '30px' }}>
-            <Row gutter={16}>
-              <Col xs={20} sm={18} md={12} lg={14} xl={12}>
-                <Input.Search
-                  placeholder="Search..."
-                  onSearch={onSearch}
-                  onChange={handleInputChange}
-                  enterButton
-                  allowClear
-                  loading={isSearching}
-                  style={{ width: '110%' }}
-                />
-                {filteredRecommendations.length > 0 && (
-                  <List
-                    size="small"
-                    bordered
-                    dataSource={filteredRecommendations}
-                    renderItem={(item) => (
-                      <List.Item
-                        onClick={() => navigate(item.route)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        {item.label}
-                      </List.Item>
-                    )}
-                    style={{
-                      position: 'absolute',
-                      top: '40px',
-                      width: '100%',
-                      backgroundColor: '#fff',
-                      zIndex: 1000,
-                      maxHeight: '200px',
-                      overflowY: 'auto',
-                    }}
-                  />
-                )}
-              </Col>
-            </Row>
-          </div>
+          {/* Removed the search bar */}
         </div>
 
         <div className="header-right" style={{ display: "flex", alignItems: "center", paddingRight: '20px' }}>

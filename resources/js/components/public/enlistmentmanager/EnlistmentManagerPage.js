@@ -1,6 +1,10 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import { AppstoreAddOutlined, CalendarOutlined, SearchOutlined } from '@ant-design/icons';
+import StudentEnlistmentPage from './components/studentenlistment/StudentEnlistmentPage.js'; 
+import SemesterAcademicYearPage from './components/semesteracademicyear/SemesterAcademicYearPage.js'; 
+import ClassSchedulePage from './components/classschedule/ClassSchedulePage.js'; 
+import MainDashboard from '../dashboard/components/MainDashboard.js';
 
 const { TabPane } = Tabs;
 
