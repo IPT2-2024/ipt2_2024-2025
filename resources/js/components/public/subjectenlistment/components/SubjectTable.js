@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Table, Space } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Space, Switch, Button } from 'antd';
+import { EditOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'react-responsive';
 
 const SubjectTable = ({
@@ -26,6 +26,28 @@ const SubjectTable = ({
     }
   };
 
+  const handleAvailabilityToggle = async (record, checked) => {
+    try {
+        const token = localStorage.getItem('auth_token');
+        await axios.put(`/api/subject/${record.id}`, { availability: checked }, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        notification.success({
+            message: 'Success',
+            description: 'Availability updated successfully.',
+        });
+
+        // Optionally update state directly or refetch data
+        record.availability = checked;
+    } catch (error) {
+        console.error('Error updating availability:', error);
+        notification.error({
+            message: 'Error',
+            description: 'Failed to update availability. Please try again later.',
+        });
+    }
+};
+
   const isMobile = useMediaQuery({ maxWidth: 767 }); // Define mobile breakpoint
 
   const handleEdit = (record) => {
@@ -38,34 +60,91 @@ const SubjectTable = ({
 
   const columns = [
     {
-      title: 'Subject Code',
+      title: <span style={{ color: '#1890ff' }}>Actions</span>,
+      key: 'actions',
+      render: (_, record) => (
+        <Space>
+          <Button
+            type="primary"
+            icon={<EditOutlined />}
+            onClick={() => handleEdit(record)} // Replace with the actual edit handler
+            size="small"
+            aria-label="Edit Subject"
+          />
+          {record.availability === true ? (
+            <Popconfirm
+              title="Are you sure to delete this subject?"
+              onConfirm={() => handleDelete(record.id)} // Replace with the actual delete handler
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button
+                type="danger"
+                icon={<DeleteOutlined />}
+                size="small"
+                aria-label="Delete Subject"
+              />
+            </Popconfirm>
+          ) : (
+            <Button
+              type="default"
+              icon={<ReloadOutlined />}
+              onClick={() => handleRestore(record.id)} // Replace with the actual restore handler
+              size="small"
+              aria-label="Restore Subject"
+            >
+              Restore
+            </Button>
+          )}
+        </Space>
+      ),
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      width: 150, // Adjust the width of the Actions column
+    },
+    {
+      title: <span style={{ color: '#1890ff' }}>Subject Code</span>,
       dataIndex: 'code',
-      sorter: true,
-      responsive: ['xs', 'sm', 'md'],
+      key: 'code',
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      width: 120,
     },
     {
-      title: 'Subject Name',
+      title: <span style={{ color: '#1890ff' }}>Subject Name</span>,
       dataIndex: 'name',
-      sorter: true,
-      responsive: ['xs', 'sm', 'md'],
+      key: 'name',
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      width: 180,
     },
     {
-      title: 'Classification',
-      dataIndex: 'classification',
-      responsive: ['xs', 'sm'],
-    },
-    {
-      title: 'Units',
+      title: <span style={{ color: '#1890ff' }}>Units</span>,
       dataIndex: 'units',
-      sorter: true,
-      responsive: ['xs', 'sm', 'md'],
+      key: 'units',
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      width: 100,
     },
     {
-      title: 'Availability',
+      title: <span style={{ color: '#1890ff' }}>Subject Category</span>,
+      dataIndex: 'subject_category',
+      key: 'subject_category',
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      width: 180,
+    },
+    {
+      title: <span style={{ color: '#1890ff' }}>Availability</span>,
       dataIndex: 'availability',
-      responsive: ['xs', 'sm', 'md'],
+      key: 'availability',
+      render: (text, record) => (
+        <Switch
+          checked={record.availability}
+          onChange={(checked) => handleAvailabilityToggle(record, checked)} // Replace with your availability toggle handler
+        />
+      ),
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      width: 150,
     },
   ];
+  
+  
 
   return (
     <Table

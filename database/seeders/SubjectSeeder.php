@@ -33,7 +33,7 @@ class SubjectSeeder extends Seeder
                 'units' => 3,
                 'subject_description' => 'Programming concepts and Algorithm design',
                 'availability' => true, // Set to 1 (true) for availability
-                'subjectcategory_id' => 2, // SubjectCategory ID 2 corresponds to Information Technology
+                'subjectcategory_id' => 3, // SubjectCategory ID 2 corresponds to Information Technology
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -56,7 +56,7 @@ class SubjectSeeder extends Seeder
                 'units' => 3,
                 'subject_description' => 'Faith traditions and Spiritual practices',
                 'availability' => true, // Set to 1 (true) for availability
-                'subjectcategory_id' => 4, // SubjectCategory ID 4 corresponds to Theology
+                'subjectcategory_id' => 2, // SubjectCategory ID 4 corresponds to Theology
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
