@@ -12323,3 +12323,309 @@ textarea.form-control-lg {
     max-width: 320px;
   }
 }
+.login-page {
+  /* all sign in */
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  overflow: hidden;
+}
+
+.liquid-container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.login-bg {
+  position: fixed;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-content: center;
+  background-image: linear-gradient(to right top, #4653d6, #3a4bcb, #2e43c0, #1f3cb5, #0934aa);
+}
+
+.waves {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 1;
+}
+
+.dots-sign-in-horizontal,
+.dots-sign-in-left-vertical {
+  position: fixed;
+  z-index: 15;
+}
+
+.dots-sign-in-horizontal {
+  top: 25px;
+  right: 25px;
+}
+
+.dots-sign-in-left-vertical {
+  top: 25px;
+  left: 25px;
+}
+
+.blob {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: pulse 8s infinite ease-in-out, move 15s infinite alternate ease-in-out;
+  opacity: 0.5;
+}
+
+.blob1 {
+  width: 22vw;
+  height: 22vw;
+  top: -15vh;
+  left: 7vw;
+  animation-delay: 0s;
+}
+
+.blob2 {
+  width: 30vw;
+  height: 30vw;
+  bottom: 30vh;
+  right: -7vw;
+  animation-delay: 2s;
+}
+
+.blob3 {
+  width: 40vw;
+  height: 40vw;
+  bottom: -20vh;
+  left: 15vw;
+  animation-duration: 10s;
+  animation-delay: 1s;
+}
+
+/* Ring styling */
+.ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #11399e, #1953e6);
+  animation: rotate 10s infinite linear;
+}
+
+.ring:nth-child(2) {
+  width: 75%;
+  height: 75%;
+  background: linear-gradient(135deg, #11399e, #174dd4);
+  animation-duration: 8s;
+  animation-direction: reverse;
+}
+
+.ring:nth-child(3) {
+  width: 50%;
+  height: 50%;
+  background: linear-gradient(135deg, #11399e, #1a55eb);
+  animation-duration: 6s;
+}
+
+/* Blob animations */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(15px, -20px);
+  }
+  50% {
+    transform: translate(-10px, 30px);
+  }
+  75% {
+    transform: translate(20px, -10px);
+  }
+  100% {
+    transform: translate(-15px, 15px);
+  }
+}
+.fsuuw-3d-logo {
+  width: 250px;
+  height: 250px;
+}
+
+@media (max-width: 1024px) {
+  .dots-sign-in-left-vertical {
+    width: 6vw; /* Adjusted for tablet */
+  }
+  .dots-sign-in-horizontal {
+    width: 10vw; /* Adjusted for tablet */
+  }
+  .blob1,
+  .blob2,
+  .blob3 {
+    width: 35vw; /* Increased for tablet */
+    height: 35vw;
+  }
+}
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .dots-sign-in-left-vertical {
+    width: 5w;
+  }
+  .dots-sign-in-horizontal {
+    width: 10vw;
+  }
+  .blob1,
+  .blob2,
+  .blob3 {
+    width: 40vw;
+    height: 40vw;
+  }
+}
+@media (max-width: 480px) {
+  .dots-sign-in-left-vertical {
+    width: 5vw;
+  }
+  .dots-sign-in-horizontal {
+    width: 10vw;
+  }
+  .blob1,
+  .blob2,
+  .blob3 {
+    width: 45vw;
+    height: 45vw;
+  }
+}
+@media (max-width: 375px) {
+  .dots-sign-in-left-vertical {
+    width: 5vw;
+  }
+  .dots-sign-in-horizontal {
+    width: 10vw;
+  }
+  .blob1,
+  .blob2,
+  .blob3 {
+    width: 45vw;
+    height: 45vw;
+  }
+}
+/* Fullscreen loader */
+.loader-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to right top, #84cdfa, #6dbbf1, #58a9e8, #4496de, #3484d4, #2b78cd, #256cc6, #2260be, #2158b9, #214fb3, #2346ad, #263da7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it's on top */
+}
+
+/* Custom Spinner Styling */
+.logcontainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  height: 300px; /* Increased size, bigger than logo */
+  width: 300px; /* Increased size, bigger than logo */
+  animation: rotate_3922 1.2s linear infinite;
+  background-color: #263da7;
+  background-image: linear-gradient(#263da7, #84cdfa, #5ad1cd);
+}
+
+.logcontainer span {
+  position: absolute;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  background-color: #263da7;
+  background-image: linear-gradient(#263da7, #84cdfa, #5ad1cd);
+}
+
+.logcontainer span:nth-of-type(1) {
+  filter: blur(5px);
+}
+
+.logcontainer span:nth-of-type(2) {
+  filter: blur(10px);
+}
+
+.logcontainer span:nth-of-type(3) {
+  filter: blur(25px);
+}
+
+.logcontainer span:nth-of-type(4) {
+  filter: blur(50px);
+}
+
+.logcontainer::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  background-color: #fff;
+  border: solid 5px #ffffff;
+  border-radius: 50%;
+}
+
+/* Spinner animation */
+@keyframes rotate_3922 {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+/* Logo customization */
+.loaderlogo {
+  position: absolute;
+  width: 160px; /* Smaller logo than the spinner */
+  height: 160px; /* Smaller logo than the spinner */
+  z-index: 2; /* Place it above the spinner */
+  top: 51%; /* Control the vertical position */
+  left: 50%; /* Control the horizontal position */
+  transform: translate(-50%, -50%); /* Adjust to center the logo */
+  image-rendering: pixelated; /* Optional, helps to prevent any blurring */
+}
+
+/* Responsive settings for smaller screens */
+@media (max-width: 320px) {
+  .logcontainer {
+    height: 250px; /* Increased size, bigger than logo */
+    width: 250px; /* Increased size, bigger than logo */
+  }
+  .loaderlogo {
+    width: 150px;
+    height: 150px; /* Ensure the logo is proportional */
+  }
+}

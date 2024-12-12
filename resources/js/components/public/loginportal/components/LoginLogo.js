@@ -1,12 +1,16 @@
-import React from 'react';
-import loginLogo from '../../../../../../public/images/loginlogo.svg';
+import React from "react";
+import GraphicSVG from "./GraphicSVG";
 
 const LoginLogo = () => {
-  return (
-    <div className="logo-container">
-      <img src={loginLogo} alt="Login Logo" style={{ maxWidth: '200px', width: '100%', height: 'auto' }} />
-    </div>
-  );
+    return (
+        <div className="container d-flex justify-content-center pb-3">
+            <img
+                src={GraphicSVG.LoginFsuuLogo}
+                alt="Fsuuw 3d Logo"
+                className="fsuuw-3d-logo"
+            />
+        </div>
+    );
 };
 
 export default LoginLogo;

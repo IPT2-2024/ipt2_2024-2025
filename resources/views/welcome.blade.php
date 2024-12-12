@@ -11,5 +11,6 @@
 <body>
     <div id="root"></div>
     <script src="{{ mix('js/app.js') }}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </body>
 </html>

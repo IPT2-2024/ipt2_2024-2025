@@ -1,196 +1,131 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { Layout, Form, Input, Button, Row, Col, message, Tooltip, Card, Spin } from 'antd';
-import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom'; 
-import { handleLogin } from './../../private/loginportal/UserLoginService'; 
-
-const { Content } = Layout;
+import { message } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { handleLogin } from './../../private/loginportal/UserLoginService';
 
 
-const LoginPageBackground = lazy(() => import('./components/LoginPageBackground'));
 const LoginLogo = lazy(() => import('./components/LoginLogo'));
+const LoginBackground = lazy(() => import('./components/LoginPageBackground'));
 const LoginLoader = lazy(() => import('./components/LoginLoader'));
 
 const UserLogin = ({ setUserRole }) => {
-  const [showPassword, setShowPassword] = useState(false); 
-  const [loading, setLoading] = useState(false); 
-  const [pageLoading, setPageLoading] = useState(true); 
-  const [showContent, setShowContent] = useState(false); 
-  const [errorMessage, setErrorMessage] = useState(''); 
-  const navigate = useNavigate(); 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
+  const navigate = useNavigate();
 
-  
   useEffect(() => {
     const loadPageContent = async () => {
       try {
-        await fetchDataForPage();
-        setShowContent(true); 
-        setPageLoading(false); 
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setPageLoading(false);
       } catch (error) {
         console.error('Error loading page content:', error);
-        setPageLoading(false); 
+        setPageLoading(false);
       }
     };
 
-    loadPageContent(); 
+    loadPageContent();
   }, []);
 
-  
-  const fetchDataForPage = async () => {
-    return new Promise((resolve) => setTimeout(resolve, 2000)); 
-  };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  const onFinish = async (values) => {
-    setLoading(true); 
-    setErrorMessage(''); 
-  
     try {
-      const response = await handleLogin(values); 
-  
+      const response = await handleLogin({ username, password });
+
       if (response.status === 200) {
         message.success('Login successful!');
-        
-       
-        localStorage.setItem('auth_token', response.data.token); 
-        localStorage.setItem('user_role', response.data.role); 
-        localStorage.setItem('user_id', response.data.user_id); 
-        localStorage.setItem('profile_id', response.data.profile_id); 
-  
-        
+        localStorage.setItem('auth_token', response.data.token);
+        localStorage.setItem('user_role', response.data.role);
+        localStorage.setItem('user_id', response.data.user_id);
+        localStorage.setItem('profile_id', response.data.profile_id);
+
         setUserRole(response.data.role);
-  
-        
         navigate(`/${response.data.role}/dashboard`);
         window.location.reload();
       }
-    } catch (error) {
-      setErrorMessage(error.message); 
-      message.error(error.message); 
+    } catch (err) {
+      message.error(err.message || 'Login failed. Please try again.');
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    if (!errorMessage) {
-      message.error('Login failed. Please check your Username and Password credentials.');
-    }
-    console.log('Failed:', errorInfo); 
   };
 
   return (
-    <>
-      {pageLoading && (
-        <Suspense fallback={<LoginLoader />}> {}
-          <LoginPageBackground>
-            <LoginLogo /> {}
-            <LoginLoader /> {}
-          </LoginPageBackground>
+    <div className="login-page d-flex align-items-center justify-content-center vh-100">
+      {pageLoading ? (
+        <Suspense fallback={<LoginLoader />}>
+          <LoginLoader />
         </Suspense>
-      )}
-
-      {!pageLoading && (
-        <Suspense fallback={<LoginLoader />}> {}
-          <LoginPageBackground>
-            {showContent && (
-              <Content
-                className="content-container"
-                style={{
-                  minHeight: '100vh',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  position: 'relative',
-                  zIndex: 20,
-                }}
-              >
-                <Row justify="center" align="middle" style={{ width: '100%' }}>
-                  <Col xs={24} style={{ textAlign: 'center', marginBottom: '20px' }}>
+      ) : (
+        <Suspense fallback={<LoginLoader />}>
+          <div className="container z-2">
+            <div className="row justify-content-center">
+              <div className="col-12 col-sm-8 col-md-6 col-lg-4">
+                <div className="login-form">
+                  <div className="d-flex flex-column align-items-center">
                     <LoginLogo />
-                  </Col>
-                  <Col xs={24} sm={20} md={12} lg={10} style={{ marginTop: '-30px' }}>
-                    <Card
-                      bordered={false}
-                      className="card-container"
-                      style={{
-                        borderRadius: '10px',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                      }}
-                    >
-                      <Form
-                        name="loginForm"
-                        initialValues={{ remember: true }}
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
-                      >
-                        <div
-                          style={{
-                            marginBottom: '16px',
-                            fontWeight: 'bold',
-                            fontSize: '16px',
-                            textAlign: 'center',
-                          }}
-                        >
-                          Account Portal
-                        </div>
-                        <Form.Item
-                          name="username"
-                          rules={[{ required: true, message: 'Please input your Username!' }]}
-                        >
-                          <Input
-                            prefix={<UserOutlined style={{ color: '#1890ff' }} />}
+                    <div className="wrapper w-100 p-3 p-md-4 card border rounded-4 shadow">
+                      <form onSubmit={onSubmit}>
+                        <h2 className="text-center fw-bold mb-4">Account Portal</h2>
+                        <div className="input-box form-group position-relative mb-3">
+                          <i
+                            className="bx bxs-user position-absolute top-50 translate-middle-y text-muted bx-sm"
+                            style={{ left: '15px' }}
+                          ></i>
+                          <input
+                            type="text"
+                            className="form-control ps-5 rounded-pill"
+                            style={{ height: '55px', fontSize: '1.1rem' }}
                             placeholder="Username"
-                            style={{ borderRadius: '8px' }}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
                           />
-                        </Form.Item>
-
-                        <Form.Item
-                          name="password"
-                          rules={[{ required: true, message: 'Please input your Password!' }]}
-                        >
-                          <Input.Password
-                            prefix={<LockOutlined style={{ color: '#1890ff' }} />}
+                        </div>
+                        <div className="input-box form-group position-relative mb-3">
+                          <i
+                            className="bx bxs-lock-alt position-absolute top-50 translate-middle-y text-muted bx-sm"
+                            style={{ left: '15px' }}
+                          ></i>
+                          <input
                             type={showPassword ? 'text' : 'password'}
+                            className="form-control ps-5 pe-5 rounded-pill"
+                            style={{ height: '55px', fontSize: '1.1rem' }}
                             placeholder="Password"
-                            iconRender={(visible) => (
-                              <Tooltip title={visible ? 'Hide Password' : 'Show Password'}>
-                                {visible ? (
-                                  <EyeTwoTone onClick={() => setShowPassword(!showPassword)} />
-                                ) : (
-                                  <EyeInvisibleOutlined onClick={() => setShowPassword(!showPassword)} />
-                                )}
-                              </Tooltip>
-                            )}
-                            style={{ borderRadius: '8px' }}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
                           />
-                        </Form.Item>
-
-                        <Form.Item style={{ textAlign: 'center' }}>
-                          <Button
-                            type="primary"
-                            htmlType="submit"
-                            style={{
-                              width: '100%',
-                              borderRadius: '8px',
-                              backgroundColor: '#131f73',
-                              borderColor: '#131f73',
-                              height: '40px',
-                            }}
-                            loading={loading} 
-                          >
-                            {loading ? 'Logging in...' : 'Login'}
-                          </Button>
-                        </Form.Item>
-                      </Form>
-                    </Card>
-                  </Col>
-                </Row>
-              </Content>
-            )}
-          </LoginPageBackground>
+                          <i
+                            className={`bx ${showPassword ? 'bxs-show' : 'bxs-hide'} position-absolute top-50 translate-middle-y text-muted bx-sm`}
+                            style={{ right: '15px', cursor: 'pointer' }}
+                            onClick={() => setShowPassword(!showPassword)}
+                          ></i>
+                        </div>
+                        <button
+                          type="submit"
+                          className="btn btn-primary w-100 rounded-pill"
+                          style={{ height: '55px', fontSize: '1.1rem' }}
+                          disabled={loading}
+                        >
+                          {loading ? 'Logging in...' : 'Sign in'}
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <LoginBackground />
         </Suspense>
       )}
-    </>
+    </div>
   );
 };
 
