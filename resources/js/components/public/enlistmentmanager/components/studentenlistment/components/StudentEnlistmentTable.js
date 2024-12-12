@@ -9,7 +9,7 @@ const StudentEnlistmentTable = ({
     data = [], // Default to an empty array
     setIsEditModalVisible,
     setModalData,
-    handleDeleteEnlistment, // Ensure the function is passed here
+    handleDeleteEnlistment,
 }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10;
@@ -26,7 +26,11 @@ const StudentEnlistmentTable = ({
                 <Space size="middle">
                     <Button
                         icon={<EditOutlined />}
-                        style={{ backgroundColor: '#1677FF', borderColor: '#1677FF', color: '#fff' }}
+                        style={{
+                            backgroundColor: '#1677FF',
+                            borderColor: '#1677FF',
+                            color: '#fff',
+                        }}
                         onClick={() => {
                             setIsEditModalVisible(true);
                             setModalData(record);
@@ -35,8 +39,12 @@ const StudentEnlistmentTable = ({
                     <Button
                         icon={<DeleteOutlined />}
                         danger
-                        style={{ backgroundColor: 'white', border: 'none', color: 'black' }}
-                        onClick={() => handleDeleteEnlistment(record.id)} // Use the passed function here
+                        style={{
+                            backgroundColor: 'white',
+                            border: 'none',
+                            color: 'black',
+                        }}
+                        onClick={() => handleDeleteEnlistment(record.id)}
                     />
                 </Space>
             ),
@@ -87,7 +95,9 @@ const StudentEnlistmentTable = ({
             dataIndex: 'deleted_at',
             key: 'deleted_at',
             render: (text) => (
-                <Text>{text ? new Date(text).toLocaleString() : 'N/A'}</Text> // Show 'N/A' if deleted_at is null
+                <Text>
+                    {text ? new Date(text).toLocaleString() : 'N/A'}
+                </Text> // Format the date, show 'N/A' if deleted_at is null
             ),
         },
     ];
@@ -96,7 +106,9 @@ const StudentEnlistmentTable = ({
         <Table
             rowSelection={rowSelection}
             columns={columns}
-            dataSource={data.slice((currentPage - 1) * pageSize, currentPage * pageSize)} // Safe usage of slice
+            dataSource={Array.isArray(data) 
+                ? data.slice((currentPage - 1) * pageSize, currentPage * pageSize) 
+                : []} // Safe usage of slice
             rowKey="id" // Ensure each row is keyed by the unique enlistment ID
             pagination={{
                 current: currentPage,
@@ -108,7 +120,9 @@ const StudentEnlistmentTable = ({
             footer={() => (
                 <div style={{ textAlign: 'left' }}>
                     {/* Page Info at Bottom Left */}
-                    <Text>{`Page ${currentPage} of ${Math.ceil(data.length / pageSize)}`}</Text>
+                    <Text>{`Page ${currentPage} of ${Math.ceil(
+                        data.length / pageSize
+                    )}`}</Text>
                 </div>
             )}
             scroll={{ x: 1000 }} // Allows horizontal scrolling on smaller screens if needed

@@ -1,10 +1,54 @@
 // SemesterAcademicYearTable.js
 import React, { useState } from 'react';
-import { Table, Button, Space, Typography, Switch, message } from 'antd';
+import { Table, Button, Space, Typography, Switch, Popconfirm } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import axios from 'axios'; // Ensure axios is imported for API calls
+import PropTypes from 'prop-types'; // For prop type checking
 
 const { Text } = Typography;
+
+// **Custom Switch Component with Confirmation**
+const ConfirmSwitch = ({ checked, onConfirm, disabled }) => {
+    const [visible, setVisible] = useState(false);
+
+    const handleChange = (checked) => {
+        if (checked) {
+            setVisible(true);
+        }
+    };
+
+    const handleConfirm = () => {
+        setVisible(false);
+        onConfirm();
+    };
+
+    const handleCancel = () => {
+        setVisible(false);
+    };
+
+    return (
+        <Popconfirm
+            title="Are you sure you want to activate this academic year? This will deactivate all others."
+            visible={visible}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+            okText="Yes"
+            cancelText="No"
+        >
+            <Switch
+                checked={checked}
+                onChange={handleChange}
+                disabled={disabled}
+                aria-label={`Toggle status for ID`}
+            />
+        </Popconfirm>
+    );
+};
+
+ConfirmSwitch.propTypes = {
+    checked: PropTypes.bool.isRequired,
+    onConfirm: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+};
 
 const SemesterAcademicYearTable = ({
     rowSelection,
@@ -12,75 +56,17 @@ const SemesterAcademicYearTable = ({
     setIsEditModalVisible,
     setModalData,
     handleDeleteSemesterAcademicYear,
-    handleStatusChange, // New prop for handling status changes
-    setData,
-    reloadData,
+    handleStatusChange, // Function to handle status changes
     showArchived, // New prop to determine if showing archived data
+    loading, // Loading state
 }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10;
-    const [loadingStatus, setLoadingStatus] = useState(false); // Loading state for status updates
 
     const handlePageChange = (page) => {
         setCurrentPage(page); // Update the current page when the page is changed
     };
 
-    // If handleStatusChange is not passed as a prop, define a default handler
-    const defaultHandleStatusChange = async (id, checked) => {
-        setLoadingStatus(true);  // Set loading state for status update
-    
-        try {
-            const token = localStorage.getItem('auth_token');
-            if (!token) {
-                message.error('Authorization token is missing');
-                return;
-            }
-    
-            // First, update all statuses in the database to 0 (turn them off)
-            await axios.put('/api/semesteracademicyear/all/status', {
-                status: 0, // Set all to 0 (off)
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`, // Include the token in the headers for authorization
-                },
-            });
-    
-            // After updating all statuses to 0, now update the clicked row's status to 1 (turn it on)
-            if (checked) {
-                await axios.put(`/api/semesteracademicyear/${id}/status`, {
-                    status: 1, // Set the clicked row to 1 (on)
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-            }
-    
-            // Update the local state after successful API call
-            setData(prevData => prevData.map(item => {
-                if (item.id === id && checked) {
-                    return { ...item, status: 1 };  // Update the clicked row's status to 1
-                } else {
-                    return { ...item, status: 0 };  // Set all other rows' status to 0
-                }
-            }));
-    
-            message.success('Status updated successfully');
-            reloadData();  // Reload the data if needed
-    
-        } catch (error) {
-            console.error('Error updating status:', error);
-            message.error(`Failed to update status: ${error.message || 'Unknown error'}`);
-        } finally {
-            setLoadingStatus(false);  // Set loading state back to false after the update completes
-        }
-    };
-    
-
-    // Use the passed handler or default handler
-    const onStatusChange = handleStatusChange || defaultHandleStatusChange;
-
-    // Define base columns
     const columns = [
         {
             title: <span style={{ color: '#1890ff' }}>Actions</span>, // Blue title
@@ -94,14 +80,23 @@ const SemesterAcademicYearTable = ({
                             setIsEditModalVisible(true);
                             setModalData(record);
                         }}
-                        disabled={showArchived} // Disable edit in archived view
+                        disabled={showArchived || loading} // Disable edit in archived view or during loading
+                        aria-label="Edit Academic Year"
                     />
-                    <Button
-                        icon={<DeleteOutlined />}
-                        danger
-                        style={{ backgroundColor: 'white', border: 'none', color: 'black' }}
-                        onClick={() => handleDeleteSemesterAcademicYear(record.id)}
-                    />
+                    <Popconfirm
+                        title="Are you sure you want to archive this academic year?"
+                        onConfirm={() => handleDeleteSemesterAcademicYear(record.id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button
+                            icon={<DeleteOutlined />}
+                            danger
+                            style={{ backgroundColor: 'white', border: 'none', color: 'black' }}
+                            disabled={loading} // Disable delete during loading
+                            aria-label="Archive Academic Year"
+                        />
+                    </Popconfirm>
                 </Space>
             ),
         },
@@ -125,17 +120,34 @@ const SemesterAcademicYearTable = ({
             dataIndex: 'status',
             key: 'status',
             render: (text, record) => (
-                <Switch
-                    checked={record.status === 1} // Switch should be on when status is 1
-                    onChange={(checked) => onStatusChange(record.id, checked)}
-                    loading={loadingStatus}
-                    disabled={showArchived} // Disable switch in archived view
-                />
+                showArchived ? (
+                    <Switch
+                        checked={record.status === 1}
+                        disabled // Disable switch in archived view
+                        aria-label={`Status for ID ${record.id}`}
+                    />
+                ) : (
+                    record.status === 1 ? (
+                        // If the record is active, disable the switch to prevent disabling
+                        <Switch
+                            checked={true}
+                            disabled
+                            aria-label={`Active status for ID ${record.id}`}
+                        />
+                    ) : (
+                        // If the record is inactive, allow activating with confirmation
+                        <ConfirmSwitch
+                            checked={false}
+                            onConfirm={() => handleStatusChange(record.id, true)}
+                            disabled={loading}
+                        />
+                    )
+                )
             ),
         },
     ];
 
-    // Conditionally add date columns based on showArchived prop
+    // **Conditionally add date columns based on showArchived prop**
     if (!showArchived) {
         // If showing active data, include Created At and Updated At
         columns.push(
@@ -144,7 +156,7 @@ const SemesterAcademicYearTable = ({
                 dataIndex: 'created_at',
                 key: 'created_at',
                 render: (text) => (
-                    <Text>{new Date(text).toLocaleString()}</Text> // Format the date
+                    <Text>{text ? new Date(text).toLocaleString() : 'N/A'}</Text> // Format the date
                 ),
             },
             {
@@ -152,7 +164,7 @@ const SemesterAcademicYearTable = ({
                 dataIndex: 'updated_at',
                 key: 'updated_at',
                 render: (text) => (
-                    <Text>{new Date(text).toLocaleString()}</Text> // Format the date
+                    <Text>{text ? new Date(text).toLocaleString() : 'N/A'}</Text> // Format the date
                 ),
             }
         );
@@ -189,8 +201,21 @@ const SemesterAcademicYearTable = ({
                 </div>
             )}
             scroll={{ x: 1000 }} // Allows horizontal scrolling on smaller screens if needed
+            loading={loading} // Pass the loading state to the Table
         />
     );
+};
+
+// **Prop Type Validation**
+SemesterAcademicYearTable.propTypes = {
+    rowSelection: PropTypes.object,
+    data: PropTypes.array.isRequired,
+    setIsEditModalVisible: PropTypes.func.isRequired,
+    setModalData: PropTypes.func.isRequired,
+    handleDeleteSemesterAcademicYear: PropTypes.func.isRequired,
+    handleStatusChange: PropTypes.func.isRequired,
+    showArchived: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
 };
 
 export default SemesterAcademicYearTable;

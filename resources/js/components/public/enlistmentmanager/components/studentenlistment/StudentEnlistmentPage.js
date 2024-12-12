@@ -21,11 +21,10 @@ const StudentEnlistmentPage = () => {
 
     useEffect(() => {
         // Ensure data and archivedData are valid arrays before using .filter()
-        const filtered = (showArchived ? Array.isArray(archivedData) ? archivedData : [] : Array.isArray(data) ? data : [] )
+        const filtered = (showArchived ? Array.isArray(archivedData) ? archivedData : [] : Array.isArray(data) ? data : [])
             .filter(student =>
                 student.name.toLowerCase().includes(searchValue.toLowerCase())
             );
-        console.log(filtered); // Log filtered data
         setFilteredData(filtered);
     }, [searchValue, data, archivedData, showArchived]);
 
@@ -40,14 +39,8 @@ const StudentEnlistmentPage = () => {
     const handleDeleteStudentEnlistment = (id) => {
         const studentToDelete = data.find(student => student.id === id);
         if (studentToDelete) {
-            // Update the deleted_at field to mark the record as deleted
-            const updatedStudent = { 
-                ...studentToDelete, 
-                deleted_at: new Date().toISOString() // Add a timestamp for when it was deleted
-            };
-
             setData(data.filter(student => student.id !== id)); // Remove from active data
-            setArchivedData([...archivedData, updatedStudent]); // Add to archived data with the deleted_at field updated
+            setArchivedData([...archivedData, { ...studentToDelete, isArchived: true }]); // Add to archived data
             message.success('Student enlistment archived successfully');
         }
     };
@@ -56,14 +49,8 @@ const StudentEnlistmentPage = () => {
         const selectedStudents = data.filter(student => selectedRowKeys.includes(student.id));
         const remainingStudents = data.filter(student => !selectedRowKeys.includes(student.id));
 
-        // Update deleted_at for selected students
-        const updatedSelectedStudents = selectedStudents.map(student => ({
-            ...student,
-            deleted_at: new Date().toISOString(),
-        }));
-
         setData(remainingStudents); // Remove selected from active data
-        setArchivedData([...archivedData, ...updatedSelectedStudents]); // Archive selected with updated deleted_at
+        setArchivedData([...archivedData, ...selectedStudents.map(student => ({ ...student, isArchived: true }))]); // Archive selected
         setSelectedRowKeys([]); // Clear selected keys
 
         message.success(`${selectedStudents.length} student(s) archived successfully`);
@@ -74,7 +61,7 @@ const StudentEnlistmentPage = () => {
         const remainingArchivedStudents = archivedData.filter(student => !selectedRowKeys.includes(student.id));
 
         setArchivedData(remainingArchivedStudents); // Remove selected from archived data
-        setData([...data, ...selectedStudents.map(student => ({ ...student, deleted_at: null }))]); // Restore and set deleted_at to null
+        setData([...data, ...selectedStudents.map(student => ({ ...student, isArchived: false }))]); // Add back to active data
         setSelectedRowKeys([]); // Clear selected keys
 
         message.success(`${selectedStudents.length} student(s) restored successfully`);
@@ -146,10 +133,10 @@ const StudentEnlistmentPage = () => {
             </div>
             <StudentEnlistmentTable
                 rowSelection={rowSelection}
-                data={filteredData || []} // Ensure filteredData is passed
+                data={filteredData}
                 setIsEditModalVisible={setIsEditModalVisible}
                 setModalData={setModalData}
-                handleDeleteEnlistment={handleDeleteStudentEnlistment}
+                handleDeleteStudentEnlistment={handleDeleteStudentEnlistment}
             />
             <StudentEnlistmentModal
                 isEditModalVisible={isEditModalVisible}
