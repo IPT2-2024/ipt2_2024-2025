@@ -90,6 +90,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('subject', SubjectController::class);
     Route::post('subject/{id}/restore', [SubjectController::class, 'restore']);
 
+
     // Curriculums
     Route::apiResource('curriculum', CurriculumController::class);
     Route::post('curriculum/{id}/restore', [CurriculumController::class, 'restore']);

@@ -5,7 +5,8 @@ import axios from 'axios';
 import debounce from 'lodash.debounce';
 import { useMediaQuery } from 'react-responsive';
 import StudentTable from './components/StudentTable'; // Your table component
-import StudentCreateModal from './components/StudentCreateModal'; // Your Create Modal
+import StudentCreateModal from './components/StudentCreateModal';
+import StudentEditModal from './components/StudentEditModal'; // Your Create Modal
 import MainDashboard from '../dashboard/components/MainDashboard';
 
 const { Text } = Typography;
