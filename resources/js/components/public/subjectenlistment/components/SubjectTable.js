@@ -52,6 +52,7 @@ const SubjectTable = ({
 
   const handleEdit = (record) => {
     console.log('Edit:', record);
+    handleEditSubject(record);
   };
 
   const handleDelete = (record) => {
@@ -126,6 +127,20 @@ const SubjectTable = ({
       title: <span style={{ color: '#1890ff' }}>Subject Category</span>,
       dataIndex: 'subject_category',
       key: 'subject_category',
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      width: 180,
+    },
+    {
+      title: <span style={{ color: '#1890ff' }}>Subject Classification</span>,
+      dataIndex: 'classification',
+      key: 'classification',
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      width: 180,
+    },
+    {
+      title: <span style={{ color: '#1890ff' }}>Subject Description</span>,
+      dataIndex: 'subject_description',
+      key: 'subject_description',
       responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
       width: 180,
     },

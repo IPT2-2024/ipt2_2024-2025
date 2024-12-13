@@ -60,7 +60,7 @@ const StudentEnlistmentTable = ({
             key: 'profile_id',
         },
         {
-            title: <span style={{ color: '#1890ff' }}>Class Schedule ID</span>,
+            title: <span style={{ color: '#1890ff' }}>Class Schedule</span>,
             dataIndex: 'classschedule_id',
             key: 'classschedule_id',
         },
