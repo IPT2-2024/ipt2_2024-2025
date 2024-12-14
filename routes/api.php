@@ -97,6 +97,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Subject Curriculums
     Route::apiResource('subjectcurriculum', SubjectCurriculumController::class);
     Route::post('subjectcurriculum/{id}/restore', [SubjectCurriculumController::class, 'restore']);
+    Route::get('subjectcurriculum/{subjectId}/curriculum', [SubjectCurriculumController::class, 'getCurriculumsForSubject']);
 
     // Departments
     Route::apiResource('department', DepartmentController::class);
@@ -106,10 +107,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('collegeprogram', CollegeProgramController::class);
     Route::post('collegeprogram/{id}/restore', [CollegeProgramController::class, 'restore']);
     Route::get('collegeprogram/total/count', [CollegeProgramController::class, 'getTotalCourses']);
+    
 
     // College Program Departments
     Route::apiResource('collegeprogramdepartment', CollegeProgramDepartmentController::class);
     Route::post('collegeprogramdepartment/{id}/restore', [CollegeProgramDepartmentController::class, 'restore']);
+    Route::get('/collegeprogram/department/{departmentId}', [CollegeProgramDepartmentController::class, 'getProgramsByDepartment']);
+
 
     // Academic Programs
     Route::apiResource('academicprogram', AcademicProgramController::class);

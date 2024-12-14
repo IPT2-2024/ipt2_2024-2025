@@ -1,132 +1,289 @@
-import React, { useState } from 'react';
-import { Form, Input, Select, Button, Checkbox, Space, Typography } from 'antd';
-import { PlusOutlined, SaveOutlined } from '@ant-design/icons';
-import MainDashboard from '../dashboard/components/MainDashboard';  // Adjust the path if needed
+import React, { useState } from "react";
+import { message, Select, Divider, Row, Col, Modal } from "antd";
+import MainDashboard from "../dashboard/components/MainDashboard";
+import useDepartments from "../academicprograms/components/useDepartments";
+import useCollegePrograms from "../academicprograms/components/useCollegePrograms";
+import AcademicProgramTable from "../academicprograms/components/AcademicProgramTable";
+import useSubjects from "../academicprograms/components/useSubjects";
+import SetButton from "../academicprograms/components/SetButton";
+import useCurriculums from "../academicprograms/components/useCurriculum";
 
 const { Option } = Select;
-const { Title } = Typography;
 
 const AcademicProgramsPage = () => {
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
+    const token = localStorage.getItem("auth_token");
+    const {
+        departments,
+        loading: loadingDepartments,
+        error: departmentError,
+    } = useDepartments(token);
+    const {
+        collegePrograms,
+        loading: loadingPrograms,
+        error: programError,
+        fetchCollegePrograms,
+    } = useCollegePrograms(token);
+    const {
+        subjects,
+        dropdownSubjects,
+        loading: loadingSubjects,
+        error: subjectsError,
+    } = useSubjects(token);
+    const {
+        curriculums,
+        loading: loadingCurriculums,
+        error: curriculumError,
+    } = useCurriculums(token);
 
-  // Handle form submission (UI-only)
-  const onFinish = (values) => {
-    console.log("Form submitted:", values);  // Placeholder for form submission
-    form.resetFields();  // Reset form fields after submission
-  };
+    const [department, setDepartment] = useState(null);
+    const [collegeProgram, setCollegeProgram] = useState(null);
+    const [subject, setSubject] = useState(null);
+    const [curriculum, setCurriculum] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalDepartment, setModalDepartment] = useState(null);
+    const [modalCollegeProgram, setModalCollegeProgram] = useState(null);
+    
 
-  return (
-    <MainDashboard>
-      <div style={{ padding: '20px', background: '#fff' }}>
-        {/* Smaller header by changing the Title level */}
-        <Title level={3}>Academic Program Management</Title>
+    const handleDepartmentChange = (value) => {
+        setDepartment(value);
+        setCollegeProgram(null);
+        if (value) {
+            fetchCollegePrograms(value);
+        }
+    };
 
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={onFinish}
-          initialValues={{
-            isActive: true, // Default value for active programs
-          }}
-        >
-          {/* Program Name */}
-          <Form.Item
-            label="Program Name"
-            name="programName"
-            rules={[{ required: true, message: 'Please enter the program name' }]}
-          >
-            <Input placeholder="Enter Program Name" />
-          </Form.Item>
+    const handleProgramChange = (value) => {
+        setCollegeProgram(value);
+    };
 
-          {/* Department */}
-          <Form.Item
-            label="Department"
-            name="department"
-            rules={[{ required: true, message: 'Please select the department' }]}
-          >
-            <Select placeholder="Select Department">
-              <Option value="cs">Computer Science</Option>
-              <Option value="it">Information Technology</Option>
-              <Option value="math">Mathematics</Option>
-              {/* Add more departments as needed */}
-            </Select>
-          </Form.Item>
+    const handleSubjectChange = (value) => {
+        setSubject(value);
+    };
 
-          {/* Year Level */}
-          <Form.Item
-            label="Year Level"
-            name="yearLevel"
-            rules={[{ required: true, message: 'Please select the year level' }]}
-          >
-            <Select placeholder="Select Year Level">
-              <Option value="1">1st Year</Option>
-              <Option value="2">2nd Year</Option>
-              <Option value="3">3rd Year</Option>
-              <Option value="4">4th Year</Option>
-              {/* Add more year levels as needed */}
-            </Select>
-          </Form.Item>
+    const handleCurriculumChange = (value) => {
+        setCurriculum(value);
+    };
 
-          {/* Program Type */}
-          <Form.Item
-            label="Program Type"
-            name="programType"
-            rules={[{ required: true, message: 'Please select the program type' }]}
-          >
-            <Select placeholder="Select Program Type">
-              <Option value="undergraduate">Undergraduate</Option>
-              <Option value="graduate">Graduate</Option>
-            </Select>
-          </Form.Item>
+    const handleSetButtonClick = () => {
+        setModalVisible(true);
+    };
 
-          {/* Duration */}
-          <Form.Item
-            label="Duration"
-            name="duration"
-            rules={[{ required: true, message: 'Please enter the duration (in years)' }]}
-          >
-            <Input placeholder="Enter Duration in years" />
-          </Form.Item>
+    const handleModalClose = () => {
+        setModalVisible(false);
+    };
+    const handleModalDepartmentChange = (value) => {
+        setModalDepartment(value);
+        setModalCollegeProgram(null);
+        if (value) {
+            fetchCollegeProgramsForModal(value); // Ensure this fetches programs based on modal's department
+        }
+    };
+    const fetchCollegeProgramsForModal = (value) => {
+        setModalCollegeProgram(value);
+    };
+    
+    const handleModalProgramChange = (value) => {
+        setModalCollegeProgram(value);
+    };
 
-          {/* Description */}
-          <Form.Item
-            label="Description"
-            name="description"
-            rules={[{ required: true, message: 'Please provide a description of the program' }]}
-          >
-            <Input.TextArea placeholder="Program Description" rows={4} />
-          </Form.Item>
+    return (
+        <MainDashboard>
+            <div style={{ background: "#fff" }}>
+                <h3 style={{ marginBottom: "20px" }}>
+                    Academic Program Management
+                </h3>
 
-          {/* Active Program (Checkbox or Toggle) */}
-          <Form.Item name="isActive" valuePropName="checked">
-            <Checkbox>Is Active</Checkbox>
-          </Form.Item>
+                {departmentError && (
+                    <div style={{ color: "red" }}>{departmentError}</div>
+                )}
 
-          {/* Submission Button */}
-          <Form.Item>
-            <Space>
-              <Button 
-                type="primary" 
-                icon={<PlusOutlined />} 
-                htmlType="submit" 
-                loading={loading}
-              >
-                Add Program
-              </Button>
-              <Button 
-                icon={<SaveOutlined />} 
-                onClick={() => form.submit()}
-                loading={loading}
-              >
-                Save Program
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </div>
-    </MainDashboard>
-  );
+                <Row
+                    gutter={16}
+                    align="middle"
+                    style={{ marginBottom: "20px" }}
+                >
+                    <Col span={8}>
+                        <Select
+                            placeholder="Select Department"
+                            style={{ width: "100%" }}
+                            onChange={handleDepartmentChange}
+                            value={department}
+                            disabled={loadingDepartments}
+                        >
+                            {departments.map((department) => (
+                                <Option
+                                    key={department.id}
+                                    value={department.id}
+                                >
+                                    {department.name}
+                                </Option>
+                            ))}
+                        </Select>
+                    </Col>
+
+                    <Col span={8}>
+                        {programError && (
+                            <div style={{ color: "red" }}>{programError}</div>
+                        )}
+                        <Select
+                            placeholder="Select College Program"
+                            style={{ width: "100%" }}
+                            onChange={handleProgramChange}
+                            value={collegeProgram}
+                            disabled={!department || loadingPrograms}
+                        >
+                            {collegePrograms.map((programItem) => (
+                                <Option
+                                    key={programItem.id}
+                                    value={programItem.id}
+                                >
+                                    {programItem.name}
+                                </Option>
+                            ))}
+                        </Select>
+                    </Col>
+
+                    <Col span={8} style={{ textAlign: "right" }}>
+                        <SetButton onClick={handleSetButtonClick} />
+                    </Col>
+                </Row>
+
+                <Divider style={{ margin: "20px 0", borderColor: "#ddd" }} />
+
+                <AcademicProgramTable
+                    subjects={subjects}
+                    loading={loadingSubjects}
+                    error={subjectsError}
+                />
+
+                <Modal
+                    title="Course Curriculum Setup"
+                    visible={modalVisible}
+                    onCancel={handleModalClose}
+                    footer={null}
+                    destroyOnClose
+                    centered
+                >
+                    <Row gutter={16} style={{ marginBottom: "16px" }}>
+                        <Col span={24}>
+                            <h5
+                                style={{
+                                    fontSize: "14px",
+                                    marginBottom: "8px",
+                                }}
+                            >
+                                Department
+                            </h5>
+                            <Select
+                                placeholder="Select Department"
+                                style={{ width: "100%" }}
+                                onChange={handleModalDepartmentChange}
+                                value={modalDepartment}
+                                disabled={loadingDepartments}
+                            >
+                                {departments.map((department) => (
+                                    <Option
+                                        key={department.id}
+                                        value={department.id}
+                                    >
+                                        {department.name}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </Col>
+                    </Row>
+
+                    <Row gutter={16} style={{ marginBottom: "16px" }}>
+                        <Col span={24}>
+                            <h5
+                                style={{
+                                    fontSize: "14px",
+                                    marginBottom: "8px",
+                                }}
+                            >
+                                College Program
+                            </h5>
+                            <Select
+                                placeholder="Select College Program"
+                                style={{ width: "100%" }}
+                                onChange={handleModalProgramChange}
+                                value={modalCollegeProgram}
+                                disabled={!modalDepartment || loadingPrograms}
+                            >
+                                {collegePrograms.map((programItem) => (
+                                    <Option
+                                        key={programItem.id}
+                                        value={programItem.id}
+                                    >
+                                        {programItem.name}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </Col>
+                    </Row>
+
+                    <Row gutter={16} style={{ marginBottom: "16px" }}>
+                        <Col span={24}>
+                            <h5
+                                style={{
+                                    fontSize: "14px",
+                                    marginBottom: "8px",
+                                }}
+                            >
+                                Subject
+                            </h5>
+                            <Select
+                                placeholder="Select Subject"
+                                style={{ width: "100%" }}
+                                onChange={handleSubjectChange}
+                                value={subject}
+                                disabled={loadingSubjects}
+                            >
+                                {dropdownSubjects.map((subjectItem) => (
+                                    <Option
+                                        key={subjectItem.id}
+                                        value={subjectItem.id}
+                                    >
+                                        {subjectItem.name}{" "}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </Col>
+                    </Row>
+
+                    <Row gutter={16} style={{ marginBottom: "16px" }}>
+                        <Col span={24}>
+                            <h5
+                                style={{
+                                    fontSize: "14px",
+                                    marginBottom: "8px",
+                                }}
+                            >
+                                Curriculum
+                            </h5>
+                            <Select
+                                placeholder="Select Curriculum"
+                                style={{ width: "100%" }}
+                                onChange={handleCurriculumChange}
+                                value={curriculum}
+                                disabled={loadingCurriculums}
+                            >
+                                {curriculums.map((curriculumItem) => (
+                                    <Option
+                                        key={curriculumItem.id}
+                                        value={curriculumItem.id}
+                                    >
+                                        {curriculumItem.code}{" "}
+                                        {curriculumItem.objective}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </Col>
+                    </Row>
+                </Modal>
+            </div>
+        </MainDashboard>
+    );
 };
 
 export default AcademicProgramsPage;

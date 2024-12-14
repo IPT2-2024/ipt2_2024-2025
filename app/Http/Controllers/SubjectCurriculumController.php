@@ -28,6 +28,26 @@ class SubjectCurriculumController extends Controller
         return response()->json($subjectCurriculums);
     }
 
+    public function getCurriculumsForSubject($subjectId)
+    {
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $subjectCurriculums = SubjectCurriculum::where('subject_id', $subjectId)
+            ->with('curriculum')
+            ->get();
+
+        if ($subjectCurriculums->isEmpty()) {
+            return response()->json(['message' => 'No curriculums found for this subject'], 404);
+        }
+
+        return response()->json($subjectCurriculums);
+    }
+
+
+
+
     // Store a newly created subject curriculum in storage
     public function store(Request $request)
     {

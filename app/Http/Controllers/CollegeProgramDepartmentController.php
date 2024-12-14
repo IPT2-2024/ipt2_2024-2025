@@ -6,6 +6,7 @@ use App\Models\CollegeProgramDepartment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+
 class CollegeProgramDepartmentController extends Controller
 {
     // Display a listing of college program departments
@@ -14,20 +15,46 @@ class CollegeProgramDepartmentController extends Controller
         $deleted = $request->query('deleted', 'false');
 
         if ($deleted === 'only') {
-            $collegeProgramDepartments = CollegeProgramDepartment::onlyTrashed()->get();
+            $collegeProgramDepartments = CollegeProgramDepartment::onlyTrashed()->with('department')->get();
         } elseif ($deleted === 'true') {
-            $collegeProgramDepartments = CollegeProgramDepartment::withTrashed()->get();
+            $collegeProgramDepartments = CollegeProgramDepartment::withTrashed()->with('department')->get();
         } else {
-            $collegeProgramDepartments = CollegeProgramDepartment::all();
+            $collegeProgramDepartments = CollegeProgramDepartment::with('department')->get();
         }
 
         if ($collegeProgramDepartments->isEmpty()) {
             return response()->json(['message' => 'No college program departments found'], 404);
         }
 
-        return response()->json($collegeProgramDepartments);
-    }
+        // Add department name to each result
+        $collegeProgramDepartments = $collegeProgramDepartments->map(function ($cpd) {
+            return [
+                'id' => $cpd->id,
+                'collegeProgram' => $cpd->collegeProgram,
+                'departmentName' => $cpd->department->name, // Add department name
+            ];
+        });
 
+        return response()->json($collegeProgramDepartments);
+    }           
+
+    public function getProgramsByDepartment($departmentId)
+    {
+        
+        $programs = CollegeProgramDepartment::where('department_id', $departmentId)
+            ->with('collegeProgram') 
+            ->get()
+            ->map(function ($item) {
+                return $item->collegeProgram;
+            });
+    
+        if ($programs->isEmpty()) {
+            return response()->json(['message' => 'No college programs found for this department.'], 404);
+        }
+    
+        return response()->json($programs);
+    }
+    
     // Store a newly created college program department in storage
     public function store(Request $request)
     {

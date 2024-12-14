@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Validator;
 
 class CollegeProgramController extends Controller
 {
+
+ 
+  
+  
     // Display a listing of college programs
     public function index(Request $request)
     {
@@ -27,6 +31,11 @@ class CollegeProgramController extends Controller
 
         return response()->json($collegePrograms);
     }
+
+    
+    
+
+    
 
     // Store a newly created college program in storage
     public function store(Request $request)

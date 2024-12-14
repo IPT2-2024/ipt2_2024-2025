@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 class DepartmentController extends Controller
 {
     // Display a listing of departments
+
+    
     public function index(Request $request)
     {
         $deleted = $request->query('deleted', 'false');
@@ -27,6 +29,8 @@ class DepartmentController extends Controller
 
         return response()->json($departments);
     }
+    
+
 
     // Store a newly created department in storage
     public function store(Request $request)

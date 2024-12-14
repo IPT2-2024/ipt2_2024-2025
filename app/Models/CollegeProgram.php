@@ -23,4 +23,7 @@ class CollegeProgram extends Model
     {
         return $this->hasMany(AcademicProgram::class, 'academicprogram_id');
     }
-}
+    
+
+
+}   
