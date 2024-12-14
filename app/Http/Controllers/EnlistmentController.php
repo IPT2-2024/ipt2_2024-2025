@@ -59,7 +59,7 @@ class EnlistmentController extends Controller
         $fullName = "{$profile->last_name}, {$profile->first_name} {$middleInitial}{$suffix}";
 
         // Status determination
-        $status = $enlistment->deleted_at ? 'Archived' : ($profile->is_regular ? 'Regular' : 'Irregular');
+        $status = $user->status ?? 'Unknown';
 
         // Program and Year Level
         $program = optional(optional($profile->college_program_department)->collegeprogram)->college_programs ?? 'N/A';
