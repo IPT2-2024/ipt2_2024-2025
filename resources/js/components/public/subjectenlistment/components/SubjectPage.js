@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Button, Space, notification, Form, Popconfirm } from 'antd';
-import { SearchOutlined, PlusOutlined, FileTextOutlined, UnorderedListOutlined } from '@ant-design/icons'; 
+import {
+  SearchOutlined,
+  PlusOutlined,
+  FileTextOutlined,
+  UnorderedListOutlined,
+} from '@ant-design/icons'; 
 import axios from 'axios';
 import SubjectTable from './SubjectTable';
 import SubjectModal from './SubjectModal';
 
 const SubjectPage = () => {
   const [data, setData] = useState([]);
+  const [categories, setCategories] = useState([]); // State to hold categories
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(5);
@@ -18,13 +24,34 @@ const SubjectPage = () => {
   const [showArchived, setShowArchived] = useState(false);
   const [form] = Form.useForm();
 
+  // Function to fetch categories from the API
+  const fetchCategories = async () => {
+    try {
+      const token = localStorage.getItem('auth_token'); // Retrieve auth token if needed
+      const response = await axios.get('/api/subjectcategory', {
+        headers: {
+          Authorization: `Bearer ${token}`, // Corrected syntax
+        },
+      });
+      setCategories(response.data); // Assuming API returns [{ id: 1, name: 'Mathematics' }, ...]
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      notification.error({
+        message: 'Error',
+        description:
+          'Failed to fetch subject categories. Please try again later.',
+      });
+    }
+  };
+
+  // Function to fetch subjects from the API
   const fetchSubjects = async () => {
     setLoading(true);
 
     try {
       const token = localStorage.getItem('auth_token');
       const response = await axios.get('/api/subject', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }, // Corrected syntax
         params: {
           page: currentPage,
           search: searchText,
@@ -32,15 +59,22 @@ const SubjectPage = () => {
         }
       });
 
-      const subjects = response.data.map((subject) => ({
+      console.log('API Response:', response.data); // Verify the structure
+
+      // Adjust mapping based on API response
+      const subjectsArray = Array.isArray(response.data)
+        ? response.data
+        : response.data.data;
+
+      const subjects = subjectsArray.map((subject) => ({
         id: subject.id,
         code: subject.subject_code,
         name: subject.subject_name,
         units: subject.units,
-        subject_category: subject.subject_category.subject_category,
         classification: subject.classification,
         subject_description: subject.subject_description,
         availability: subject.availability,
+        subject_category: subject.subject_category.subject_category, // Ensure this matches the API response
       }));
 
       setData(subjects);
@@ -56,63 +90,67 @@ const SubjectPage = () => {
     }
   };
 
+  // Fetch categories and subjects on component mount and when dependencies change
   useEffect(() => {
+    fetchCategories();
     fetchSubjects();
   }, [currentPage, searchText, showArchived]);
 
+  // Handler for searching subjects
   const handleSearch = (value) => {
     setSearchText(value);
     setCurrentPage(1);
   };
 
+  // Handler for printing
   const handlePrint = () => {
-    // Implement print functionality
     window.print();
   };
 
-  // Add this function to SubjectPage
-const handleAddSubject = async (values) => {
-  try {
-    const token = localStorage.getItem('auth_token');
-    if (editingSubject) {
-      // Update existing subject
-      await axios.put(`/api/subject/${editingSubject.id}`, values, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      notification.success({
-        message: 'Success',
-        description: 'Subject updated successfully.',
-      });
-    } else {
-      // Create new subject
-      await axios.post('/api/subject', values, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      notification.success({
-        message: 'Success',
-        description: 'Subject created successfully.',
+  // Handler for adding or editing a subject
+  const handleAddSubject = async (values) => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      if (editingSubject) {
+        // Update existing subject
+        await axios.put(`/api/subject/${editingSubject.id}`, values, {
+          headers: { Authorization: `Bearer ${token}` }, // Corrected syntax
+        });
+        notification.success({
+          message: 'Success',
+          description: 'Subject updated successfully.',
+        });
+      } else {
+        // Create new subject
+        await axios.post('/api/subject', values, {
+          headers: { Authorization: `Bearer ${token}` }, // Corrected syntax
+        });
+        notification.success({
+          message: 'Success',
+          description: 'Subject created successfully.',
+        });
+      }
+
+      // Refresh data and close modal
+      fetchSubjects();
+      setIsModalVisible(false);
+      form.resetFields();
+      setEditingSubject(null);
+    } catch (error) {
+      console.error('Error saving subject:', error);
+      notification.error({
+        message: 'Error',
+        description: 'Failed to save subject. Please try again later.',
       });
     }
+  };
 
-    // Refresh data and close modal
-    fetchSubjects();
-    setIsModalVisible(false);
-    form.resetFields();
-  } catch (error) {
-    console.error('Error saving subject:', error);
-    notification.error({
-      message: 'Error',
-      description: 'Failed to save subject. Please try again later.',
-    });
-  }
-};
-
-
+  // Handler for deleting selected subjects
   const handleDeleteSelected = async () => {
     try {
       const token = localStorage.getItem('auth_token');
       await axios.delete('/api/subject/bulk-delete', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }, // Corrected syntax
         data: { ids: selectedRowKeys }
       });
 
@@ -125,6 +163,7 @@ const handleAddSubject = async (values) => {
       fetchSubjects();
       setSelectedRowKeys([]);
     } catch (error) {
+      console.error('Error deleting selected subjects:', error);
       notification.error({
         message: 'Error',
         description: 'Failed to delete selected subjects. Please try again later.',
@@ -132,12 +171,13 @@ const handleAddSubject = async (values) => {
     }
   };
 
+  // Handler for restoring selected subjects
   const handleRestoreSelected = async () => {
     try {
       const token = localStorage.getItem('auth_token');
       await axios.put('/api/subject/bulk-restore', 
         { ids: selectedRowKeys },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } } // Corrected syntax
       );
 
       notification.success({
@@ -149,6 +189,7 @@ const handleAddSubject = async (values) => {
       fetchSubjects();
       setSelectedRowKeys([]);
     } catch (error) {
+      console.error('Error restoring selected subjects:', error);
       notification.error({
         message: 'Error',
         description: 'Failed to restore selected subjects. Please try again later.',
@@ -156,16 +197,77 @@ const handleAddSubject = async (values) => {
     }
   };
 
+  // Handler for editing a single subject
+  const handleEditSubject = (subject) => {
+    setEditingSubject(subject);
+    setIsModalVisible(true);
+  };
+
+  // Handler for deleting a single subject
+  const handleDeleteSubject = async (id) => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      await axios.delete(`/api/subject/${id}`, { // Corrected syntax
+        headers: { Authorization: `Bearer ${token}` }, // Corrected syntax
+      });
+
+      notification.success({
+        message: 'Success',
+        description: 'Subject deleted successfully.',
+      });
+
+      // Refresh data after deletion
+      fetchSubjects();
+    } catch (error) {
+      console.error('Error deleting subject:', error);
+      notification.error({
+        message: 'Error',
+        description: 'Failed to delete subject. Please try again later.',
+      });
+    }
+  };
+
+  // Handler for restoring a single subject
+  const handleRestoreSubject = async (id) => {
+    try {
+      const token = localStorage.getItem('auth_token');
+      await axios.put(`/api/subject/${id}/restore`, {}, { // Corrected syntax
+        headers: { Authorization: `Bearer ${token}` }, // Corrected syntax
+      });
+
+      notification.success({
+        message: 'Success',
+        description: 'Subject restored successfully.',
+      });
+
+      // Refresh data after restoration
+      fetchSubjects();
+    } catch (error) {
+      console.error('Error restoring subject:', error);
+      notification.error({
+        message: 'Error',
+        description: 'Failed to restore subject. Please try again later.',
+      });
+    }
+  };
+
+  // Handler for row selection change
+  const handleRowSelectionChange = (newSelectedRowKeys) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
   return (
     <div style={{ padding: '20px', background: '#fff' }}>
-      <div style={{ 
-        marginBottom: '20px', 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
-        flexWrap: 'wrap', 
-        gap: '10px' 
-      }}>
+      <div
+        style={{
+          marginBottom: '20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '10px',
+        }}
+      >
         <Space wrap style={{ flex: 1, justifyContent: 'flex-start' }}>
           <Input.Search
             value={searchText}
@@ -189,9 +291,9 @@ const handleAddSubject = async (values) => {
         <Space wrap style={{ flex: 1, justifyContent: 'flex-end' }}>
           {!showArchived && (
             <>
-              <Button 
-                type="primary" 
-                icon={<PlusOutlined />} 
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
                 onClick={() => {
                   setEditingSubject(null); // Ensure no subject is being edited
                   setIsModalVisible(true); // Show the modal
@@ -206,10 +308,7 @@ const handleAddSubject = async (values) => {
                 okText="Yes"
                 cancelText="No"
               >
-                <Button
-                  danger
-                  disabled={selectedRowKeys.length === 0}
-                >
+                <Button danger disabled={selectedRowKeys.length === 0}>
                   Remove Selected Subjects
                 </Button>
               </Popconfirm>
@@ -223,10 +322,7 @@ const handleAddSubject = async (values) => {
               okText="Yes"
               cancelText="No"
             >
-              <Button
-                type="default"
-                disabled={selectedRowKeys.length === 0}
-              >
+              <Button type="default" disabled={selectedRowKeys.length === 0}>
                 Restore Selected Subjects
               </Button>
             </Popconfirm>
@@ -236,16 +332,17 @@ const handleAddSubject = async (values) => {
 
       <SubjectTable 
         data={data} 
+        categories={categories}
         selectedRowKeys={selectedRowKeys} 
-        onRowSelectionChange={setSelectedRowKeys} 
+        onRowSelectionChange={handleRowSelectionChange} 
         currentPage={currentPage} 
         pageSize={pageSize} 
         onPageChange={(page) => setCurrentPage(page)} 
         totalRecords={totalRecords} 
         loading={loading} 
-        searchText={searchText} 
-        onSearchChange={(e) => handleSearch(e.target.value)}
-        showArchived={showArchived}
+        handleEditSubject={handleEditSubject}
+        handleDeleteSubject={handleDeleteSubject}
+        handleRestoreSubject={handleRestoreSubject} 
       />
 
       <SubjectModal

@@ -26,59 +26,7 @@ const StudentISPage = () => {
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 10; // Number of items per page
-
-
-    // const fetchRoles = async () => {
-    //     try {
-    //         // Retrieve the authorization token from localStorage
-    //         const authToken = localStorage.getItem('auth_token');
-    
-    //         // Check if the token exists
-    //         if (!authToken) {
-    //             throw new Error('Authentication token is missing.');
-    //         }
-    
-    //         // Set up the config for the axios request
-    //         const config = {
-    //             headers: {
-    //                 Authorization: `Bearer ${authToken}` // Add the token in the Authorization header
-    //             }
-    //         };
-    
-    //         // Make the request to the API
-    //         const response = await axios.get('/api/roles', config);
-    
-    //         // Check if the response contains roles data
-    //         if (response.data && response.data.roles) {
-    //             setRoles(response.data.roles); // Set the roles in the state
-    //         } else {
-    //             throw new Error('No roles data found in the response.');
-    //         }
-    //     } catch (error) {
-    //         // Handle different types of errors in a more detailed way
-    
-    //         if (error.response) {
-    //             // This block handles errors returned from the server (e.g., 4xx, 5xx errors)
-    //             if (error.response.status === 401) {
-    //                 message.error('Unauthorized: Invalid token. Please login again.');
-    //             } else if (error.response.status === 404) {
-    //                 message.error('API endpoint not found. Please check the URL.');
-    //             } else {
-    //                 message.error(`Server error: ${error.response.status} - ${error.response.statusText}`);
-    //             }
-    //             console.error(`API error: ${error.response.status} - ${error.response.statusText}`);
-    //         } else if (error.request) {
-    //             // This block handles errors that occur while making the request (e.g., no response from server)
-    //             message.error('Network error: Unable to connect to the server.');
-    //             console.error('Network error:', error.request);
-    //         } else {
-    //             // This block handles other errors (e.g., client-side issues, invalid token, etc.)
-    //             message.error(`Error: ${error.message}`);
-    //             console.error('Error:', error.message);
-    //         }
-    //     }
-    // };
+    const pageSize = 10;
     
     useEffect(() => {
         if (data.length > 0) {

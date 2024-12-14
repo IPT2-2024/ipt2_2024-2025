@@ -68,3 +68,4 @@ class Kernel extends HttpKernel
         'token.expiry' => \App\Http\Middleware\TokenExpiryMiddleware::class,
     ];
 }
+

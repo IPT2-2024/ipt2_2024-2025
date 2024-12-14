@@ -6,51 +6,31 @@ import {
     Dropdown,
     Menu,
     Typography,
-    Row,    
+    Row,
     Col,
     Table,
     Spin,
     Popconfirm,
+    message,
 } from 'antd';
 import { FilterOutlined, PlusOutlined } from '@ant-design/icons';
 import debounce from 'lodash.debounce';
 import MainDashboard from '../dashboard/components/MainDashboard';
+import axios from 'axios';
 
 const { Text } = Typography;
 
 const FacultyISPage = () => {
-    // Static data for faculty
-    const facultyData = [
-        {
-            id: 1,
-            firstName: 'John',
-            lastName: 'Doe',
-            middleInitial: 'A.',
-            sex: 'Male',
-            phoneNumber: '123-456-7890',
-            suffix: 'Jr.',
-            photoPath: '/path/to/photo.jpg',
-            religion: 'Christianity',
-            maritalStatus: 'Married',
-            address: '123 Main St',
-            status: 'Active',
-            email: 'john.doe@example.com',
-        },
-        // Add more faculty members as needed
-    ];
-
-    const statusData = [
+    const [faculty, setFaculty] = useState([]);
+    const [filteredFaculty, setFilteredFaculty] = useState([]);
+    const [statuses, setStatuses] = useState([
         { id: 1, name: 'Active' },
         { id: 2, name: 'Inactive' },
         { id: 3, name: 'On Leave' },
-    ];
-
-    const [faculty, setFaculty] = useState(facultyData);
-    const [filteredFaculty, setFilteredFaculty] = useState(facultyData);
-    const [statuses, setStatuses] = useState(statusData);
+    ]);
     const [searchValue, setSearchValue] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('All');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
@@ -58,6 +38,41 @@ const FacultyISPage = () => {
         const handleResize = () => setIsMobile(window.innerWidth <= 767);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Fetch faculty data from backend
+    useEffect(() => {
+        const fetchFaculty = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get('/api/profiles/faculty/only'); // Adjust the endpoint to match the actual backend route
+
+                // Ensure the data returned by the backend matches the following structure
+                const data = response.data.map((item) => ({
+                    id: item.id,
+                    firstName: item.first_name,
+                    lastName: item.last_name,
+                    middleInitial: item.middle_initial || '',
+                    suffix: item.suffix || '',
+                    sex: item.sex,
+                    phoneNumber: item.phone_number,
+                    religion: item.religion,
+                    maritalStatus: item.marital_status,
+                    address: item.address,
+                    status: item.status || 'Active', // Default to Active if not provided
+                    email: item.email, // Make sure this is the correct field name returned by the backend
+                }));
+                setFaculty(data);
+                setFilteredFaculty(data);
+            } catch (error) {
+                message.error('Failed to load faculty data.');
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchFaculty();
     }, []);
 
     const filterFaculty = useCallback(() => {
@@ -81,6 +96,7 @@ const FacultyISPage = () => {
 
     const handleStatusFilter = (status) => {
         setSelectedStatus(status);
+        filterFaculty();
     };
 
     const resetFilters = () => {

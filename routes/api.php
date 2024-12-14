@@ -53,6 +53,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::post('/users/{id}/restore', [UserController::class, 'restore']);
     Route::get('users/active/count', [UserController::class, 'getActiveUserCount']);
+
+    
     
     //USERS X PROFILES TRANSACTIONS
     Route::post('/user-with-profile', [UserWithProfileController::class, 'store']);
@@ -68,6 +70,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('profiles/instructors/totalcount', [ProfileController::class, 'getTotalInstructors']);
     Route::get('profiles/students/totalcount', [ProfileController::class, 'getTotalStudents']);
     Route::get('profiles/students/only', [ProfileController::class, 'getStudents']);
+    Route::get('profiles/faculty/only', [ProfileController::class, 'getFaculty']);
 
 
 
@@ -110,6 +113,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // College Program Departments
     Route::apiResource('collegeprogramdepartment', CollegeProgramDepartmentController::class);
     Route::post('collegeprogramdepartment/{id}/restore', [CollegeProgramDepartmentController::class, 'restore']);
+    Route::get('collegeprogramdepartment/filter/programs', [CollegeProgramDepartmentController::class, 'getFilteredPrograms']);
+
 
     // Academic Programs
     Route::apiResource('academicprogram', AcademicProgramController::class);
@@ -163,8 +168,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('classschedule/{id}/restore', [ClassScheduleController::class, 'restore']);
 
     // Enlistments
-    Route::apiResource('enlistments', ClassScheduleController::class);
-    Route::post('enl/{id}/restore', [ClassScheduleController::class, 'restore']);
+    Route::apiResource('enlistments', EnlistmentController::class);
+    Route::post('enl/{id}/restore', [EnlistmentController::class, 'restore']);
 
     // Enrollment Trackings
     Route::apiResource('enrollmenttracking', EnrollmentTrackingController::class);
@@ -187,7 +192,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('notification/{id}/restore', [NotificationController::class, 'restore']);
 });
 
-Route::middleware(['auth:sanctum', 'token.expiry'])->group(function () {
-    Route::get('/user', [AuthController::class, 'user']);
-    // Add other protected routes here
-});

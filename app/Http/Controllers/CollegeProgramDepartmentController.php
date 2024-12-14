@@ -98,4 +98,31 @@ class CollegeProgramDepartmentController extends Controller
         $collegeProgramDepartment->restore();
         return response()->json(['message' => 'College Program Department restored successfully']);
     }
+
+    public function getFilteredPrograms(Request $request)
+{
+    $search = $request->query('search', ''); // Optional search parameter
+
+    $programs = CollegeProgramDepartment::join('departments', 'college_program_departments.department_id', '=', 'departments.id')
+        ->join('college_programs', 'college_program_departments.collegeprogram_id', '=', 'college_programs.id')
+        ->select(
+            'college_program_departments.id as program_department_id',
+            'departments.department_name as department_name',
+            'college_programs.college_programs as program_name'
+        )
+        ->when($search, function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('departments.department_name', 'LIKE', "%$search%")
+                  ->orWhere('college_programs.college_programs', 'LIKE', "%$search%");
+            });
+        })
+        ->get();
+
+    if ($programs->isEmpty()) {
+        return response()->json(['message' => 'No programs found'], 404);
+    }
+
+    return response()->json(['programs' => $programs]);
+}
+
 }

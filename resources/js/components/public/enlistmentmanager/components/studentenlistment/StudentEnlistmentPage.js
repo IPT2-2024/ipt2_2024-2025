@@ -3,14 +3,14 @@ import { Button, Input, Space, Typography, message } from 'antd';
 import { FileTextOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import StudentEnlistmentTable from './components/StudentEnlistmentTable'; // Replace with your student enlistment table component
 import StudentEnlistmentModal from './components/StudentEnlistmentModal'; // Replace with your student enlistment modal component
-import { studentEnlistmentData } from './components/StudentEnlistmentData'; // Replace with your initial student enlistment data
+import axios from 'axios';
 
 const { Text } = Typography;
 
 const StudentEnlistmentPage = () => {
-    const [data, setData] = useState(studentEnlistmentData); // Store active data
+    const [data, setData] = useState([]); // Store active data
     const [archivedData, setArchivedData] = useState([]); // Store archived data
-    const [filteredData, setFilteredData] = useState(studentEnlistmentData); // Filtered data based on search
+    const [filteredData, setFilteredData] = useState([]); // Filtered data based on search
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [loading, setLoading] = useState(false);
@@ -20,13 +20,19 @@ const StudentEnlistmentPage = () => {
     const [showArchived, setShowArchived] = useState(false); // Toggle archived data view
 
     useEffect(() => {
-        // Ensure data and archivedData are valid arrays before using .filter()
-        const filtered = (showArchived ? Array.isArray(archivedData) ? archivedData : [] : Array.isArray(data) ? data : [])
-            .filter(student =>
-                student.name.toLowerCase().includes(searchValue.toLowerCase())
-            );
+        const filtered = data.filter((item) => {
+            const isArchived = item.status === 'Archived';
+            const profileId = item.profile_id ? String(item.profile_id) : '';
+            const matchesSearch = profileId.toLowerCase().includes(searchValue.toLowerCase());
+    
+            return matchesSearch && (showArchived ? isArchived : !isArchived);
+        });
+    
         setFilteredData(filtered);
-    }, [searchValue, data, archivedData, showArchived]);
+    }, [searchValue, data, showArchived]);
+    
+    
+    
 
     const handleSearch = (value) => {
         setSearchValue(value);
@@ -36,6 +42,44 @@ const StudentEnlistmentPage = () => {
         setSearchValue('');
     };
 
+    const fetchData = async () => {
+        setLoading(true); // Start the loading spinner
+        try {
+            // Retrieve the token from local storage
+            const authToken = localStorage.getItem('auth_token');
+            
+            // Axios GET request with Authorization header
+            const response = await axios.get('/api/enlistments', {
+                headers: {
+                    Authorization: `Bearer ${authToken}`, // Attach token as Bearer
+                },
+            });
+    
+            // Set data if the request is successful
+            setData(response.data);
+        } catch (error) {
+            if (error.response) {
+                // Server responded with a status other than 2xx
+                message.error(`Failed to fetch enlistments: ${error.response.status} - ${error.response.data.message || 'Error'}`);
+            } else if (error.request) {
+                // No response received
+                message.error('Failed to fetch enlistments: No response from server');
+            } else {
+                // Something else went wrong in setting up the request
+                message.error(`Failed to fetch enlistments: ${error.message}`);
+            }
+        } finally {
+            setLoading(false); // Stop the spinner
+        }
+    };
+    
+    // Fetch the data on component mount
+    useEffect(() => {
+        fetchData();
+    }, []);
+    
+
+  
     const handleDeleteStudentEnlistment = (id) => {
         const studentToDelete = data.find(student => student.id === id);
         if (studentToDelete) {

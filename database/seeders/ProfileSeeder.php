@@ -118,7 +118,7 @@ class ProfileSeeder extends Seeder
                 'emer_contact_no' => '09101812345',
                 'date_of_birth' => '2003-03-25',
                 'user_id' => 4,
-                'program_department_id' => null,
+                'program_department_id' => 1,
                 'yearlevel_id' => 3,
                 'parent_info_id' => 1,
                 'department_id' => null,

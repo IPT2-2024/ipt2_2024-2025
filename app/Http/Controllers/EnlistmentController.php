@@ -10,23 +10,84 @@ class EnlistmentController extends Controller
 {
     // Display a listing of enlistments
     public function index(Request $request)
-    {
-        $deleted = $request->query('deleted', 'false');
+{
+    $deleted = $request->query('deleted', 'false');
 
-        if ($deleted === 'only') {
-            $enlistments = Enlistment::onlyTrashed()->get();
-        } elseif ($deleted === 'true') {
-            $enlistments = Enlistment::withTrashed()->get();
-        } else {
-            $enlistments = Enlistment::all();
-        }
-
-        if ($enlistments->isEmpty()) {
-            return response()->json(['message' => 'No enlistments found'], 404);
-        }
-
-        return response()->json($enlistments);
+    // Determine query for deleted and active enlistments
+    if ($deleted === 'only') {
+        $query = Enlistment::onlyTrashed();
+    } elseif ($deleted === 'true') {
+        $query = Enlistment::withTrashed();
+    } else {
+        $query = Enlistment::query();
     }
+
+    // Eager load relationships and filter by role_id = 4
+    $enlistments = $query->whereHas('profile.user', function ($query) {
+        $query->where('role_id', 4); // Only retrieve users with role_id = 4
+    })->with([
+        'profile.user.role',
+        'profile.college_program_department.collegeprogram', // Load college program
+        'profile.yearLevel', // Load year level
+        'classSchedule',
+        'academicYear',
+    ])->get();
+
+    // Debugging: Log the raw enlistments data with relationships
+    \Log::info('Filtered Enlistments Data:', $enlistments->toArray());
+
+    // Format data for response
+    $formattedData = $enlistments->map(function ($enlistment) {
+        $profile = $enlistment->profile;
+
+        // Handle missing profile gracefully
+        if (!$profile) {
+            \Log::warning("Profile missing for Enlistment ID: {$enlistment->id}");
+            return null;
+        }
+
+        $user = $profile->user;
+
+        // Profile ID formatting
+        $admissionYear = optional($profile->admission_date)->year ?? '0000'; // Fallback to '0000' if null
+        $formattedId = str_pad($profile->id, 4, '0', STR_PAD_LEFT);
+        $profileIdFormatted = "S{$admissionYear}{$formattedId}";
+
+        // Full Name formatting
+        $middleInitial = $profile->middle_initial ? strtoupper($profile->middle_initial) . '.' : '';
+        $suffix = $profile->suffix ? ", {$profile->suffix}" : '';
+        $fullName = "{$profile->last_name}, {$profile->first_name} {$middleInitial}{$suffix}";
+
+        // Status determination
+        $status = $enlistment->deleted_at ? 'Archived' : ($profile->is_regular ? 'Regular' : 'Irregular');
+
+        // Program and Year Level
+        $program = optional(optional($profile->college_program_department)->collegeprogram)->college_programs ?? 'N/A';
+        $yearLevel = optional($profile->yearLevel)->year_level ?? 'N/A';
+
+        return [
+            'id' => $enlistment->id,
+            'profile_id' => $profileIdFormatted,
+            'full_name' => $fullName,
+            'program' => $program,
+            'year_level' => $yearLevel,
+            'status' => $status,
+            'created_at' => $enlistment->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $enlistment->updated_at->format('Y-m-d H:i:s'),
+        ];
+    })->filter();
+
+    return $formattedData->isEmpty()
+        ? response()->json(['message' => 'No enlistments found'], 404)
+        : response()->json($formattedData);
+}
+
+
+
+
+
+
+
 
     // Store a newly created enlistment in storage
     public function store(Request $request)

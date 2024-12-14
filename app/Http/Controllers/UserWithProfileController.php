@@ -161,7 +161,10 @@ class UserWithProfileController extends Controller
         'sex' => 'required|string|in:male,female,other',
         'phone_number' => 'required|string|max:15',
         'marital_status' => 'required|string|in:single,married,divorced',
+        'program_department_id' => 'required|exists:college_program_departments,id', // Foreign key validation
+        'yearlevel_id' => 'required|exists:year_levels,id', // Foreign key validation for year_levels table
     ]);
+
 
     DB::beginTransaction();
         try {
@@ -196,6 +199,8 @@ class UserWithProfileController extends Controller
                 'phone_number' => $request->phone_number,
                 'marital_status' => $request->marital_status,
                 'school_email' => $schoolEmail,
+                'yearlevel_id' => $request->yearlevel_id,
+                'program_department_id' => $request->program_department_id,
             ]);
 
             DB::commit();

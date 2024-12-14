@@ -105,6 +105,20 @@ const StudentTable = ({
             width: 180,
         },
         {
+            title: <span style={{ color: '#1890ff' }}>Program</span>,
+            dataIndex: 'program_name',
+            key: 'program_name',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+            width: 180,
+        },
+        {
+            title: <span style={{ color: '#1890ff' }}>Year Level</span>,
+            dataIndex: 'year_level_name',
+            key: 'year_level_name',
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+            width: 180,
+        },
+        {
             title: <span style={{ color: '#1890ff' }}>Admission Date</span>,
             dataIndex: 'admission_date',
             key: 'admission_date',

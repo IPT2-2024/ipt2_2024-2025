@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Table, Space, Switch, Button } from 'antd';
-import { EditOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Table, Space, Switch, Button, Popconfirm, notification } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'react-responsive';
+import axios from 'axios'; // Ensure axios is imported
 
 const SubjectTable = ({
   data,
@@ -10,53 +11,64 @@ const SubjectTable = ({
   onSearchChange,
   onFilterChange,
   onSortChange,
-  currentPage: propCurrentPage, // Use propCurrentPage to distinguish from local state
+  currentPage: propCurrentPage,
   pageSize: propPageSize,
   onPageChange,
   totalRecords,
+  handleEditSubject,   // Handler for editing subjects
+  handleDeleteSubject, // Handler for deleting subjects
 }) => {
-  const [localCurrentPage, setLocalCurrentPage] = useState(1); // Local state for the current page
-  const localPageSize = 5; // Local constant for page size
+  const [localCurrentPage, setLocalCurrentPage] = useState(propCurrentPage || 1); // Initialize with prop or default to 1
+  const localPageSize = propPageSize || 5; // Use prop or default to 5
 
   // Function for handling page change
-  const handlePageChange = (page) => {
+  const handlePageChangeInternal = (page) => {
     setLocalCurrentPage(page); // Update the local current page when changed
     if (onPageChange) {
       onPageChange(page); // Call the prop handler if provided
     }
   };
 
+  // Function for handling availability toggle
   const handleAvailabilityToggle = async (record, checked) => {
     try {
-        const token = localStorage.getItem('auth_token');
-        await axios.put(`/api/subject/${record.id}`, { availability: checked }, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-        notification.success({
-            message: 'Success',
-            description: 'Availability updated successfully.',
-        });
+      const token = localStorage.getItem('auth_token');
+      await axios.put(`/api/subject/${record.id}`, { availability: checked }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      notification.success({
+        message: 'Success',
+        description: 'Availability updated successfully.',
+      });
 
-        // Optionally update state directly or refetch data
-        record.availability = checked;
+      // Optionally update state directly or refetch data
+      // Here, we'll update the local data directly for immediate UI feedback
+      record.availability = checked;
     } catch (error) {
-        console.error('Error updating availability:', error);
-        notification.error({
-            message: 'Error',
-            description: 'Failed to update availability. Please try again later.',
-        });
+      console.error('Error updating availability:', error);
+      notification.error({
+        message: 'Error',
+        description: 'Failed to update availability. Please try again later.',
+      });
     }
-};
+  };
 
   const isMobile = useMediaQuery({ maxWidth: 767 }); // Define mobile breakpoint
 
+  // Handler for editing a subject
   const handleEdit = (record) => {
     console.log('Edit:', record);
-    handleEditSubject(record);
+    if (handleEditSubject) {
+      handleEditSubject(record); // Call the parent handler
+    }
   };
 
-  const handleDelete = (record) => {
-    console.log('Delete:', record);
+  // Handler for deleting a subject
+  const handleDelete = (id) => {
+    console.log('Delete:', id);
+    if (handleDeleteSubject) {
+      handleDeleteSubject(id); // Call the parent handler
+    }
   };
 
   const columns = [
@@ -68,14 +80,14 @@ const SubjectTable = ({
           <Button
             type="primary"
             icon={<EditOutlined />}
-            onClick={() => handleEdit(record)} // Replace with the actual edit handler
+            onClick={() => handleEdit(record)} // Edit handler
             size="small"
             aria-label="Edit Subject"
           />
-          {record.availability === true ? (
+          {record.availability === true && (
             <Popconfirm
               title="Are you sure to delete this subject?"
-              onConfirm={() => handleDelete(record.id)} // Replace with the actual delete handler
+              onConfirm={() => handleDelete(record.id)} // Delete handler
               okText="Yes"
               cancelText="No"
             >
@@ -86,16 +98,6 @@ const SubjectTable = ({
                 aria-label="Delete Subject"
               />
             </Popconfirm>
-          ) : (
-            <Button
-              type="default"
-              icon={<ReloadOutlined />}
-              onClick={() => handleRestore(record.id)} // Replace with the actual restore handler
-              size="small"
-              aria-label="Restore Subject"
-            >
-              Restore
-            </Button>
           )}
         </Space>
       ),
@@ -151,21 +153,21 @@ const SubjectTable = ({
       render: (text, record) => (
         <Switch
           checked={record.availability}
-          onChange={(checked) => handleAvailabilityToggle(record, checked)} // Replace with your availability toggle handler
+          onChange={(checked) => handleAvailabilityToggle(record, checked)} // Availability toggle handler
         />
       ),
       responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
       width: 150,
     },
   ];
-  
-  
 
   return (
     <Table
+      rowKey="id" // Ensure each row has a unique key based on the 'id' field
       columns={columns}
       dataSource={data}
       rowSelection={{
+        type: 'checkbox',
         selectedRowKeys,
         onChange: onRowSelectionChange,
       }}
@@ -174,7 +176,7 @@ const SubjectTable = ({
         current: localCurrentPage,
         pageSize: localPageSize,
         total: totalRecords,
-        onChange: handlePageChange,
+        onChange: handlePageChangeInternal,
       }}
       scroll={{ x: 'max-content' }}
       responsive

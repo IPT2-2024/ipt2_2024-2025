@@ -6,7 +6,7 @@ const { Text } = Typography;
 
 const StudentEnlistmentTable = ({
     rowSelection,
-    data = [], // Default to an empty array
+    data,
     setIsEditModalVisible,
     setModalData,
     handleDeleteEnlistment,
@@ -49,30 +49,37 @@ const StudentEnlistmentTable = ({
                 </Space>
             ),
         },
-        {
-            title: <span style={{ color: '#1890ff' }}>ID</span>,
-            dataIndex: 'id',
-            key: 'id',
-        },
+        // {
+        //     title: <span style={{ color: '#1890ff' }}>ID</span>,
+        //     dataIndex: 'id',
+        //     key: 'id',
+        // },
         {
             title: <span style={{ color: '#1890ff' }}>Profile ID</span>,
             dataIndex: 'profile_id',
             key: 'profile_id',
         },
+
         {
-            title: <span style={{ color: '#1890ff' }}>Class Schedule</span>,
-            dataIndex: 'classschedule_id',
-            key: 'classschedule_id',
+            title: <span style={{ color: '#1890ff' }}>Full Name</span>,
+            dataIndex: 'full_name',
+            key: 'full_name',
         },
         {
-            title: <span style={{ color: '#1890ff' }}>Academic Year ID</span>,
-            dataIndex: 'academicyear_id',
-            key: 'academicyear_id',
+            title: <span style={{ color: '#1890ff' }}>Program</span>,
+            dataIndex: 'program',
+            key: 'program',
         },
         {
-            title: <span style={{ color: '#1890ff' }}>Semester ID</span>,
-            dataIndex: 'semester_id',
-            key: 'semester_id',
+            title: <span style={{ color: '#1890ff' }}>Year Level</span>,
+            dataIndex: 'year_level',
+            key: 'year_level',
+        },
+
+        {
+            title: <span style={{ color: '#1890ff' }}>Status</span>,
+            dataIndex: 'status',
+            key: 'status',
         },
         {
             title: <span style={{ color: '#1890ff' }}>Created At</span>,
@@ -90,16 +97,16 @@ const StudentEnlistmentTable = ({
                 <Text>{new Date(text).toLocaleString()}</Text> // Format the date
             ),
         },
-        {
-            title: <span style={{ color: '#1890ff' }}>Deleted At</span>,
-            dataIndex: 'deleted_at',
-            key: 'deleted_at',
-            render: (text) => (
-                <Text>
-                    {text ? new Date(text).toLocaleString() : 'N/A'}
-                </Text> // Format the date, show 'N/A' if deleted_at is null
-            ),
-        },
+        // {
+        //     title: <span style={{ color: '#1890ff' }}>Deleted At</span>,
+        //     dataIndex: 'deleted_at',
+        //     key: 'deleted_at',
+        //     render: (text) => (
+        //         <Text>
+        //             {text ? new Date(text).toLocaleString() : 'N/A'}
+        //         </Text> // Format the date, show 'N/A' if deleted_at is null
+        //     ),
+        // },
     ];
 
     return (
