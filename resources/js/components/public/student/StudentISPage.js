@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import StudentTable from './components/StudentTable'; // Your table component
 import StudentCreateModal from './components/StudentCreateModal'; // Your Create Modal
 import MainDashboard from '../dashboard/components/MainDashboard';
+import StudentEditModal from './components/StudentEditModal'; // Update the path accordingly
 
 const { Text } = Typography;
 
@@ -23,6 +24,8 @@ const StudentISPage = () => {
     const [showArchived, setShowArchived] = useState(false);
     const [loadingProfiles, setLoadingProfiles] = useState(false);
     const isMobile = useMediaQuery({ maxWidth: 767 });
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [editData, setEditData] = useState(null);
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -167,6 +170,63 @@ const StudentISPage = () => {
     ? filteredData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
     : []; // Fallback to empty array if filteredData is empty or undefined
 
+        // Implement the delete function here:
+        const handleSpecificDelete = async (id) => {
+            setLoading(true);
+            try {
+                const authToken = localStorage.getItem('auth_token');
+                if (!authToken) {
+                    message.error('Authorization token not found.');
+                    return;
+                }
+                const response = await axios.delete(`/api/user-with-profile/students/delete/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                });
+    
+                if (response.status === 200) {
+                    message.success('Student deleted successfully.');
+                    fetchData(); // Refetch the data to update the table
+                } else {
+                    message.warning('Failed to delete the student.');
+                }
+            } catch (error) {
+                console.error('Error deleting student:', error);
+                message.error('An error occurred while deleting the student.');
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        // If you need to restore deleted (archived) students:
+        const handleRestore = async (id) => {
+            setLoading(true);
+            try {
+                const authToken = localStorage.getItem('auth_token');
+                if (!authToken) {
+                    message.error('Authorization token not found.');
+                    return;
+                }
+                const response = await axios.put(`/api/user-with-profile/students/restore/${id}`, {}, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                });
+                if (response.status === 200) {
+                    message.success('Student restored successfully.');
+                    fetchData();
+                } else {
+                    message.warning('Failed to restore the student.');
+                }
+            } catch (error) {
+                console.error('Error restoring student:', error);
+                message.error('An error occurred while restoring the student.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        
     return (
         <MainDashboard>
             <div className="students-page">
@@ -284,6 +344,9 @@ const StudentISPage = () => {
                             loading={loading}
                             fetchData={fetchData}
                             setLoadingProfiles={setLoadingProfiles}  // Pass setLoadingProfiles as a prop
+
+                            setIsEditModalVisible={setIsEditModalVisible}
+                            setModalData={setEditData}
                         />
 
                     )}
@@ -294,6 +357,12 @@ const StudentISPage = () => {
                     isVisible={isCreateModalVisible}
                     onCancel={() => setIsCreateModalVisible(false)}
                     onCreate={fetchData}
+                />
+                <StudentEditModal
+                     isVisible={isEditModalVisible}
+                     onCancel={() => setIsEditModalVisible(false)}
+                     onUpdate={fetchData}   // Assuming there's an onUpdate callback after editing
+                     data={editData}        // Pass the currently selected student data to edit
                 />
             </div>
         </MainDashboard>

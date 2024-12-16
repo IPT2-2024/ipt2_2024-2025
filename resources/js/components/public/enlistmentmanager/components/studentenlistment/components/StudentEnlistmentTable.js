@@ -97,16 +97,6 @@ const StudentEnlistmentTable = ({
                 <Text>{new Date(text).toLocaleString()}</Text> // Format the date
             ),
         },
-        // {
-        //     title: <span style={{ color: '#1890ff' }}>Deleted At</span>,
-        //     dataIndex: 'deleted_at',
-        //     key: 'deleted_at',
-        //     render: (text) => (
-        //         <Text>
-        //             {text ? new Date(text).toLocaleString() : 'N/A'}
-        //         </Text> // Format the date, show 'N/A' if deleted_at is null
-        //     ),
-        // },
     ];
 
     return (

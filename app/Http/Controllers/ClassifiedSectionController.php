@@ -33,8 +33,8 @@ class ClassifiedSectionController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'section_id' => 'required|exists:sections,id',
-            'collegeprogram_id' => 'required|exists:college_programs,id',
-            'yearlevel_id' => 'required|exists:year_levels,id',
+            'collegeprogram_id' => 'nullable|exists:college_programs,id',
+            'yearlevel_id' => 'nullable|exists:year_levels,id',
         ]);
 
         if ($validator->fails()) {
@@ -65,8 +65,8 @@ class ClassifiedSectionController extends Controller
 
         $validator = Validator::make($request->all(), [
             'section_id' => 'required|exists:sections,id',
-            'collegeprogram_id' => 'required|exists:college_programs,id',
-            'yearlevel_id' => 'required|exists:year_levels,id',
+            'collegeprogram_id' => 'nullable|exists:college_programs,id',
+            'yearlevel_id' => 'nullable|exists:year_levels,id',
         ]);
 
         if ($validator->fails()) {

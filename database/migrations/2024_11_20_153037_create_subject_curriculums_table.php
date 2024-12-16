@@ -16,7 +16,7 @@ class CreateSubjectCurriculumsTable extends Migration
         Schema::create('subject_curriculums', function (Blueprint $table) {
             $table->id(); // Add id column
             $table->unsignedBigInteger('subject_id'); // Add subject_id column
-            $table->unsignedBigInteger('curriculum_id'); // Add curriculum_id column
+            $table->unsignedBigInteger('curriculum_id')->nullable(); // Add curriculum_id column
             $table->timestamps(); // Add created_at and updated_at columns
             $table->softDeletes()->nullable(); 
 

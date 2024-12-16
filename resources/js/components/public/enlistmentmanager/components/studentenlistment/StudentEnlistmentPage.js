@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Button, Input, Space, Typography, message } from 'antd';
 import { FileTextOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import StudentEnlistmentTable from './components/StudentEnlistmentTable'; // Replace with your student enlistment table component
-import StudentEnlistmentModal from './components/StudentEnlistmentModal'; // Replace with your student enlistment modal component
+import CreateEnlistmentModal from './components/CreateEnlistmentModal';
+import EditEnlistmentModal from './components/EditEnlistmentModal';
 import axios from 'axios';
 
 const { Text } = Typography;
@@ -45,9 +46,8 @@ const StudentEnlistmentPage = () => {
     const fetchData = async () => {
         setLoading(true); // Start the loading spinner
         try {
-            // Retrieve the token from local storage
             const authToken = localStorage.getItem('auth_token');
-            
+    
             // Axios GET request with Authorization header
             const response = await axios.get('/api/enlistments', {
                 headers: {
@@ -55,17 +55,21 @@ const StudentEnlistmentPage = () => {
                 },
             });
     
-            // Set data if the request is successful
-            setData(response.data);
+            // Deduplicate by profile_id
+            const uniqueData = response.data.reduce((acc, enlistment) => {
+                if (!acc.find((item) => item.profile_id === enlistment.profile_id)) {
+                    acc.push(enlistment);
+                }
+                return acc;
+            }, []);
+    
+            setData(uniqueData); // Set unique data for the table
         } catch (error) {
             if (error.response) {
-                // Server responded with a status other than 2xx
                 message.error(`Failed to fetch enlistments: ${error.response.status} - ${error.response.data.message || 'Error'}`);
             } else if (error.request) {
-                // No response received
                 message.error('Failed to fetch enlistments: No response from server');
             } else {
-                // Something else went wrong in setting up the request
                 message.error(`Failed to fetch enlistments: ${error.message}`);
             }
         } finally {
@@ -73,10 +77,40 @@ const StudentEnlistmentPage = () => {
         }
     };
     
+    
     // Fetch the data on component mount
     useEffect(() => {
         fetchData();
     }, []);
+    
+    const reloadData = async () => {
+        setLoading(true); // Start the loading spinner
+        try {
+            const authToken = localStorage.getItem('auth_token');
+    
+            // Fetch enlistments from the server
+            const response = await axios.get('/api/enlistments', {
+                headers: {
+                    Authorization: `Bearer ${authToken}`, // Attach token as Bearer
+                },
+            });
+    
+            // Deduplicate by profile_id
+            const uniqueData = response.data.reduce((acc, enlistment) => {
+                if (!acc.find((item) => item.profile_id === enlistment.profile_id)) {
+                    acc.push(enlistment);
+                }
+                return acc;
+            }, []);
+    
+            setData(uniqueData); // Update the table data
+            message.success('Table reloaded successfully');
+        } catch (error) {
+            message.error('Failed to reload table data');
+        } finally {
+            setLoading(false); // Stop the spinner
+        }
+    };
     
 
   
@@ -182,15 +216,19 @@ const StudentEnlistmentPage = () => {
                 setModalData={setModalData}
                 handleDeleteStudentEnlistment={handleDeleteStudentEnlistment}
             />
-            <StudentEnlistmentModal
-                isEditModalVisible={isEditModalVisible}
-                setIsEditModalVisible={setIsEditModalVisible}
+            {/* Modals */}
+            <CreateEnlistmentModal
                 isCreateModalVisible={isCreateModalVisible}
                 setIsCreateModalVisible={setIsCreateModalVisible}
-                data={data}
                 setData={setData}
+                reloadData={reloadData}
+                enlistedProfiles={data.map((enlistment) => enlistment.profile_id)}
+            />
+            <EditEnlistmentModal
+                isEditModalVisible={isEditModalVisible}
+                setIsEditModalVisible={setIsEditModalVisible}
                 modalData={modalData}
-                setModalData={setModalData}
+                reloadData={reloadData}
             />
         </div>
     );

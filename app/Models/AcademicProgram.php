@@ -27,4 +27,9 @@ class AcademicProgram extends Model
     {
         return $this->hasMany(ClassSchedule::class, 'academicprogram_id');
     }
+
+    public function SemesterAcademicYear()
+    {
+        return $this->belongsTo(SemesterAcademicYear::class, 'semacadyear_id');
+    }
 }

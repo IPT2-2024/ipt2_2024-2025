@@ -34,9 +34,11 @@ const StudentTable = ({
     const isMobile = useMediaQuery({ maxWidth: 767 });
 
     const handleEdit = (record) => {
+        console.log("Selected student for editing:", record); // Log to verify the student data
         setModalData(record);
         setIsEditModalVisible(true);
     };
+    
 
     const columns = [
         {
@@ -149,7 +151,7 @@ const StudentTable = ({
         printWindow.document.write('<html><head><title>Student Table</title></head><body>');
         printWindow.document.write('<h2>Student Table</h2>');
         printWindow.document.write('<table border="1" cellpadding="5" cellspacing="0" style="width:100%; border-collapse: collapse;">');
-        printWindow.document.write('<thead><tr><th>First Name</th><th>Last Name</th><th>Middle Initial</th><th>Suffix</th><th>Date of Birth</th><th>Age</th><th>Address</th><th>School Email</th><th>Sex/Gender</th><th>Phone Number</th><th>Admission Date</th><th>Marital Status</th><th>Religion</th><th>Created At</th><th>Updated At</th></tr></thead>');
+        printWindow.document.write('<thead><tr><th>First Name</th><th>Last Name</th><th>School Email</th><th>Admission Date</th><th>Marital Status</th><th>Religion</th><th>Created At</th><th>Updated At</th></tr></thead>');
         printWindow.document.write('<tbody>');
         data.forEach((item) => {
             printWindow.document.write('<tr>');
@@ -199,4 +201,3 @@ const StudentTable = ({
 };
 
 export default StudentTable;
-//goods na

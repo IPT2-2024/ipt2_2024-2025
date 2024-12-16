@@ -16,7 +16,7 @@ class CreateAcademicProgramsTable extends Migration
         Schema::create('academic_programs', function (Blueprint $table) {
             $table->id(); // Add id column
             $table->unsignedBigInteger('subjectcurriculum_id'); // Add subjectcurriculum_id column
-            $table->unsignedBigInteger('program_department_id'); // Add program_department_id column
+            $table->unsignedBigInteger('program_department_id')->nullable(); // Add program_department_id column
             $table->timestamps(); // Add created_at and updated_at columns
             $table->softDeletes()->nullable(); 
 

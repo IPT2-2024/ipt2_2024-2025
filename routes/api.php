@@ -57,9 +57,10 @@ Route::middleware('auth:sanctum')->group(function () {
     
     
     //USERS X PROFILES TRANSACTIONS
-    Route::post('/user-with-profile', [UserWithProfileController::class, 'store']);
-    Route::get('/user-with-profile/{id}', [UserWithProfileController::class, 'show']);
-    Route::put('/user-with-profile/{id}', [UserWithProfileController::class, 'update']);
+    Route::apiResource('/user-with-profile', UserWithProfileController::class);
+    // Route::post('/user-with-profile', [UserWithProfileController::class, 'store']);
+    // Route::get('/user-with-profile/{id}', [UserWithProfileController::class, 'show']);
+    Route::put('/user-with-profile/students/{id}', [UserWithProfileController::class, 'update']);
     Route::post('user-with-profile/students/create', [UserWithProfileController::class, 'createStudentProfile']);
     
 
@@ -169,7 +170,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Enlistments
     Route::apiResource('enlistments', EnlistmentController::class);
-    Route::post('enl/{id}/restore', [EnlistmentController::class, 'restore']);
+    Route::post('enlistments/{id}/restore', [EnlistmentController::class, 'restore']);
+    Route::get('enlistments-data', [EnlistmentController::class, 'getEnlistmentData']);
+    Route::post('/enlistments/multiple/data', [EnlistmentController::class, 'storeMultiple']);
+    Route::get('enlistments/active/academic-year-semester', [EnlistmentController::class, 'getActiveAcademicYearAndSemester']);
+    Route::get('/enlistments/{id}/subjects', [EnlistmentController::class, 'getEnlistedSubjectsByProfile']);
+
+
+
 
     // Enrollment Trackings
     Route::apiResource('enrollmenttracking', EnrollmentTrackingController::class);

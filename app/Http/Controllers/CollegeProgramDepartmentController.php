@@ -33,16 +33,27 @@ class CollegeProgramDepartmentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'department_id' => 'required|exists:departments,id',
-            'collegeprogram_id' => 'required|exists:college_programs,id',
+            'collegeprogram_id' => 'required|array|min:1',
+            'collegeprogram_id.*' => 'exists:college_programs,id',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $collegeProgramDepartment = CollegeProgramDepartment::create($request->all());
-        return response()->json(['message' => 'College Program Department created successfully', 'collegeProgramDepartment' => $collegeProgramDepartment], 201);
+        $departmentId = $request->department_id;
+        $programIds = $request->program_ids;
+
+        foreach ($programIds as $programId) {
+            CollegeProgramDepartment::create([
+                'department_id' => $departmentId,
+                'collegeprogram_id' => $programId,
+            ]);
+        }
+
+        return response()->json(['message' => 'Programs successfully assigned to the department'], 201);
     }
+
 
     // Display the specified college program department
     public function show($id)

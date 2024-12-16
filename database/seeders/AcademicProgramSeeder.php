@@ -21,6 +21,19 @@ class AcademicProgramSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
+            [
+                'subjectcurriculum_id' => 2, // Subject Curriculum ID
+                'program_department_id' => 2, // Program Department ID
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'subjectcurriculum_id' => 3, // Subject Curriculum ID
+                'program_department_id' => 3, // Program Department ID
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             
         ]);
     }

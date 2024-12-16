@@ -4,9 +4,9 @@ import { SearchOutlined, PlusOutlined, BookOutlined, EditOutlined, DeleteOutline
 import { Tabs } from 'antd';
 import axios from 'axios';
 import MainDashboard from '../dashboard/components/MainDashboard';
-import SubjectPage from './components/SubjectPage';
-import SubjectCurriculumPage from './components/SubjectCurriculumPage';
-import SubjectModal from './components/SubjectModal';
+import SubjectPage from './components/subjectpage/SubjectPage';
+import CurriculumPage from './components/curriculumpage/CurriculumPage';
+import SubjectModal from './components/subjectpage/SubjectModal';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -23,7 +23,7 @@ const SubjectEnlistmentPage = () => {
             <SubjectPage /> 
           </TabPane>
           <TabPane tab="Curriculum" key="2">
-            <SubjectCurriculumPage />
+            <CurriculumPage />
           </TabPane>
         </Tabs>
       </Content>

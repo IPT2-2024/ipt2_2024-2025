@@ -15,10 +15,10 @@ class CreateEnlistmentsTable extends Migration
     {
         Schema::create('enlistments', function (Blueprint $table) {
             $table->id(); // Add id column
-            $table->unsignedBigInteger('profile_id'); // Add profile_id column
-            $table->unsignedBigInteger('classschedules_id'); // Add classschedules_id column
-            $table->unsignedBigInteger('academicyear_id'); // Add academic_year column
-            $table->unsignedBigInteger('semester_id'); // Add semester_id column
+            $table->unsignedBigInteger('profile_id')->nullable(); // Add profile_id column, nullable
+            $table->unsignedBigInteger('classschedules_id')->nullable(); // Add classschedules_id column
+            $table->unsignedBigInteger('academicyear_id')->nullable(); // Add academic_year column
+            $table->unsignedBigInteger('semester_id')->nullable(); // Add semester_id column
             $table->timestamps(); // Add created_at and updated_at columns
 
             // Foreign key constraints

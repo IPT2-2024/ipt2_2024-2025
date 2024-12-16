@@ -23,7 +23,8 @@ class CreateClassSchedulesTable extends Migration
             ]); // Add day_of_week column
             $table->unsignedBigInteger('classifiedsection_id'); // Add classifiedsection_id column
             $table->unsignedBigInteger('academicprogram_id'); // Add academicprogram_id column
-            $table->unsignedBigInteger('classroomscheduling_id'); // Add classroomscheduling_id column
+            $table->unsignedBigInteger('classroomscheduling_id')->nullable(); // Add classroomscheduling_id column
+            $table->unsignedBigInteger('sem_acadyear'); // Add classroomscheduling_id column
             $table->unsignedBigInteger('profile_id')->nullable(); // Add profile_id column, nullable
             $table->timestamps(); // Add created_at and updated_at columns
 

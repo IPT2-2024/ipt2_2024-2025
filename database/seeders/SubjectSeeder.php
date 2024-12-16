@@ -16,7 +16,7 @@ class SubjectSeeder extends Seeder
     {
         $subjects = [
             [
-                'subject_code' => '01',
+                'subject_code' => 'GE 101',
                 'subject_name' => 'Contemporary World',
                 'classification' => 'minor',
                 'units' => 2,
@@ -27,7 +27,7 @@ class SubjectSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'subject_code' => '011',
+                'subject_code' => 'IT 171',
                 'subject_name' => 'Fundamentals of Programming and Problem Solving',
                 'classification' => 'major',
                 'units' => 3,
@@ -39,7 +39,7 @@ class SubjectSeeder extends Seeder
             ],
             [
                 
-                'subject_code' => '022',
+                'subject_code' => 'IT 271',
                 'subject_name' => '	Data Structures and Algorithms',
                 'classification' => 'major',
                 'units' => 3,
@@ -50,7 +50,7 @@ class SubjectSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'subject_code' => '014',
+                'subject_code' => 'THEO 101',
                 'subject_name' => ' Religions, Religious Experiences and Spirituality',
                 'classification' => 'minor',
                 'units' => 3,

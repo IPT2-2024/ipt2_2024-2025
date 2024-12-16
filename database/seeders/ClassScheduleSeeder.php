@@ -26,6 +26,56 @@ class ClassScheduleSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
+            [
+                'start_time' => '16:00:00',  
+                'end_time' => '17:00:00',  
+                'day_of_week' => 'Monday/Thursday',
+                'classifiedsection_id' => 2,
+                'academicprogram_id' => 1,
+                'classroomscheduling_id' => 5,
+                'profile_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'start_time' => '11:00:00',  
+                'end_time' => '12:00:00',  
+                'day_of_week' => 'Monday/Thursday',
+                'classifiedsection_id' => 3,
+                'academicprogram_id' => 1,
+                'classroomscheduling_id' => 6,
+                'profile_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'start_time' => '11:00:00',  
+                'end_time' => '12:00:00',  
+                'day_of_week' => 'Monday/Thursday',
+                'classifiedsection_id' => 2,
+                'academicprogram_id' => 2,
+                'classroomscheduling_id' => 2,
+                'profile_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'start_time' => '13:00:00',  
+                'end_time' => '15:00:00',  
+                'day_of_week' => 'Monday/Thursday',
+                'classifiedsection_id' => 1,
+                'academicprogram_id' => 3,
+                'classroomscheduling_id' => 4,
+                'profile_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+
+            
         ]);
     }
 }
