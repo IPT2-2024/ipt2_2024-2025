@@ -42,6 +42,9 @@ Route::post('login', [AuthController::class, 'login']);
 
 // Routes inside an authentication middleware group
 Route::middleware('auth:sanctum')->group(function () {
+    //Logout
+    Route::post('/logout', [AuthController::class, 'logout']);
+
     // Roles
     Route::apiResource('roles', RoleController::class);
     Route::post('roles/{id}/restore', [RoleController::class, 'restore']);
@@ -51,10 +54,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{id}/restore', [UserController::class, 'restore']);
     Route::get('users/active/count', [UserController::class, 'getActiveUserCount']);
 
+    
+    
     //USERS X PROFILES TRANSACTIONS
-    Route::post('/user-with-profile', [UserWithProfileController::class, 'store']);
-    Route::get('/user-with-profile/{id}', [UserWithProfileController::class, 'show']);
-    Route::put('/user-with-profile/{id}', [UserWithProfileController::class, 'update']);
+    Route::apiResource('/user-with-profile', UserWithProfileController::class);
+    // Route::post('/user-with-profile', [UserWithProfileController::class, 'store']);
+    // Route::get('/user-with-profile/{id}', [UserWithProfileController::class, 'show']);
+    Route::put('/user-with-profile/students/{id}', [UserWithProfileController::class, 'update']);
+    Route::post('user-with-profile/students/create', [UserWithProfileController::class, 'createStudentProfile']);
     
 
     // Profiles
@@ -63,6 +70,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('profiles/{id}', [ProfileController::class, 'showByProfileId']);
     Route::get('profiles/instructors/totalcount', [ProfileController::class, 'getTotalInstructors']);
     Route::get('profiles/students/totalcount', [ProfileController::class, 'getTotalStudents']);
+    Route::get('profiles/students/only', [ProfileController::class, 'getStudents']);
+    Route::get('profiles/faculty/only', [ProfileController::class, 'getFaculty']);
+
+
 
     Route::post('/upload-photo', [ProfileController::class, 'uploadPhoto']);
     Route::delete('/delete-photo/{profileId}', [ProfileController::class, 'deletePhoto']);
@@ -103,6 +114,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // College Program Departments
     Route::apiResource('collegeprogramdepartment', CollegeProgramDepartmentController::class);
     Route::post('collegeprogramdepartment/{id}/restore', [CollegeProgramDepartmentController::class, 'restore']);
+    Route::get('collegeprogramdepartment/filter/programs', [CollegeProgramDepartmentController::class, 'getFilteredPrograms']);
+
 
     // Academic Programs
     Route::apiResource('academicprogram', AcademicProgramController::class);
@@ -147,14 +160,24 @@ Route::middleware('auth:sanctum')->group(function () {
     // Semester Academic Years
     Route::apiResource('semesteracademicyear', SemesterAcademicYearController::class);
     Route::post('semesteracademicyear/{id}/restore', [SemesterAcademicYearController::class, 'restore']);
+    Route::put('semesteracademicyear/{id}/status', [SemesterAcademicYearController::class, 'updateStatus']);
+    Route::put('semesteracademicyear/all/status', [SemesterAcademicYearController::class, 'updateAllStatuses']);
+
 
     // Class Schedules
     Route::apiResource('classschedule', ClassScheduleController::class);
     Route::post('classschedule/{id}/restore', [ClassScheduleController::class, 'restore']);
 
     // Enlistments
-    Route::apiResource('enlistment', EnlistmentController::class);
-    Route::post('enlistment/{id}/restore', [EnlistmentController::class, 'restore']);
+    Route::apiResource('enlistments', EnlistmentController::class);
+    Route::post('enlistments/{id}/restore', [EnlistmentController::class, 'restore']);
+    Route::get('enlistments-data', [EnlistmentController::class, 'getEnlistmentData']);
+    Route::post('/enlistments/multiple/data', [EnlistmentController::class, 'storeMultiple']);
+    Route::get('enlistments/active/academic-year-semester', [EnlistmentController::class, 'getActiveAcademicYearAndSemester']);
+    Route::get('/enlistments/{id}/subjects', [EnlistmentController::class, 'getEnlistedSubjectsByProfile']);
+
+
+
 
     // Enrollment Trackings
     Route::apiResource('enrollmenttracking', EnrollmentTrackingController::class);
@@ -176,3 +199,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('notification', NotificationController::class);
     Route::post('notification/{id}/restore', [NotificationController::class, 'restore']);
 });
+

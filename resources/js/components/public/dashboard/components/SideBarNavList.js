@@ -55,8 +55,10 @@ const SideBarNavList = React.memo(({ userRole }) => {
         </Menu.Item>
       )}
 
+
       {userRole === 'superadmin' && (
         <>
+<>
           <Menu.Item key={`/${userRole}/users`} icon={<UserOutlined />} className="nav-item">
             <NavLink to={`/${userRole}/users`} className="nav-link">
               <span className="nav-link-text">Users</span>
@@ -69,10 +71,7 @@ const SideBarNavList = React.memo(({ userRole }) => {
             </NavLink>
           </Menu.Item>
         </>
-      )}
 
-      {userRole === 'superadmin' && (
-        <>
           <Menu.Item key={`/${userRole}/student-is`} icon={<BookOutlined />} className="nav-item">
             <NavLink to={`/${userRole}/student-is`} className="nav-link">
               <span className="nav-link-text">Student IS</span>
@@ -83,11 +82,7 @@ const SideBarNavList = React.memo(({ userRole }) => {
               <span className="nav-link-text">Class Scheduling</span>
             </NavLink>
           </Menu.Item>
-        </>
-      )}
 
-      {userRole === 'superadmin' && (
-        <>
           <Menu.Item key={`/${userRole}/academic-programs`} icon={<ApartmentOutlined />} className="nav-item">
             <NavLink to={`/${userRole}/academic-programs`} className="nav-link">
               <span className="nav-link-text">Academic Programs</span>
@@ -106,7 +101,14 @@ const SideBarNavList = React.memo(({ userRole }) => {
             </NavLink>
           </Menu.Item>
 
+            
+          <Menu.Item key={`/${userRole}/enlistment-manager`} icon={<ProfileOutlined />} className="nav-item">
+          <NavLink to={`/${userRole}/enlistment-manager`} className="nav-link">
+            <span className="nav-link-text">Enlistment Manager</span>
+          </NavLink>
+        </Menu.Item>
           <div className="separator" />
+
         </>
       )}
 

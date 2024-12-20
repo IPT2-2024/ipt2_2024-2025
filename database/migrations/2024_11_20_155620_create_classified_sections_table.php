@@ -16,8 +16,8 @@ class CreateClassifiedSectionsTable extends Migration
             Schema::create('classified_sections', function (Blueprint $table) {
                 $table->id(); // Add id column
                 $table->unsignedBigInteger('section_id'); // Add section_id column
-                $table->unsignedBigInteger('collegeprogram_id'); // Add collegeprogram_id column
-                $table->unsignedBigInteger('yearlevel_id'); // Add yearlevel_id column
+                $table->unsignedBigInteger('collegeprogram_id')->nullable(); // Add collegeprogram_id column
+                $table->unsignedBigInteger('yearlevel_id')->nullable(); // Add yearlevel_id column
                 $table->timestamps(); // Add created_at and updated_at columns
 
                 // Foreign key constraints

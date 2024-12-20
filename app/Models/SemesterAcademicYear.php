@@ -12,9 +12,10 @@ class SemesterAcademicYear extends Model
 
     protected $guarded = [];
     protected $table = 'semester_academicyear';
-    public function classSchedules()
+    
+    public function academic_program()
     {
-        return $this->hasMany(ClassSchedule::class);
+        return $this->hasMany(AcademicProgram::class);
     }
 
     public function semester()
@@ -26,4 +27,5 @@ class SemesterAcademicYear extends Model
     {
         return $this->belongsTo(AcademicYear::class, 'academicyear_id');
     }
+
 }

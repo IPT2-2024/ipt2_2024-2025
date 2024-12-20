@@ -33,7 +33,7 @@ class SubjectCurriculumController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'subject_id' => 'required|exists:subjects,id',
-            'curriculum_id' => 'required|exists:curriculums,id',
+            'curriculum_id' => 'nullable|exists:curriculums,id',
         ]);
 
         if ($validator->fails()) {
@@ -64,7 +64,7 @@ class SubjectCurriculumController extends Controller
 
         $validator = Validator::make($request->all(), [
             'subject_id' => 'required|exists:subjects,id',
-            'curriculum_id' => 'required|exists:curriculums,id',
+            'curriculum_id' => 'nullable|exists:curriculums,id',
         ]);
 
         if ($validator->fails()) {

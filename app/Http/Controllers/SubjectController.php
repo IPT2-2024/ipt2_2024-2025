@@ -13,13 +13,15 @@ class SubjectController extends Controller
     {
         $deleted = $request->query('deleted', 'false');
 
+        $query = Subject::with('subjectCategory'); // Eager load the subject category relationship
+
         if ($deleted === 'only') {
-            $subjects = Subject::onlyTrashed()->get();
+            $query = $query->onlyTrashed();
         } elseif ($deleted === 'true') {
-            $subjects = Subject::withTrashed()->get();
-        } else {
-            $subjects = Subject::all();
+            $query = $query->withTrashed();
         }
+
+        $subjects = $query->get();
 
         if ($subjects->isEmpty()) {
             return response()->json(['message' => 'No subjects found'], 404);
@@ -27,6 +29,7 @@ class SubjectController extends Controller
 
         return response()->json($subjects);
     }
+
 
     // Store a newly created subject in storage
     public function store(Request $request)

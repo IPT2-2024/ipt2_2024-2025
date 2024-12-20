@@ -82,12 +82,12 @@ const BuildingTable = ({
             dataIndex: 'building_name',
             key: 'building_name',
         },
-        {
-            title: <span style={{ color: '#1890ff' }}>Maximum Floor</span>, // Blue title
-            dataIndex: 'floor_level', // Use 'floor_level' from the data
-            key: 'floor',
-            render: (text, record) => getOrdinalFloor(record.floor ? record.floor.floor_level : null),  // Show ordinal floor or 'No Floor' if not available
-        },        
+        // {
+        //     title: <span style={{ color: '#1890ff' }}>Maximum Floor</span>, // Blue title
+        //     dataIndex: 'floor_level', // Use 'floor_level' from the data
+        //     key: 'floor',
+        //     render: (text, record) => getOrdinalFloor(record.floor ? record.floor.floor_level : null),  // Show ordinal floor or 'No Floor' if not available
+        // },        
         {
             title: <span style={{ color: '#1890ff' }}>Created At</span>, // Blue title
             dataIndex: 'created_at',

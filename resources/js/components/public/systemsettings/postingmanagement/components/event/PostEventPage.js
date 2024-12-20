@@ -1,3 +1,4 @@
+// PostEventPage.js
 import React, { useState, useEffect } from 'react';
 import { Button, Input, Space, Typography, message, Popconfirm } from 'antd';
 import { PlusOutlined, UnorderedListOutlined, FileTextOutlined } from '@ant-design/icons';
@@ -5,28 +6,28 @@ import axios from 'axios';
 import PostEventTable from './components/PostEventTable'; 
 import PostEventModal from './components/PostEventModal'; 
 import moment from 'moment'; 
+import { debounce } from 'lodash'; // Import debounce for search optimization
 
 const { Text } = Typography;
 
 const PostEventPage = () => {
-    
-    const [data, setData] = useState([]); 
-    const [archivedData, setArchivedData] = useState([]); 
-    const [filteredData, setFilteredData] = useState([]); 
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]); 
-    const [searchValue, setSearchValue] = useState(''); 
-    const [loading, setLoading] = useState(false); 
-    const [isCreateModalVisible, setIsCreateModalVisible] = useState(false); 
-    const [isEditModalVisible, setIsEditModalVisible] = useState(false); 
-    const [modalData, setModalData] = useState(null); 
-    const [showArchived, setShowArchived] = useState(false); 
-    const [currentPage, setCurrentPage] = useState(1); 
-    const [error, setError] = useState(null); 
-    const pageSize = 10; 
+    const [data, setData] = useState([]); // Active events
+    const [archivedData, setArchivedData] = useState([]); // Archived events
+    const [filteredData, setFilteredData] = useState([]); // Filtered data based on search
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]); // Selected rows for bulk actions
+    const [searchValue, setSearchValue] = useState(''); // Search input
+    const [loading, setLoading] = useState(false); // Loading state
+    const [isCreateModalVisible, setIsCreateModalVisible] = useState(false); // Create modal visibility
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false); // Edit modal visibility
+    const [modalData, setModalData] = useState(null); // Data for editing
+    const [showArchived, setShowArchived] = useState(false); // Toggle between active and archived
+    const [currentPage, setCurrentPage] = useState(1); // Pagination
+    const [error, setError] = useState(null); // Error state
+    const pageSize = 10; // Items per page
 
-    const token = localStorage.getItem('auth_token'); 
+    const token = localStorage.getItem('auth_token'); // Retrieve token once
 
-   
+    // Fetch active events
     const fetchEvents = async () => {
         setLoading(true);
         setError(null); 
@@ -43,7 +44,7 @@ const PostEventPage = () => {
             setData(activeEvents);
             setArchivedData(archivedEvents);
 
-            
+            // Set filtered data based on current view
             setFilteredData(showArchived ? archivedEvents : activeEvents);
             setCurrentPage(1); 
         } catch (err) {
@@ -55,7 +56,7 @@ const PostEventPage = () => {
         }
     };
 
-   
+    // Fetch archived events (if needed)
     const fetchArchivedEvents = async () => {
         setLoading(true);
         setError(null); 
@@ -85,22 +86,21 @@ const PostEventPage = () => {
         }
     };
 
-   
+    // Initial data fetch
     useEffect(() => {
         fetchEvents();
     }, []);
 
-    
+    // Update filtered data based on search, data, archivedData, and showArchived
     useEffect(() => {
-        const baseData = showArchived ? archivedData : data;
-        const filtered = baseData.filter(event =>
+        const currentList = showArchived ? archivedData : data;
+        const filtered = currentList.filter(event =>
             String(event.event_name || '').toLowerCase().includes(searchValue.toLowerCase())
         );
         setFilteredData(filtered);
-        setCurrentPage(1); 
     }, [searchValue, data, archivedData, showArchived]);
 
-    
+    // Fetch data when showArchived changes
     useEffect(() => {
         if (showArchived) {
             fetchArchivedEvents();
@@ -109,13 +109,16 @@ const PostEventPage = () => {
         }
     }, [showArchived]);
 
-   
-
-    
-    const handleSearch = (value) => {
+    // Debounced search handler
+    const debouncedHandleSearch = debounce((value) => {
         setSearchValue(value);
+    }, 300); // 300ms debounce delay
+
+    const handleSearch = (value) => {
+        debouncedHandleSearch(value);
     };
 
+    // Handle single event deletion (archive)
     const handleDeleteEvent = async (id) => {
         const eventToDelete = data.find(event => event.id === id);
         if (!eventToDelete) return;
@@ -136,7 +139,7 @@ const PostEventPage = () => {
         }
     };
 
-    
+    // Handle multiple events deletion (archive)
     const handleDeleteSelected = async () => {
         const selectedEvents = data.filter(event => selectedRowKeys.includes(event.id));
         if (selectedEvents.length === 0) return;
@@ -172,14 +175,13 @@ const PostEventPage = () => {
         }
     };
 
-    
+    // Handle single event restoration
     const handleRestoreEvent = async (id) => {
         try {
             await axios.post(`/api/event/${id}/restore`, {}, { 
                 headers: { Authorization: `Bearer ${token}` },
             });
 
-            
             const eventToRestore = archivedData.find(event => event.id === id);
             if (eventToRestore) {
                 const updatedArchived = archivedData.filter(event => event.id !== id);
@@ -198,7 +200,7 @@ const PostEventPage = () => {
         }
     };
 
-    
+    // Handle multiple events restoration
     const handleRestoreSelected = async () => {
         const selectedEvents = archivedData.filter(event => selectedRowKeys.includes(event.id));
         if (selectedEvents.length === 0) return;
@@ -228,118 +230,127 @@ const PostEventPage = () => {
         }
     };
 
-    
-    const handleCreateEvent = async (eventData) => {
-        
-        const duplicate = data.some(event => event.event_name.toLowerCase() === eventData.event_name.toLowerCase()) ||
-                          archivedData.some(event => event.event_name.toLowerCase() === eventData.event_name.toLowerCase());
-
-        if (duplicate) {
-            message.error('This Event already exists.');
-            return;
-        }
-
+    // Handle data reload after create or edit actions
+    const reloadData = async () => {
         try {
-            const response = await axios.post('/api/event', eventData, { 
+            await fetchEvents();
+        } catch (error) {
+            // fetchEvents already handles errors
+        }
+    };
+
+    // **Implement handleCreateEvent with Duplicate Check**
+    const handleCreateEvent = async (eventData) => {
+        try {
+            // **Duplicate Check**
+            const duplicate = [...data, ...archivedData].some(event => 
+                event.event_name.toLowerCase().trim() === eventData.event_name.toLowerCase().trim()
+            );
+
+            if (duplicate) {
+                message.error('A event with this name already exists.');
+                return; // Prevent further execution
+            }
+
+            // Proceed to create
+            await axios.post('/api/event', eventData, { 
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            const newEvent = response.data; 
 
-            message.success('New event created successfully');
+            message.success('Event created successfully!');
             setIsCreateModalVisible(false);
 
-            
-            fetchEvents();
+            // **Re-fetch data to update the table**
+            reloadData();
         } catch (error) {
             console.error('Error creating event:', error);
             if (error.response && error.response.status === 409) { 
-                message.error('This Event already exists.');
+                message.error('A event with this name already exists.');
             } else {
                 message.error('Failed to create event.');
             }
         }
     };
 
-    
+    // **Implement handleEditEvent with Duplicate Check**
     const handleEditEvent = async (id, updatedData) => {
-        
-        const duplicate = data.some(event => 
-            event.event_name.toLowerCase() === updatedData.event_name.toLowerCase() && event.id !== id
-        ) ||
-        archivedData.some(event => 
-            event.event_name.toLowerCase() === updatedData.event_name.toLowerCase() && event.id !== id
-        );
-
-        if (duplicate) {
-            message.error('This Event already exists.');
-            return;
-        }
-
         try {
+            // **Duplicate Check**
+            const duplicate = [...data, ...archivedData].some(event => 
+                event.event_name.toLowerCase().trim() === updatedData.event_name.toLowerCase().trim() && event.id !== id
+            );
+
+            if (duplicate) {
+                message.error('A event with this name already exists.');
+                return; // Prevent further execution
+            }
+
+            // Proceed to update
             await axios.put(`/api/event/${id}`, updatedData, { 
                 headers: { Authorization: `Bearer ${token}` },
             });
 
-            
-            const updatedEvents = data.map(event => 
-                event.id === id ? { ...event, ...updatedData, updated_at: new Date().toISOString() } : event
-            );
-            setData(updatedEvents);
+            message.success('Event updated successfully!');
             setIsEditModalVisible(false);
-            message.success('Event updated successfully');
+            setModalData(null);
+
+            // **Re-fetch data to update the table**
+            reloadData();
         } catch (error) {
             console.error('Error updating event:', error);
             if (error.response && error.response.status === 409) { 
-                message.error('This Event already exists.');
+                message.error('A event with this name already exists.');
             } else {
                 message.error('Failed to update event.');
             }
         }
     };
 
-    
+    // Handle print functionality
     const handlePrint = () => {
         const printWindow = window.open('', '', 'height=650,width=1300'); 
-        printWindow.document.write('<html><head><title>Event Table</title></head><body>');
-        printWindow.document.write('<h2>Event Data</h2>');
-        printWindow.document.write('<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width:100%;">');
-        printWindow.document.write('<thead><tr>');
-        
-        printWindow.document.write('<th>Event Name</th><th>Date Start</th><th>Date End</th><th>Time Start</th><th>Time End</th>');
-        if (!showArchived) {
-            printWindow.document.write('<th>Created At</th><th>Updated At</th>');
-        } else {
-            printWindow.document.write('<th>Deleted At</th>');
-        }
-        printWindow.document.write('</tr></thead><tbody>');
-
-        filteredData.forEach(event => {
-            printWindow.document.write('<tr>');
-            printWindow.document.write(`<td>${event.event_name ?? ''}</td>`);
-            printWindow.document.write(`<td>${event.date_start ? moment(event.date_start).format('MMMM Do YYYY') : 'N/A'}</td>`);
-            printWindow.document.write(`<td>${event.date_end ? moment(event.date_end).format('MMMM Do YYYY') : 'N/A'}</td>`);
-            printWindow.document.write(`<td>${event.time_start ? moment(event.time_start, 'hh:mm A').format('hh:mm A') : 'N/A'}</td>`);
-            printWindow.document.write(`<td>${event.time_end ? moment(event.time_end, 'hh:mm A').format('hh:mm A') : 'N/A'}</td>`);
+        if (printWindow) {
+            printWindow.document.write('<html><head><title>Event Table</title></head><body>');
+            printWindow.document.write('<h2>Event Data</h2>');
+            printWindow.document.write('<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width:100%;">');
+            printWindow.document.write('<thead><tr>');
+            
+            printWindow.document.write('<th>Event Name</th><th>Date Start</th><th>Date End</th><th>Time Start</th><th>Time End</th>');
             if (!showArchived) {
-                printWindow.document.write(`<td>${event.created_at ? moment(event.created_at).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'}</td>`);
-                printWindow.document.write(`<td>${event.updated_at ? moment(event.updated_at).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'}</td>`);
+                printWindow.document.write('<th>Created At</th><th>Updated At</th>');
             } else {
-                printWindow.document.write(`<td>${event.deleted_at ? moment(event.deleted_at).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'}</td>`);
+                printWindow.document.write('<th>Deleted At</th>');
             }
-            printWindow.document.write('</tr>');
-        });
+            printWindow.document.write('</tr></thead><tbody>');
 
-        printWindow.document.write('</tbody></table>');
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.focus();
-        printWindow.print();
-        printWindow.close();
+            filteredData.forEach(event => {
+                printWindow.document.write('<tr>');
+                printWindow.document.write(`<td>${event.event_name || ''}</td>`);
+                printWindow.document.write(`<td>${event.date_start ? moment(event.date_start).format('MMMM Do YYYY') : 'N/A'}</td>`);
+                printWindow.document.write(`<td>${event.date_end ? moment(event.date_end).format('MMMM Do YYYY') : 'N/A'}</td>`);
+                printWindow.document.write(`<td>${event.time_start ? moment(event.time_start, 'hh:mm A').format('hh:mm A') : 'N/A'}</td>`);
+                printWindow.document.write(`<td>${event.time_end ? moment(event.time_end, 'hh:mm A').format('hh:mm A') : 'N/A'}</td>`);
+                if (!showArchived) {
+                    printWindow.document.write(`<td>${event.created_at ? moment(event.created_at).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'}</td>`);
+                    printWindow.document.write(`<td>${event.updated_at ? moment(event.updated_at).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'}</td>`);
+                } else {
+                    printWindow.document.write(`<td>${event.deleted_at ? moment(event.deleted_at).format('MMMM Do YYYY, h:mm:ss a') : 'N/A'}</td>`);
+                }
+                printWindow.document.write('</tr>');
+            });
+
+            printWindow.document.write('</tbody></table>');
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }
     };
 
-    
+    // Row selection for bulk actions
     const rowSelectionConfig = {
         selectedRowKeys,
         onChange: (keys) => setSelectedRowKeys(keys),
@@ -347,7 +358,7 @@ const PostEventPage = () => {
 
     return (
         <div style={{ padding: '20px', background: '#fff' }}>
-            {}
+            {/* Search and Action Buttons */}
             <div style={{
                 marginBottom: '20px',
                 display: 'flex',
@@ -426,7 +437,8 @@ const PostEventPage = () => {
                     )}
                 </Space>
             </div>
-            {}
+
+            {/* Event Table */}
             <PostEventTable
                 rowSelection={rowSelectionConfig}
                 data={filteredData}
@@ -440,7 +452,8 @@ const PostEventPage = () => {
                 showArchived={showArchived}
                 loading={loading}
             />
-            {}
+
+            {/* Event Modal */}
             <PostEventModal
                 isEditModalVisible={isEditModalVisible}
                 setIsEditModalVisible={setIsEditModalVisible}
@@ -449,11 +462,14 @@ const PostEventPage = () => {
                 modalData={modalData}
                 handleCreateEvent={handleCreateEvent} 
                 handleEditEvent={handleEditEvent}   
-                existingEvents={[...data, ...archivedData]} 
+                existingEvents={[...data, ...archivedData]} // Pass combined data for duplicate checks
             />
-            {}
+
+            {/* Error Message */}
             {error && <Text type="danger">{error}</Text>}
         </div>
-    )};
+    );
 
-    export default PostEventPage;
+};
+
+export default PostEventPage;

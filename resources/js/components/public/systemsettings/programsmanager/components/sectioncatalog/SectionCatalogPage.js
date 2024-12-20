@@ -1,32 +1,32 @@
-
+// SectionCatalogPage.js
 import React, { useState, useEffect } from 'react';
-import { Button, Input, Space, Typography, message,Popconfirm } from 'antd';
-import { FileTextOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { Button, Input, Space, Typography, message, Popconfirm } from 'antd';
+import { FileTextOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import SectionCatalogTable from './components/SectionCatalogTable';
 import SectionCatalogModal from './components/SectionCatalogModal';
+import { debounce } from 'lodash'; // Import debounce for search optimization
 
 const { Text } = Typography;
 
 const SectionCatalogPage = () => {
-   
-    const [data, setData] = useState([]); 
-    const [archivedData, setArchivedData] = useState([]); 
-    const [filteredData, setFilteredData] = useState([]); 
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]); 
-    const [searchValue, setSearchValue] = useState(''); 
-    const [loading, setLoading] = useState(false); 
-    const [error, setError] = useState(null); 
-    const [isCreateModalVisible, setIsCreateModalVisible] = useState(false); 
-    const [isEditModalVisible, setIsEditModalVisible] = useState(false); 
-    const [modalData, setModalData] = useState(null); 
-    const [showArchived, setShowArchived] = useState(false); 
-    const [currentPage, setCurrentPage] = useState(1); 
-    const pageSize = 10; 
+    const [data, setData] = useState([]); // Active sections
+    const [archivedData, setArchivedData] = useState([]); // Archived sections
+    const [filteredData, setFilteredData] = useState([]); // Filtered data based on search
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]); // Selected rows for bulk actions
+    const [searchValue, setSearchValue] = useState(''); // Search input
+    const [showArchived, setShowArchived] = useState(false); // Toggle between active and archived
+    const [isCreateModalVisible, setIsCreateModalVisible] = useState(false); // Create modal visibility
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false); // Edit modal visibility
+    const [modalData, setModalData] = useState(null); // Data for editing
+    const [currentPage, setCurrentPage] = useState(1); // Pagination
+    const [loading, setLoading] = useState(false); // Loading state
+    const [error, setError] = useState(null); // Error state
+    const pageSize = 10; // Items per page
 
     const token = localStorage.getItem('auth_token'); 
 
-    
+    // Fetch active sections
     const fetchSections = async () => {
         setLoading(true);
         setError(null); 
@@ -43,7 +43,7 @@ const SectionCatalogPage = () => {
             setData(activeSections);
             setArchivedData(archivedSections);
 
-            
+            // Set filtered data based on current view
             setFilteredData(showArchived ? archivedSections : activeSections);
             setCurrentPage(1); 
         } catch (err) {
@@ -55,7 +55,7 @@ const SectionCatalogPage = () => {
         }
     };
 
-    
+    // Fetch archived sections (if needed)
     const fetchArchivedSections = async () => {
         setLoading(true);
         setError(null); 
@@ -85,22 +85,22 @@ const SectionCatalogPage = () => {
         }
     };
 
-    
+    // Initial data fetch
     useEffect(() => {
         fetchSections();
     }, []);
 
-    
+    // Update filtered data based on search, data, archivedData, and showArchived
     useEffect(() => {
-        const baseData = showArchived ? archivedData : data;
-        const filtered = baseData.filter(section =>
+        const currentList = showArchived ? archivedData : data;
+        const filtered = currentList.filter(section =>
             String(section.section_name || '').toLowerCase().includes(searchValue.toLowerCase())
         );
         setFilteredData(filtered);
-        setCurrentPage(1); 
+        setCurrentPage(1);
     }, [searchValue, data, archivedData, showArchived]);
 
-    
+    // Fetch data when showArchived changes
     useEffect(() => {
         if (showArchived) {
             fetchArchivedSections();
@@ -109,14 +109,16 @@ const SectionCatalogPage = () => {
         }
     }, [showArchived]);
 
-    
-
-    
-    const handleSearch = (value) => {
+    // Debounced search handler
+    const debouncedHandleSearch = debounce((value) => {
         setSearchValue(value);
+    }, 300); // 300ms debounce delay
+
+    const handleSearch = (value) => {
+        debouncedHandleSearch(value);
     };
 
-    
+    // Handle single section deletion (archive)
     const handleDeleteSection = async (id) => {
         setError(null); 
         try {
@@ -139,7 +141,7 @@ const SectionCatalogPage = () => {
         }
     };
 
-    
+    // Handle multiple sections deletion (archive)
     const handleDeleteSelected = async () => {
         const selectedSections = data.filter(section => selectedRowKeys.includes(section.id));
         if (selectedSections.length === 0) return;
@@ -169,7 +171,7 @@ const SectionCatalogPage = () => {
         }
     };
 
-    
+    // Handle single section restoration
     const handleRestoreSection = async (id) => {
         setError(null); 
         try {
@@ -193,7 +195,7 @@ const SectionCatalogPage = () => {
         }
     };
 
-    
+    // Handle multiple sections restoration
     const handleRestoreSelected = async () => {
         const selectedSections = archivedData.filter(section => selectedRowKeys.includes(section.id));
         if (selectedSections.length === 0) return;
@@ -225,87 +227,117 @@ const SectionCatalogPage = () => {
         }
     };
 
-    
-    const handleCreateSection = async (sectionData) => {
-        setError(null); 
+    // Handle data reload after create, edit, delete, or restore actions
+    const reloadData = async () => {
         try {
-            const response = await axios.post('/api/sections', sectionData, { 
+            await fetchSections();
+        } catch (error) {
+            // fetchSections already handles errors
+        }
+    };
+
+    // **Implement handleCreateSection with Duplicate Check**
+    const handleCreateSection = async (sectionData) => {
+        try {
+            // **Duplicate Check**
+            const duplicate = [...data, ...archivedData].some(section => 
+                section.section_name.toLowerCase().trim() === sectionData.section_name.toLowerCase().trim()
+            );
+
+            if (duplicate) {
+                message.error('A section with this name already exists.');
+                setError('A section with this name already exists.');
+                return; // Prevent further execution
+            }
+
+            // Proceed to create
+            await axios.post('/api/sections', sectionData, { 
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            const newSection = response.data; 
 
-            message.success('New section created successfully');
+            message.success('Section created successfully!');
             setIsCreateModalVisible(false);
 
-            
-            fetchSections();
-        } catch (error) {
+            // **Re-fetch data to update the table**
+            reloadData();
+        } catch (error) { // Ensure 'error' is defined here
             console.error('Error creating section:', error);
             setError('Failed to create section.');
             message.error('Failed to create section.');
         }
     };
 
-    
+    // **Implement handleEditSection with Duplicate Check**
     const handleEditSection = async (id, updatedData) => {
-        setError(null); 
         try {
+            // **Duplicate Check**
+            const duplicate = [...data, ...archivedData].some(section => 
+                section.section_name.toLowerCase().trim() === updatedData.section_name.toLowerCase().trim() && section.id !== id
+            );
+
+            if (duplicate) {
+                message.error('A section with this name already exists.');
+                setError('A section with this name already exists.');
+                return; // Prevent further execution
+            }
+
+            // Proceed to update
             await axios.put(`/api/sections/${id}`, updatedData, { 
                 headers: { Authorization: `Bearer ${token}` },
             });
 
-            
-            const updatedSections = data.map(section => 
-                section.id === id ? { ...section, ...updatedData, updated_at: new Date().toISOString() } : section
-            );
-            setData(updatedSections);
+            message.success('Section updated successfully!');
             setIsEditModalVisible(false);
-            message.success('Section updated successfully');
-        } catch (error) {
+            setModalData(null);
+
+            // **Re-fetch data to update the table**
+            reloadData();
+        } catch (error) { // Ensure 'error' is defined here
             console.error('Error updating section:', error);
             setError('Failed to update section.');
             message.error('Failed to update section.');
         }
     };
 
-    
+    // Handle print functionality
     const handlePrint = () => {
         const printWindow = window.open('', '', 'height=650,width=900');
-        printWindow.document.write('<html><head><title>Section Catalog</title></head><body>');
-        printWindow.document.write('<h2>Section Catalog Data</h2>');
-        printWindow.document.write('<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width:100%;">');
-        printWindow.document.write('<thead><tr><th>Section Name</th>');
-        if (!showArchived) {
-            printWindow.document.write('<th>Created At</th><th>Updated At</th>');
-        } else {
-            printWindow.document.write('<th>Deleted At</th>');
-        }
-        printWindow.document.write('</tr></thead><tbody>');
-
-        filteredData.forEach(section => {
-            printWindow.document.write('<tr>');
-            // printWindow.document.write(`<td>${section.id ?? ''}</td>`);
-            printWindow.document.write(`<td>${section.section_name ?? ''}</td>`);
+        if (printWindow) {
+            printWindow.document.write('<html><head><title>Section Catalog</title></head><body>');
+            printWindow.document.write('<h2>Section Catalog Data</h2>');
+            printWindow.document.write('<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width:100%;">');
+            printWindow.document.write('<thead><tr><th>Section Name</th>');
             if (!showArchived) {
-                printWindow.document.write(`<td>${section.created_at ? new Date(section.created_at).toLocaleString() : ''}</td>`);
-                printWindow.document.write(`<td>${section.updated_at ? new Date(section.updated_at).toLocaleString() : ''}</td>`);
+                printWindow.document.write('<th>Created At</th><th>Updated At</th>');
             } else {
-                printWindow.document.write(`<td>${section.deleted_at ? new Date(section.deleted_at).toLocaleString() : ''}</td>`);
+                printWindow.document.write('<th>Deleted At</th>');
             }
-            printWindow.document.write('</tr>');
-        });
+            printWindow.document.write('</tr></thead><tbody>');
 
-        printWindow.document.write('</tbody></table>');
-        printWindow.document.write('</body></html>');
-        printWindow.document.close();
-        printWindow.focus();
-        printWindow.print();
-        printWindow.close();
+            filteredData.forEach(section => {
+                printWindow.document.write('<tr>');
+                printWindow.document.write(`<td>${section.section_name ?? ''}</td>`);
+                if (!showArchived) {
+                    printWindow.document.write(`<td>${section.created_at ? new Date(section.created_at).toLocaleString() : ''}</td>`);
+                    printWindow.document.write(`<td>${section.updated_at ? new Date(section.updated_at).toLocaleString() : ''}</td>`);
+                } else {
+                    printWindow.document.write(`<td>${section.deleted_at ? new Date(section.deleted_at).toLocaleString() : ''}</td>`);
+                }
+                printWindow.document.write('</tr>');
+            });
+
+            printWindow.document.write('</tbody></table>');
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }
     };
 
-   
+    // Row selection for bulk actions
     const rowSelection = {
         selectedRowKeys,
         onChange: (keys) => setSelectedRowKeys(keys),
@@ -313,7 +345,7 @@ const SectionCatalogPage = () => {
 
     return (
         <div style={{ padding: '20px', background: '#fff' }}>
-            {}
+            {/* Search and Action Buttons */}
             <div style={{
                 marginBottom: '20px',
                 display: 'flex',
@@ -350,7 +382,6 @@ const SectionCatalogPage = () => {
                     }}
                 >
                     {!showArchived && (
-                        
                         <>
                             <Button
                                 type="primary"
@@ -361,39 +392,40 @@ const SectionCatalogPage = () => {
                                 Create New Section
                             </Button>
                             <Popconfirm
-                        title="Are you sure you want to delete the selected sections?"
-                        onConfirm={handleDeleteSelected}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                            <Button
-                                danger
-                                disabled={selectedRowKeys.length === 0}
-                                style={{ width: '100%' }}
+                                title="Are you sure you want to delete the selected sections?"
+                                onConfirm={handleDeleteSelected}
+                                okText="Yes"
+                                cancelText="No"
                             >
-                                Remove Selected Sections
-                            </Button>
+                                <Button
+                                    danger
+                                    disabled={selectedRowKeys.length === 0}
+                                    style={{ width: '100%' }}
+                                >
+                                    Remove Selected Sections
+                                </Button>
                             </Popconfirm>
                         </>
                     )}
                     {showArchived && (
                         <Popconfirm
-                        title="Are you sure you want to restore the selected sections?"
-                        onConfirm={handleRestoreSelected}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                        <Button
-                            disabled={selectedRowKeys.length === 0}
-                            style={{ width: '100%' }}
+                            title="Are you sure you want to restore the selected sections?"
+                            onConfirm={handleRestoreSelected}
+                            okText="Yes"
+                            cancelText="No"
                         >
-                            Restore Selected Sections
-                        </Button>
+                            <Button
+                                disabled={selectedRowKeys.length === 0}
+                                style={{ width: '100%' }}
+                            >
+                                Restore Selected Sections
+                            </Button>
                         </Popconfirm>
                     )}
                 </Space>
             </div>
-            {}
+            
+            {/* Sections Table */}
             <SectionCatalogTable
                 rowSelection={rowSelection}
                 data={filteredData}
@@ -407,7 +439,8 @@ const SectionCatalogPage = () => {
                 showArchived={showArchived}
                 loading={loading}
             />
-            {}
+
+            {/* Section Modal */}
             <SectionCatalogModal
                 isEditModalVisible={isEditModalVisible}
                 setIsEditModalVisible={setIsEditModalVisible}
@@ -416,8 +449,10 @@ const SectionCatalogPage = () => {
                 modalData={modalData}
                 handleCreateSection={handleCreateSection}
                 handleEditSection={handleEditSection}
+                data={[...data, ...archivedData]} // Pass combined data for duplicate checks
             />
-            {}
+
+            {/* Error Message */}
             {error && <Text type="danger">{error}</Text>}
         </div>
     )};

@@ -85,11 +85,6 @@ const AcademicYearTable = ({
             dataIndex: 'academic_year',
             key: 'academic_year',
         },
-        {
-            title: <span style={{ color: '#1890ff' }}>Description</span>, 
-            dataIndex: 'description',
-            key: 'description',
-        },
     ];
 
     

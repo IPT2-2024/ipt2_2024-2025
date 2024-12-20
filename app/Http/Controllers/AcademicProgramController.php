@@ -33,7 +33,7 @@ class AcademicProgramController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'subjectcurriculum_id' => 'required|exists:subject_curriculums,id',
-            'program_department_id' => 'required|exists:college_program_departments,id',
+            'program_department_id' => 'nullable|exists:college_program_departments,id',
         ]);
 
         if ($validator->fails()) {
@@ -64,7 +64,7 @@ class AcademicProgramController extends Controller
 
         $validator = Validator::make($request->all(), [
             'subjectcurriculum_id' => 'required|exists:subject_curriculums,id',
-            'program_department_id' => 'required|exists:college_program_departments,id',
+            'program_department_id' => 'nullable|exists:college_program_departments,id',
         ]);
 
         if ($validator->fails()) {

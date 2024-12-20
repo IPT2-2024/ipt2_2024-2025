@@ -262,4 +262,75 @@ class ProfileController extends Controller
         return response()->json(['message' => 'Old photo deleted successfully']);
     }
 
+    public function getStudents()
+    {
+        try {
+            // Join Profiles, Users, Roles, CollegeProgramDepartments, CollegePrograms, and YearLevels tables
+            $students = Profile::join('users', 'profiles.user_id', '=', 'users.id')  // Join with users table
+                ->join('roles', 'users.role_id', '=', 'roles.id')  // Join with roles table
+                ->leftjoin('college_program_departments', 'profiles.program_department_id', '=', 'college_program_departments.id') // Join with college_program_departments
+                ->leftjoin('college_programs', 'college_program_departments.collegeprogram_id', '=', 'college_programs.id') // Join with college_programs table
+                ->leftjoin('year_levels', 'profiles.yearlevel_id', '=', 'year_levels.id') // Join with year_levels table
+                ->where('roles.id', 4)  // Filter by student role (role_id = 4)
+                ->select(
+                    'profiles.first_name', 
+                    'profiles.last_name', 
+                    'profiles.middle_initial', 
+                    'profiles.suffix', 
+                    'profiles.date_of_birth',
+                    'profiles.address',
+                    'profiles.school_email', 
+                    'profiles.sex', 
+                    'profiles.phone_number',
+                    'profiles.admission_date', 
+                    'profiles.marital_status',
+                    'profiles.religion', 
+                    'profiles.created_at', 
+                    'profiles.updated_at',
+                    'college_programs.college_programs as program_name',  // Add program name from college_programs table
+                    'year_levels.year_level as year_level_name'  // Add year level name from year_levels table
+                )
+                ->get();
+
+            return response()->json($students);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching students: ' . $e->getMessage());  // Log the error message
+            return response()->json(['message' => 'Error fetching students'], 500);
+        }
+        
+    }
+
+    public function getFaculty()
+        {
+            try {
+                // Join Profiles, Users, and Roles tables
+                $students = Profile::join('users', 'profiles.user_id', '=', 'users.id')  // Join with users table
+                    ->join('roles', 'users.role_id', '=', 'roles.id')  // Join with roles table
+                    ->where('roles.id', 3)  // Filter by student role (role_id = 4)
+                    ->select(
+                        'profiles.first_name', 
+                        'profiles.last_name', 
+                        'profiles.middle_initial', 
+                        'profiles.suffix', 
+                        'profiles.date_of_birth',
+                        'profiles.address',
+                        'profiles.school_email', 
+                        'profiles.sex', 
+                        'profiles.phone_number',
+                        'profiles.admission_date', 
+                        'profiles.marital_status',
+                        'profiles.religion', 
+                        'profiles.created_at', 
+                        'profiles.updated_at'
+                    )
+                    ->get();
+
+                return response()->json($students);
+            } catch (\Exception $e) {
+                \Log::error('Error fetching students: ' . $e->getMessage());  // Log the error message
+                return response()->json(['message' => 'Error fetching students'], 500);
+            }
+        }
+
+
 }

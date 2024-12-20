@@ -30,7 +30,7 @@ class Profile extends Model
         'emer_contact_no',
         'date_of_birth',
         'user_id',
-        'academicprogram_id',
+        'program_department_id',
         'yearlevel_id',
         'parent_info_id',
         'department_id',

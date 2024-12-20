@@ -1,3 +1,4 @@
+// FloorModal.js
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Button, InputNumber, notification } from 'antd';
 import axios from 'axios'; 
@@ -8,35 +9,14 @@ const FloorModal = ({
     isEditModalVisible,
     setIsEditModalVisible,
     handleCreateFloor,
+    handleEditFloor, // Receive the edit handler
+    data, // Combined active and archived data for duplicate checks
     modalData,
 }) => {
     const [form] = Form.useForm();
-    const [existingFloors, setExistingFloors] = useState([]); 
     const [loading, setLoading] = useState(false); 
 
-    
-    useEffect(() => {
-        if (isCreateModalVisible) {
-            setLoading(true);
-            axios
-                .get('/api/floors') 
-                .then(response => {
-                    setExistingFloors(response.data); 
-                })
-                .catch(error => {
-                    console.error("Error fetching floors:", error);
-                    notification.error({
-                        message: 'Failed to Load Floors',
-                        description: 'There was an error fetching existing floors.',
-                    });
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    }, [isCreateModalVisible]);
-
-    
+    // Reset or set form fields based on modal visibility and modalData
     useEffect(() => {
         if (isEditModalVisible && modalData) {
             form.setFieldsValue({
@@ -47,20 +27,40 @@ const FloorModal = ({
         }
     }, [isEditModalVisible, isCreateModalVisible, modalData, form]);
 
-    
-    const checkIfFloorExists = (rule, value) => {
-        if (value && existingFloors.includes(value)) {
-            return Promise.reject('Floor level already exists');
+    // Custom validator to check for duplicate floor levels
+    const validateFloorLevel = (_, value) => {
+        if (value === undefined || value === null) {
+            return Promise.reject('Please input the floor level');
         }
+
+        const floorLevelStr = String(value).toLowerCase().trim();
+
+        // Exclude the current floor when editing
+        const duplicate = data.some(floor => 
+            String(floor.floor_level).toLowerCase().trim() === floorLevelStr && (isEditModalVisible ? floor.id !== modalData.id : true)
+        );
+
+        if (duplicate) {
+            return Promise.reject('A floor with this level already exists.');
+        }
+
         return Promise.resolve();
     };
 
     const handleSave = () => {
         form.validateFields().then(values => {
-            
-            const { floor_level } = values;
-            handleCreateFloor({ floor_level });
-            handleCancel();
+            setLoading(true);
+            if (isEditModalVisible) {
+                // Call handleEditFloor with id and updated data
+                handleEditFloor(modalData.id, { floor_level: values.floor_level })
+                    .finally(() => setLoading(false));
+            } else {
+                // Call handleCreateFloor with new floor data
+                handleCreateFloor({ floor_level: values.floor_level })
+                    .finally(() => setLoading(false));
+            }
+        }).catch(info => {
+            console.log('Validate Failed:', info);
         });
     };
 
@@ -89,7 +89,7 @@ const FloorModal = ({
                     label="Floor Level"
                     rules={[
                         { required: true, message: 'Please input the floor level' },
-                        { validator: checkIfFloorExists }, 
+                        { validator: validateFloorLevel }, 
                     ]}
                 >
                     <InputNumber min={1} />

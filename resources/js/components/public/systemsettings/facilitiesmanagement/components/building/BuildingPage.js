@@ -5,6 +5,7 @@ import { FileTextOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-desi
 import axios from 'axios';
 import BuildingTable from './components/BuildingTable';
 import BuildingModal from './components/BuildingModal';
+import { debounce } from 'lodash'; // For debouncing search input
 
 const { Text } = Typography;
 
@@ -29,17 +30,18 @@ const BuildingPage = () => {
                 const token = localStorage.getItem('auth_token');
                 if (!token) {
                     message.error('Authorization token is missing');
+                    setLoading(false);
                     return;
                 }
-    
+
                 const apiEndpoint = showArchived 
                     ? '/api/building?deleted=only' // For archived
                     : '/api/building';             // For active buildings only
-    
+
                 const response = await axios.get(apiEndpoint, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-    
+
                 // Check if the response is an array
                 const buildings = Array.isArray(response.data) ? response.data : [];
                 
@@ -51,24 +53,25 @@ const BuildingPage = () => {
                     setData(buildings);         // Set active data
                     setFilteredData(buildings); // Set filtered data to active
                 }
-    
+
                 setLoading(false);
             } catch (err) {
                 console.error("Error fetching buildings", err);
                 setError(err);
                 setLoading(false);
+                message.error('Failed to fetch buildings.');
             }
         };
-    
+
         fetchBuildings();
     }, [showArchived]);  // Re-run the effect when `showArchived` changes
-    
+
     const reloadData = async () => {
         setSearchValue(''); // Reset search
         setShowArchived(false); // Reset archived filter to show active buildings only
-    
+
         setLoading(true); // Show loading indicator
-    
+
         try {
             const token = localStorage.getItem('auth_token');
             const response = await axios.get('/api/building', {
@@ -76,15 +79,15 @@ const BuildingPage = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-    
+
             // Check if the response contains an array, and handle the case of no buildings
             if (Array.isArray(response.data)) {
                 const buildings = response.data.map(building => ({
                     ...building,
                     status: building.deleted_at ? 'archived' : 'active',
-                    floor_name: building.floor ? building.floor.floor_level : 'No Floor',
+                    // floor_name: building.floor ? building.floor.floor_level : 'No Floor',
                 }));
-    
+
                 setData(buildings);
                 setFilteredData(buildings);
             } else {
@@ -102,17 +105,10 @@ const BuildingPage = () => {
             setLoading(false); // Hide loading indicator
         }
     };
-    
-    
-    
-    
-    
 
     const toggleArchivedView = () => {
         setShowArchived((prev) => !prev);
     };
-
-    const displayData = showArchived ? archivedData : data;
 
     // Update filteredData based on searchValue and showArchived
     useEffect(() => {
@@ -148,6 +144,11 @@ const BuildingPage = () => {
         setFilteredData(filtered);
     }, [searchValue, data, archivedData, showArchived]);
 
+    // **Debounced Search Handler**
+    const debouncedHandleSearch = debounce((value) => {
+        setSearchValue(value);
+    }, 300); // 300ms debounce delay
+
     const handleSearch = (value) => {
         setSearchValue(value);
     };
@@ -156,26 +157,23 @@ const BuildingPage = () => {
         setSearchValue('');
     };
 
-    // BuildingPage.js
-const handleDeleteBuilding = async (buildingId) => {
-    try {
-        const token = localStorage.getItem('auth_token');
-        // Send DELETE request to backend
-        await axios.delete(`/api/building/${buildingId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+    const handleDeleteBuilding = async (buildingId) => {
+        try {
+            const token = localStorage.getItem('auth_token');
+            // Send DELETE request to backend
+            await axios.delete(`/api/building/${buildingId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        // Reload the data after successful deletion
-        reloadData(); // Ensure you have the `reloadData` function to fetch fresh data
-        message.success('Building deleted successfully');
-    } catch (error) {
-        message.error('Failed to delete building: ' + (error.response?.data?.message || error.message));
-    }
-};
-
-    
+            // Reload the data after successful deletion
+            reloadData(); // Ensure you have the `reloadData` function to fetch fresh data
+            message.success('Building deleted successfully');
+        } catch (error) {
+            message.error('Failed to delete building: ' + (error.response?.data?.message || error.message));
+        }
+    };
 
     const handleDeleteSelected = async () => {
         const token = localStorage.getItem('auth_token');
@@ -205,8 +203,6 @@ const handleDeleteBuilding = async (buildingId) => {
             message.error('Error deleting buildings');
         }
     };
-    
-    
 
     const handleRestoreSelected = async () => {
         try {
@@ -221,7 +217,7 @@ const handleDeleteBuilding = async (buildingId) => {
                 return;
             }
     
-            // Send a POST request for each selected user
+            // Send a POST request for each selected building
             const restorePromises = validSelectedRowKeys.map(async (id) => {
                 return axios.post(`/api/building/${id}/restore`, {}, {
                     headers: {
@@ -248,10 +244,8 @@ const handleDeleteBuilding = async (buildingId) => {
             setSelectedRowKeys([]);  // Reset selected rows after operation
         }
     };
-    
-    
-    
 
+    // **Updated handleCreateBuilding with Duplicate Check**
     const handleCreateBuilding = async (values) => {
         try {
             const token = localStorage.getItem('auth_token');
@@ -259,6 +253,18 @@ const handleDeleteBuilding = async (buildingId) => {
             if (!token) {
                 message.error('Authorization token is missing');
                 return;
+            }
+
+            // **Duplicate Check**
+            const duplicate = data.some(building => 
+                building.building_name.toLowerCase() === values.building_name.trim().toLowerCase()
+            ) || archivedData.some(building => 
+                building.building_name.toLowerCase() === values.building_name.trim().toLowerCase()
+            );
+
+            if (duplicate) {
+                message.error('A building with this name already exists.');
+                return; // Prevent further execution
             }
 
             setLoading(true);
@@ -298,6 +304,46 @@ const handleDeleteBuilding = async (buildingId) => {
         }
     };
     
+    // **handleEditBuilding Function with Duplicate Check**
+    const handleEditBuilding = async (id, updatedValues) => {
+        try {
+            const token = localStorage.getItem('auth_token');
+            if (!token) {
+                message.error('Authorization token is missing');
+                return;
+            }
+
+            // **Duplicate Check**
+            const duplicate = data.some(building => 
+                building.building_name.toLowerCase() === updatedValues.building_name.trim().toLowerCase() && building.id !== id
+            ) || archivedData.some(building => 
+                building.building_name.toLowerCase() === updatedValues.building_name.trim().toLowerCase() && building.id !== id
+            );
+
+            if (duplicate) {
+                message.error('A building with this name already exists.');
+                return; // Prevent further execution
+            }
+
+            setLoading(true);
+
+            const response = await axios.put(`/api/building/${id}`, updatedValues, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            const updatedData = data.map((building) =>
+                building.id === id ? { ...building, ...response.data.building } : building
+            );
+            setData(updatedData);
+            setIsEditModalVisible(false);
+            message.success('Building updated successfully');
+            reloadData();
+        } catch (error) {
+            message.error('Failed to update building');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // Print functionality
     const printTable = () => {
@@ -311,12 +357,10 @@ const handleDeleteBuilding = async (buildingId) => {
         printWindow.document.write('<tbody>');
         filteredData.forEach((item) => {
             printWindow.document.write('<tr>');
-            // printWindow.document.write(`<td>${item.id ?? ''}</td>`);
             printWindow.document.write(`<td>${item.building_name ?? ''}</td>`);
-
+            // printWindow.document.write(`<td>${item.floor_name ?? ''}</td>`); // Assuming floor_name is available
             const createdAtValue = item.created_at ? new Date(item.created_at).toLocaleString() : '';
             const updatedAtValue = item.updated_at ? new Date(item.updated_at).toLocaleString() : '';
-
             printWindow.document.write(`<td>${createdAtValue}</td>`);
             printWindow.document.write(`<td>${updatedAtValue}</td>`);
             printWindow.document.write('</tr>');
@@ -351,7 +395,7 @@ const handleDeleteBuilding = async (buildingId) => {
                         placeholder="Search by Building Name or ID"
                         style={{ minWidth: '200px', maxWidth: '300px' }}
                         onSearch={handleSearch}
-                        onChange={(e) => setSearchValue(e.target.value)}
+                        onChange={(e) => debouncedHandleSearch(e.target.value)}
                         allowClear
                     />
                     <Button icon={<FileTextOutlined />} onClick={printTable}>
@@ -415,11 +459,12 @@ const handleDeleteBuilding = async (buildingId) => {
                 setIsEditModalVisible={setIsEditModalVisible}
                 isCreateModalVisible={isCreateModalVisible}
                 setIsCreateModalVisible={setIsCreateModalVisible}
-                data={data}
+                data={[...data, ...archivedData]} // Pass combined data for duplicate checks
                 setData={setData}
                 modalData={modalData}
                 setModalData={setModalData}
                 handleCreateBuilding={handleCreateBuilding}
+                handleEditBuilding={handleEditBuilding} // Pass the edit handler
                 reloadData={reloadData}
             />
             {error && <Text type="danger">{error}</Text>}

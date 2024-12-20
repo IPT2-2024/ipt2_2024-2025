@@ -18,4 +18,9 @@ class Semester extends Model
     {
         return $this->hasMany(SemesterAcademicYear::class, 'semacad_year_id');
     }
+
+    public function enlistments()
+    {
+        return $this->hasMany(Enlistment::class, 'enlistment_id');
+    }
 }

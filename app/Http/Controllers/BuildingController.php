@@ -35,7 +35,7 @@ class BuildingController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'floor_id' => 'required|exists:floors,id',
+            'floor_id' => 'nullable|exists:floors,id',
             'building_name' => 'required|string|max:50',
         ]);
 

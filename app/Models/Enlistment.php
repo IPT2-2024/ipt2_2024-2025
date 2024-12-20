@@ -39,4 +39,9 @@ class Enlistment extends Model
     {
         return $this->hasMany(AssignmentTracking::class,'assignmenttracking_id');
     }
+
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class, 'semester_id');
+    }
 }

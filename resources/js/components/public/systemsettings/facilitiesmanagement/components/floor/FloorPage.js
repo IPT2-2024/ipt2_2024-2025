@@ -1,16 +1,18 @@
+// FloorPage.js
 import React, { useState, useEffect } from 'react';
-import { Button, Input, Space, Typography, message, Popconfirm  } from 'antd';
+import { Button, Input, Space, Typography, message, Popconfirm } from 'antd';
 import { FileTextOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import FloorTable from './components/FloorTable';
 import FloorModal from './components/FloorModal';
+import { debounce } from 'lodash'; // Import debounce for search optimization
 
 const { Text } = Typography;
 
 const FloorPage = () => {
-    const [data, setData] = useState([]); 
-    const [archivedData, setArchivedData] = useState([]); 
-    const [filteredData, setFilteredData] = useState([]); 
+    const [data, setData] = useState([]); // Active floors
+    const [archivedData, setArchivedData] = useState([]); // Archived floors
+    const [filteredData, setFilteredData] = useState([]); // Filtered data based on search
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [loading, setLoading] = useState(false);
@@ -24,9 +26,10 @@ const FloorPage = () => {
 
     const token = localStorage.getItem('auth_token'); 
 
-
+    // Fetch active and archived floors
     const fetchFloors = async () => {
         setLoading(true);
+        setError(null);
         try {
             const response = await axios.get('/api/floor', {
                 headers: {
@@ -41,11 +44,7 @@ const FloorPage = () => {
             setData(activeFloors);
             setArchivedData(archivedFloors);
 
-            if (showArchived) {
-                setFilteredData(archivedFloors);
-            } else {
-                setFilteredData(activeFloors);
-            }
+            setFilteredData(showArchived ? archivedFloors : activeFloors);
             setCurrentPage(1);
         } catch (err) {
             console.error('Error fetching floors:', err);
@@ -56,8 +55,10 @@ const FloorPage = () => {
         }
     };
 
+    // Fetch only archived floors
     const fetchArchivedData = async () => {
         setLoading(true);
+        setError(null);
         try {
             const response = await axios.get(`/api/floor?deleted=only`, {
                 headers: {
@@ -71,25 +72,35 @@ const FloorPage = () => {
             }));
 
             setArchivedData(archivedFloors);
+
             if (showArchived) {
                 setFilteredData(archivedFloors);
                 setCurrentPage(1);
             }
         } catch (error) {
             console.error('Error fetching archived floors:', error);
-            message.error('No archived content available at the moment.');
+            message.error('Failed to fetch archived floors.');
         } finally {
             setLoading(false);
         }
     };
 
+    // Initial fetch
     useEffect(() => {
-        
         fetchFloors();
     }, []);
 
+    // Fetch data when showArchived toggles
     useEffect(() => {
-        
+        if (showArchived) {
+            fetchArchivedData();
+        } else {
+            fetchFloors();
+        }
+    }, [showArchived]);
+
+    // Filter data based on search and archive toggle
+    useEffect(() => {
         const baseData = showArchived ? archivedData : data;
         const filtered = baseData.filter(floor =>
             String(floor.floor_level || '').toLowerCase().includes(searchValue.toLowerCase())
@@ -98,19 +109,20 @@ const FloorPage = () => {
         setCurrentPage(1);
     }, [searchValue, data, archivedData, showArchived]);
 
-    useEffect(() => {
-        
-        if (showArchived) {
-            fetchArchivedData();
-        } else {
-            fetchFloors();
-        }
-    }, [showArchived]);
+    // Debounced search handler
+    const debouncedHandleSearch = debounce((value) => {
+        setSearchValue(value);
+    }, 300); // 300ms debounce delay
 
     const handleSearch = (value) => {
         setSearchValue(value);
     };
 
+    const handleReset = () => {
+        setSearchValue('');
+    };
+
+    // Handle floor deletion (archive)
     const handleDeleteFloor = async (id) => {
         const floorToDelete = data.find(floor => floor.id === id);
         if (!floorToDelete) return;
@@ -131,6 +143,7 @@ const FloorPage = () => {
         }
     };
 
+    // Handle multiple floor deletions (archive)
     const handleDeleteSelected = async () => {
         const selectedFloors = data.filter(floor => selectedRowKeys.includes(floor.id));
         if (selectedFloors.length === 0) return;
@@ -158,6 +171,7 @@ const FloorPage = () => {
         }
     };
 
+    // Handle multiple floor restorations
     const handleRestoreSelected = async () => {
         const selectedFloors = archivedData.filter(floor => selectedRowKeys.includes(floor.id));
         if (selectedFloors.length === 0) return;
@@ -187,13 +201,13 @@ const FloorPage = () => {
         }
     };
 
+    // Handle single floor restoration
     const handleRestoreFloor = async (id) => {
         try {
             await axios.post(`/api/floor/${id}/restore`, {}, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
-            
             const floorToRestore = archivedData.find(floor => floor.id === id);
             if (floorToRestore) {
                 const updatedArchived = archivedData.filter(floor => floor.id !== id);
@@ -209,8 +223,19 @@ const FloorPage = () => {
         }
     };
 
+    // Handle floor creation with duplicate prevention
     const handleCreateFloor = async (floorData) => {
         try {
+            // **Duplicate Check**
+            const duplicate = [...data, ...archivedData].some(floor => 
+                String(floor.floor_level).toLowerCase() === String(floorData.floor_level).toLowerCase()
+            );
+
+            if (duplicate) {
+                message.error('A floor with this level already exists.');
+                return; // Prevent further execution
+            }
+
             await axios.post('/api/floor', floorData, {
                 headers: {
                     Authorization: `Bearer ${token}`, 
@@ -220,6 +245,7 @@ const FloorPage = () => {
             setIsCreateModalVisible(false);
             setIsEditModalVisible(false);
 
+            // Refresh data
             if (showArchived) {
                 fetchArchivedData();
             } else {
@@ -231,6 +257,35 @@ const FloorPage = () => {
         }
     };
 
+    // **Implement handleEditFloor Function with Duplicate Check**
+    const handleEditFloor = async (id, updatedData) => {
+        try {
+            // **Duplicate Check**
+            const duplicate = [...data, ...archivedData].some(floor => 
+                String(floor.floor_level).toLowerCase() === String(updatedData.floor_level).toLowerCase() && floor.id !== id
+            );
+
+            if (duplicate) {
+                message.error('A floor with this level already exists.');
+                return; // Prevent further execution
+            }
+
+            await axios.put(`/api/floor/${id}`, updatedData, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            message.success('Floor updated successfully');
+            setIsEditModalVisible(false);
+
+            // Refresh data
+            fetchFloors();
+        } catch (error) {
+            console.error('Error updating floor:', error);
+            message.error('Failed to update floor.');
+        }
+    };
+
+    // Print functionality
     const handlePrint = () => {
         const printWindow = window.open('', '', 'height=650,width=900');
         
@@ -282,7 +337,6 @@ const FloorPage = () => {
         printWindow.print();
         printWindow.close();
     };
-    
 
     const rowSelection = {
         selectedRowKeys,
@@ -307,7 +361,7 @@ const FloorPage = () => {
                         placeholder="Search by floor level"
                         style={{ width: '100%', maxWidth: '300px' }}
                         onSearch={handleSearch}
-                        onChange={(e) => setSearchValue(e.target.value)}
+                        onChange={(e) => debouncedHandleSearch(e.target.value)}
                         allowClear
                     />
                     <Button icon={<FileTextOutlined />} style={{ width: '100%' }} onClick={handlePrint}>
@@ -339,34 +393,34 @@ const FloorPage = () => {
                                 Create New Floor
                             </Button>
                             <Popconfirm
-                        title="Are you sure you want to delete the selected floors?"
-                        onConfirm={handleDeleteSelected}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                            <Button
-                                danger
-                                disabled={selectedRowKeys.length === 0}
-                                style={{ width: '100%' }}
+                                title="Are you sure you want to delete the selected floors?"
+                                onConfirm={handleDeleteSelected}
+                                okText="Yes"
+                                cancelText="No"
                             >
-                                Remove Selected Floors
-                            </Button>
+                                <Button
+                                    danger
+                                    disabled={selectedRowKeys.length === 0}
+                                    style={{ width: '100%' }}
+                                >
+                                    Remove Selected Floors
+                                </Button>
                             </Popconfirm>
                         </>
                     )}
                     {showArchived && (
-                         <Popconfirm
-                         title="Are you sure you want to restore the selected floors?"
-                         onConfirm={handleRestoreSelected}
-                         okText="Yes"
-                         cancelText="No"
-                     >
-                        <Button
-                            disabled={selectedRowKeys.length === 0}
-                            style={{ width: '100%' }}
+                        <Popconfirm
+                            title="Are you sure you want to restore the selected floors?"
+                            onConfirm={handleRestoreSelected}
+                            okText="Yes"
+                            cancelText="No"
                         >
-                            Restore Selected Floors
-                        </Button>
+                            <Button
+                                disabled={selectedRowKeys.length === 0}
+                                style={{ width: '100%' }}
+                            >
+                                Restore Selected Floors
+                            </Button>
                         </Popconfirm>
                     )}
                 </Space>
@@ -389,15 +443,17 @@ const FloorPage = () => {
                 setIsEditModalVisible={setIsEditModalVisible}
                 isCreateModalVisible={isCreateModalVisible}
                 setIsCreateModalVisible={setIsCreateModalVisible}
-                data={data}
+                data={[...data, ...archivedData]} // Pass combined data for duplicate checks
                 setData={setData}
                 modalData={modalData}
                 setModalData={setModalData}
                 handleCreateFloor={handleCreateFloor}
+                handleEditFloor={handleEditFloor} // Pass the edit handler
             />
             {error && <Text type="danger">{error}</Text>}
         </div>
     );
+
 };
 
 export default FloorPage;

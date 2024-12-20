@@ -16,6 +16,12 @@ class SectionSeeder extends Seeder
     {
         DB::table('sections')->insert([
             ['section_name' => 'IT-31', 'created_at' => now(), 'updated_at' => now()],
+            ['section_name' => 'IT-32', 'created_at' => now(), 'updated_at' => now()],
+            ['section_name' => 'IT-33', 'created_at' => now(), 'updated_at' => now()],
+            ['section_name' => 'IT-21', 'created_at' => now(), 'updated_at' => now()],
+            ['section_name' => 'IT-11', 'created_at' => now(), 'updated_at' => now()],
+            ['section_name' => 'IT-22', 'created_at' => now(), 'updated_at' => now()],
+            ['section_name' => 'IT-41', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

@@ -1,4 +1,4 @@
-
+// SectionCatalogModal.js
 import React, { useEffect } from 'react';
 import { Modal, Input, Form, message } from 'antd';
 
@@ -10,12 +10,13 @@ const SectionCatalogModal = ({
     handleCreateSection, 
     handleEditSection,   
     modalData,           
+    data, // Combined data for duplicate checks
 }) => {
     const [form] = Form.useForm();
 
+    // Reset or set form fields based on modal visibility and modalData
     useEffect(() => {
         if (isEditModalVisible && modalData) {
-            
             form.setFieldsValue({
                 section_name: modalData.section_name,
             });
@@ -24,17 +25,36 @@ const SectionCatalogModal = ({
         }
     }, [isEditModalVisible, isCreateModalVisible, modalData, form]);
 
-    
+    // **Define the validateSectionName function**
+    const validateSectionName = (_, value) => {
+
+        const sectionNameLower = value.toLowerCase().trim();
+
+        // Check for duplicates in combined data
+        const duplicate = data.some(section => 
+            section.section_name.toLowerCase().trim() === sectionNameLower && 
+            (isEditModalVisible ? section.id !== modalData.id : true)
+        );
+
+        if (duplicate) {
+            return Promise.reject('A section with this name already exists.');
+        }
+
+        // Additional validation can be added here (e.g., regex for allowed characters)
+
+        return Promise.resolve();
+    };
+
     const handleOk = () => {
-        form.validateFields().then((values) => {
+        form.validateFields().then(async (values) => {
             const sectionName = values.section_name.trim();
 
             if (isEditModalVisible) {
-                
-                handleEditSection(modalData.id, { section_name: sectionName });
+                // **Use handleEditSection**
+                await handleEditSection(modalData.id, { section_name: sectionName });
             } else {
-                
-                handleCreateSection({ section_name: sectionName });
+                // **Use handleCreateSection**
+                await handleCreateSection({ section_name: sectionName });
             }
 
             form.resetFields(); 
@@ -43,7 +63,6 @@ const SectionCatalogModal = ({
         });
     };
 
-    
     const handleCancel = () => {
         setIsCreateModalVisible(false);
         setIsEditModalVisible(false);
@@ -54,8 +73,8 @@ const SectionCatalogModal = ({
         <Modal
             title={isEditModalVisible ? 'Edit Section' : 'Create New Section'}
             visible={isCreateModalVisible || isEditModalVisible}
-            onOk={handleOk}
             onCancel={handleCancel}
+            onOk={handleOk}
             okText={isEditModalVisible ? 'Save Changes' : 'Create Section'}
             cancelText="Cancel"
             destroyOnClose 
@@ -67,6 +86,7 @@ const SectionCatalogModal = ({
                     rules={[
                         { required: true, message: 'Please enter a section name!' },
                         { min: 2, message: 'Section name must be at least 2 characters.' },
+                        { validator: validateSectionName }, // Now defined
                     ]}
                 >
                     <Input placeholder="Enter section name (e.g., Electronics)" />

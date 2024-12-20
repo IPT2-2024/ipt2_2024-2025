@@ -47,5 +47,7 @@ class ClassSchedule extends Model
     {
         return $this->hasMany(AssignmentTracking::class,'assignmenttracking_id');
     }
+
+    
 }
     

@@ -61,7 +61,7 @@ const UserLogin = ({ setUserRole }) => {
   
         
         navigate(`/${response.data.role}/dashboard`);
-        window.location.reload();
+        //window.location.reload();
       }
     } catch (error) {
       setErrorMessage(error.message); 
